@@ -1,0 +1,97 @@
+<?php
+session_start();
+include("../controller/config.php");
+
+
+
+if (isset($_POST['login'])) {
+
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+
+    $sql = "SELECT * FROM customer WHERE username = '$username' AND password = '$password' ";
+    $user = $conn->query($sql) or die($conn->error);
+    $row = $user->fetch_assoc();
+    $valid = $user->num_rows;
+
+
+    if ($username != $valid and $password != $valid) {
+        $_SESSION['error'] = "** Incorrect Username or Password **";
+    }
+
+
+    if ($valid > 0) {
+        $_SESSION['customer_login'] = $row['customer_id'];
+
+        echo $_SESSION['customer_login'];
+        unset($_SESSION['error']);
+        header("Location: ../index.php");
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="ulogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="../css/img/psu_logo.png" alt="PSU Logo">
+            <span class="logo-text">Pangasinan State University Course Evaluation System</span>
+        </a>
+    </header>
+
+    <!-- Login/Sign Up Container -->
+    <div class="container" id="container">
+    <div class="form-container sign-up">
+        <form>
+            <h1>Sign Up</h1>    
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button type="button" id="signUp">Sign Up</button>
+        </form>
+    </div>
+    <div class="form-container sign-in">
+        <form>
+            <h1>Sign In</h1>
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <a href="#">Forgot Your Password?</a>
+            <button type="button" id="signIn">Sign In</button>
+        </form>
+    </div>
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <img src="../css/img/psu_logo.png" alt="PSU Logo" class="logo-image">
+                <p>Enter your personal details to use all of site features</p>
+                <button id="login">Sign In</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <img src="../css/img/psu_logo.png" alt="Hello Friend Logo" class="logo-image">
+                <p>Register with your personal details to use all of site features</p>
+                <button id="register">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+
+    <footer class="footer">
+        <p>&copy; 2024 Pangasinan State University. All rights reserved.</p>
+    </footer>
+    
+</body>
+</html>
