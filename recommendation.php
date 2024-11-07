@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recommendation</title>
-    <link rel="stylesheet" href="/css/recommendation.css">
+    <link rel="stylesheet" href="css/recommendation.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
+
 <body>
     <header class="header">
         <a href="#" class="logo">
             <img src="main/img/psu_logo.png" alt="PSU Logo">
             <span class="logo-text">Pangasinan State University</span>
         </a>
-                                           
+
         <nav class="navbar">
             <a href="home.php">Home</a>
             <div class="dropdown">
@@ -81,15 +105,15 @@
                         <li class="has-submenu">
                             <a href="#">2nd Year <i class="bi bi-chevron-right"></i></a>
                             <ul class="submenu">
-                            <li><a href="ier.php">1st Semester</a></li>
-                            <li><a href="ier.php">2nd Semester</a></li>
+                                <li><a href="ier.php">1st Semester</a></li>
+                                <li><a href="ier.php">2nd Semester</a></li>
                             </ul>
                         </li>
                         <li class="has-submenu">
                             <a href="#">3rd Year <i class="bi bi-chevron-right"></i></a>
                             <ul class="submenu">
-                            <li><a href="ier.php">1st Semester</a></li>
-                            <li><a href="ier.php">2nd Semester</a></li>
+                                <li><a href="ier.php">1st Semester</a></li>
+                                <li><a href="ier.php">2nd Semester</a></li>
                             </ul>
                         </li>
                         <li><a href="recommendation.php">4th Year</a></li>
@@ -108,21 +132,21 @@
     <div class="last-updated" id="last-updated"></div>
 
     <!-- New Form Section Below Header -->
- <div class="student-info">
-     <form>
-         <div class="form-row">
-             <div class="form-group">
-                 <label for="student-name">Name:</label>
-                 <input type="text" id="student-name" readonly>
-             </div>
-             <div class="form-group">
-                 <label for="student-id">Student ID:</label>
-                 <input type="text" id="student-id" readonly>
-             </div>
-         </div>
-     </form>
- </div>
- 
+    <div class="student-info">
+        <form>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="student-name">Name:</label>
+                    <input type="text" id="student-name" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="student-id">Student ID:</label>
+                    <input type="text" id="student-id" readonly>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="main-content">
         <h2>First Semester</h2>
         <table>
@@ -150,7 +174,7 @@
                 </tr>
             </tbody>
         </table>
-        
+
         <h2>Second Semester</h2>
         <table>
             <thead>
@@ -177,4 +201,5 @@
         <p>&copy; 2024 Pangasinan State University. All rights reserved.</p>
     </footer>
 </body>
+
 </html>

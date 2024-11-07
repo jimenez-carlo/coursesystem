@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curriculum Checklist</title>
-    <link rel="stylesheet" href="/css/second_checklist.css">
+    <link rel="stylesheet" href="css/checklist.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
 
 <body>
@@ -23,11 +45,11 @@
                     <ul>
                         <li class="has-submenu">
                             <a href="">1st Year <i class="bi bi-chevron-right"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="first_checklist.php">1st Semester</a></li>
-                                        <li><a href="second_checklist.php">2nd Semester</a></li>
-                                    </ul>
-                                </li>
+                            <ul class="submenu">
+                                <li><a href="first_checklist.php">1st Semester</a></li>
+                                <li><a href="second_checklist.php">2nd Semester</a></li>
+                            </ul>
+                        </li>
                         <li class="has-submenu">
                             <a href="">2nd Year <i class="bi bi-chevron-right"></i></a>
                             <ul class="submenu">
@@ -37,19 +59,19 @@
                         </li>
                         <li class="has-submenu">
                             <a href="">3rd Year <i class="bi bi-chevron-right"></i></a>
-                                    <ul class="submenu">
-                                    <li><a href="first_checklist.php">1st Semester</a></li>
-                                    <li><a href="second_checklist.php">2nd Semester</a></li>
-                                    </ul>
-                                </li>
+                            <ul class="submenu">
+                                <li><a href="first_checklist.php">1st Semester</a></li>
+                                <li><a href="second_checklist.php">2nd Semester</a></li>
+                            </ul>
+                        </li>
                         <li class="has-submenu">
                             <a href="">4th Year <i class="bi bi-chevron-right"></i></a>
                             <ul class="submenu">
-                            <li><a href="first_checklist.php">1st Semester</a></li>
-                            <li><a href="second_checklist.php">2nd Semester</a></li>
+                                <li><a href="first_checklist.php">1st Semester</a></li>
+                                <li><a href="second_checklist.php">2nd Semester</a></li>
                             </ul>
                         </li>
-                            <a href="">All Year<i class=""></i></a>
+                        <a href="">All Year<i class=""></i></a>
                         </li>
                     </ul>
                 </div>
@@ -61,16 +83,16 @@
                     <ul>
                         <li class="has-submenu">
                             <a href="recommendation.php">1st Year</i></a>
-    
+
                         <li class="has-submenu">
                             <a href="recommendation.php">2nd Year</i></a>
-                           
+
                         <li class="has-submenu">
                             <a href="recommendation.php">3rd Year</i></a>
-                            
+
                         <li class="has-submenu">
                             <a href="recommendation.php">4th Year</i></a>
-                            
+
                             <a href="recommendation.php">All Year<i class=""></i></a>
                         </li>
                     </ul>
@@ -82,36 +104,36 @@
                     <ul>
                         <li class="has-submenu">
                             <a href="">1st Year <i class="bi bi-chevron-right"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="ier.php">1st Semester</a></li>
-                                        <li><a href="ier.php">2nd Semester</a></li>
-                                    </ul>
-                                </li>
-                                
+                            <ul class="submenu">
+                                <li><a href="ier.php">1st Semester</a></li>
+                                <li><a href="ier.php">2nd Semester</a></li>
+                            </ul>
+                        </li>
+
                         <li class="has-submenu">
                             <a href="">2nd Year <i class="bi bi-chevron-right"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="ier.php">1st Semester</a></li>
-                                        <li><a href="ier.php">2nd Semester</a></li>
-                                    </ul>
-                                </li>
-                              
+                            <ul class="submenu">
+                                <li><a href="ier.php">1st Semester</a></li>
+                                <li><a href="ier.php">2nd Semester</a></li>
+                            </ul>
+                        </li>
+
                         <li class="has-submenu">
                             <a href="">3rd Year <i class="bi bi-chevron-right"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="ier.php">1st Semester</a></li>
-                                        <li><a href="ier.php">2nd Semester</a></li>
-                                    </ul>
-                                </li>
-                                
+                            <ul class="submenu">
+                                <li><a href="ier.php">1st Semester</a></li>
+                                <li><a href="ier.php">2nd Semester</a></li>
+                            </ul>
+                        </li>
+
                         <li class="has-submenu">
                             <a href="">4th Year <i class="bi bi-chevron-right"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="ier.php">1st Semester</a></li>
-                                        <li><a href="ier.php">2nd Semester</a></li>
-                                    </ul>
-                                </li>
-                            <a href="">All Year<i class=""></i></a>
+                            <ul class="submenu">
+                                <li><a href="ier.php">1st Semester</a></li>
+                                <li><a href="ier.php">2nd Semester</a></li>
+                            </ul>
+                        </li>
+                        <a href="">All Year<i class=""></i></a>
                         </li>
                     </ul>
                 </div>
@@ -123,28 +145,28 @@
             <a href="login.php"><i class="bi bi-box-arrow-right"></i></a>
         </nav>
     </header>
-    
+
     <div class="last-updated" id="last-updated"></div>
 
-   <!-- New Form Section Below Header -->
-<div class="student-info">
-    <form>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="student-name">Name:</label>
-                <input type="text" id="student-name" readonly>
+    <!-- New Form Section Below Header -->
+    <div class="student-info">
+        <form>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="student-name">Name:</label>
+                    <input type="text" id="student-name" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="student-id">Student ID:</label>
+                    <input type="text" id="student-id" readonly>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="student-id">Student ID:</label>
-                <input type="text" id="student-id" readonly>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 
     <div id="print-section">
         <h2>First Semester</h2>
-        
+
         <table>
             <thead>
                 <tr>9
@@ -274,14 +296,14 @@
             </tbody>
         </table>
     </div>
-    
+
     <div class="button-container">
-    <form action="generate_pdf.php" method="post" style="display:inline;">
-    <button class="print-button" onclick="printPart()">Print/Download</button>
-    </form>
+        <form action="generate_pdf.php" method="post" style="display:inline;">
+            <button class="print-button" onclick="printPart()">Print/Download</button>
+        </form>
     </div>
 
-     <script>
+    <script>
         document.getElementById('last-updated').textContent = 'Last updated on: ' + document.lastModified;
     </script>
 
@@ -294,8 +316,8 @@
     <footer class="footer">
         <p>&copy; 2024 Pangasinan State University. All rights reserved.</p>
     </footer>
-    
+
 
 </body>
-</html>
 
+</html>

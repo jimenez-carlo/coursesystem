@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Login</title>
-    <link rel="stylesheet" href="/css/chair_login.css">
+    <link rel="stylesheet" href="css/chair_login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
+
 <body>
 
     <!-- Header Section -->
@@ -20,7 +44,7 @@
     <!-- Login/Sign Up Container -->
     <div class="container" id="container">
         <div class="form-container sign-up">
-            
+
             </form>
         </div>
         <div class="form-container sign-in">
@@ -40,9 +64,9 @@
                     <button id="login" class="toggle-btn">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                <img src="main/img/psu_logo.png" alt="PSU Logo" class="logo-image">
+                    <img src="main/img/psu_logo.png" alt="PSU Logo" class="logo-image">
                     <p> Faculty Log In</p>
-                    
+
                 </div>
             </div>
         </div>
@@ -50,29 +74,29 @@
 
     <script src="script.js">
         document.getElementById('signUp').addEventListener('click', function(event) {
-    var password = document.querySelector('input[name="password"]').value;
-    var confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+            var password = document.querySelector('input[name="password"]').value;
+            var confirmPassword = document.querySelector('input[name="confirm_password"]').value;
 
-    // Check if password length is less than 6
-    if (password.length < 6) {
-        alert('Password must be at least 6 characters.');
-        event.preventDefault(); // Prevent form submission
-        return;
-    }
+            // Check if password length is less than 6
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters.');
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
 
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        alert('Passwords do not match. Please try again.');
-        event.preventDefault(); // Prevent form submission
-        return;
-    }
-});
-
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+        });
     </script>
 
     <footer class="footer">
         <p>&copy; 2024 Pangasinan State University. All rights reserved.</p>
     </footer>
-    
+
 </body>
+
 </html>
