@@ -80,9 +80,12 @@
         <div class="image" id="profileImageContainer" data-toggle="modal" data-target="#modal-default">
           <img src="../../dist/img/profile.png" class="img-circle elevation-2" alt="Default Image" id="profileImage">
         </div>
+        <?php
+        $name = get_one("select * from admin_tbl where admin_id = " . $_SESSION['user_id']);
+        ?>
         <div class="info">
-          <a href="#" class="d-block">Justine Lyssa Jumawid</a>
-          <span style="color: white"> Admin </span>
+          <a href="#" class="d-block"><?= $name->admin_firstname . " " . $name->admin_lastname ?></a>
+          <span style="color: white"> <?= get_one("select * from access_tbl where access_id = " . $_SESSION['user_access_id'])->access_role ?> </span>
         </div>
       </div>
 

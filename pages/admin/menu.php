@@ -82,7 +82,7 @@
 
        </ul>
      </li>
-     <li class="nav-item <?= activate2(array("config", "year", "semester")) ?>">
+     <li class="nav-item <?= activate2(array("config", "year", "semester", "student_status", "grade", "class_type", "civil_status", "access", "gender")) ?>">
        <a href="#" class="nav-link">
          <i class="nav-icon fas fa-cogs"></i>
          <p>
@@ -105,6 +105,54 @@
              <i class="nav-icon fas fa-cog"></i>
              <p>
                Semester
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="student_status.php" class="nav-link <?= activate(array("student_status")) ?>">
+             <i class="nav-icon fas fa-cog"></i>
+             <p>
+               Student Status
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="grade.php" class="nav-link <?= activate(array("grade")) ?>">
+             <i class="nav-icon fas fa-cog"></i>
+             <p>
+               Grade
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="class_type.php" class="nav-link <?= activate(array("class_type")) ?>">
+             <i class="nav-icon fas fa-cog"></i>
+             <p>
+               Class Type
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="civil_status.php" class="nav-link <?= activate(array("civil_status")) ?>">
+             <i class="nav-icon fas fa-cog"></i>
+             <p>
+               Civil Status Type
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="access.php" class="nav-link <?= activate(array("access")) ?>">
+             <i class="nav-icon fas fa-cog"></i>
+             <p>
+               Roles
+             </p>
+           </a>
+         </li>
+         <li class="nav-item">
+           <a href="gender.php" class="nav-link <?= activate(array("gender")) ?>">
+             <i class="nav-icon fas fa-cog"></i>
+             <p>
+               Gender
              </p>
            </a>
          </li>
