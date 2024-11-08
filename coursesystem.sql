@@ -256,6 +256,31 @@ LOCK TABLES `evaluated_tbl` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `evaluation_status_tbl`
+--
+
+DROP TABLE IF EXISTS `evaluation_status_tbl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `evaluation_status_tbl` (
+  `evaluation_status_id` int(11) NOT NULL AUTO_INCREMENT,
+  `evaluation_status` varchar(45) DEFAULT NULL,
+  `deleted_flag` tinyint(4) DEFAULT 0,
+  PRIMARY KEY (`evaluation_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `evaluation_status_tbl`
+--
+
+LOCK TABLES `evaluation_status_tbl` WRITE;
+/*!40000 ALTER TABLE `evaluation_status_tbl` DISABLE KEYS */;
+INSERT INTO `evaluation_status_tbl` VALUES (1,'PENDING',0),(2,'EVALUATED',0),(3,'INCOMPLETE',0);
+/*!40000 ALTER TABLE `evaluation_status_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `gender_tbl`
 --
 
@@ -467,6 +492,36 @@ INSERT INTO `semester_tbl` VALUES (1,'1st Semester',0),(2,'2nd Semester',0),(3,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `studen_file_tbl`
+--
+
+DROP TABLE IF EXISTS `studen_file_tbl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `studen_file_tbl` (
+  `studen_file_id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) DEFAULT NULL,
+  `evaluation_status_id` int(11) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `deleted_flag` tinyint(4) DEFAULT 0,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `feedback` text DEFAULT NULL,
+  `semester_id` int(11) DEFAULT NULL,
+  `year_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`studen_file_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `studen_file_tbl`
+--
+
+LOCK TABLES `studen_file_tbl` WRITE;
+/*!40000 ALTER TABLE `studen_file_tbl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `studen_file_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `student_status_tbl`
 --
 
@@ -478,7 +533,7 @@ CREATE TABLE `student_status_tbl` (
   `student_status` varchar(100) DEFAULT NULL,
   `deleted_flag` tinyint(4) DEFAULT 0,
   PRIMARY KEY (`student_status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -656,4 +711,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-07 15:28:52
+-- Dump completed on 2024-11-08 17:33:01
