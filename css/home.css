@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 130px;
+    color: #333;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 8%;
+    background: rgb(26, 57, 93);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: #ffb703;
+}
+
+.profile a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.profile a:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.profile a i {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.home {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 50px 8% 0;
+}
+
+.home-content {
+    max-width: 600px;
+}
+
+.home-content h1 {
+    font-size: 70px;
+    line-height: 1.2;
+    color: #1a395d; 
+}
+
+.home-content p {
+    font-size: 15px;
+    margin: 15px 0 30px;
+    color: #555;
+    text-align: justify;
+}
+
+.home-img {
+    margin-left: auto;
+}
+/* Flexbox layout for the vision, mission, and core values section */
+.info-boxes {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 0;
+    margin-bottom: 100px;
+}
+
+.box {
+    flex: 1;
+    margin: 0 10px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Add depth with shadow */
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.box:hover {
+    transform: translateY(-10px); /* Hover effect to lift the box */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.box h2 {
+    margin-bottom: 20px;
+    font-size: 1.75em;
+    color: #0056b3; /* PSU theme color */
+}
+
+.box p {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Add icons to make it more engaging */
+.box::before {
+    content: url('icons/vision.svg'); /* Placeholder for the icon */
+    display: block;
+    margin: 0 auto 15px auto;
+    width: 50px;
+}
+
+.box:nth-child(2)::before {
+    content: url('icons/mission.svg');
+}
+
+.box:nth-child(3)::before {
+    content: url('icons/values.svg');
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+    .info-boxes {
+        flex-direction: column;
+    }
+
+    .box {
+        margin-bottom: 20px;
+    }
+}
+.left-align {
+    text-align: left;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+
+/* Dropdown styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.dropdown-content {
+    display: none; /* Hide by default */
+    position: absolute;
+    background-color: #2d5b90;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dropdown-content a {
+    color: #ffffff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-toggle i {
+    margin-left: 5px;
+}
+
+/* Submenu styling */
+.has-submenu {
+    position: relative;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    background-color: #2d5b90;
+    min-width: 150px;
+    left: 100%; /* Positions the submenu to the right */
+    top: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Show submenu on hover of parent item */
+.has-submenu:hover > .submenu {
+    display: block;
+}
+
+.submenu a {
+    padding: 8px 16px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.submenu a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    margin-top: auto;
+    width: 100%;
+    background-color: #f4f4f9; 
+    border-top: 1px solid #ddd; 
+    font-size: 14px;
+}
