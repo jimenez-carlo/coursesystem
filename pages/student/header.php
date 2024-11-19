@@ -1,3 +1,11 @@
+    <?php
+    if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [1, 2, 4])) {
+      header("Location: ../../index.php");
+    } else if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [3])) {
+      header("Location: ../../index.php");
+    } else if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [5])) {
+    }
+    ?>
     <!DOCTYPE html>
     <html lang="en">
 
