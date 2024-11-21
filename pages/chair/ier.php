@@ -93,7 +93,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         <!-- <th>Year</th>
         <th>Semester</th> -->
         <th>Student Name</th>
-        <th>Filename</th>
+        <th>Actions</th>
         <th>Status</th>
         <th>Feedback</th>
       </tr>
@@ -107,7 +107,10 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
           <td><?= $row2['student_firstname'] . " " . $row2['student_middlename'] . " " . $row2['student_lastname'] ?></td>
           <!-- <td><?= $row2['year_name'] ?></td>
           <td><?= $row2['semester_name'] ?></td> -->
-          <td><a href="<?= $row2['file_name'] ?>" download class="btn btn-sm btn-primary">Download <i class='fas fa-download'></i></a></td>
+          <td>
+            <a href="<?= $row2['file_name'] ?>" target="_blank" class="btn btn-sm btn-primary"><i class='fas fa-eye'></i></a>
+            <a href="<?= $row2['file_name'] ?>" download class="btn btn-sm btn-primary"><i class='fas fa-download'></i></a>
+          </td>
           <td>
             <!-- <?= $row2['evaluation_status'] ?> -->
             <form method="POST">

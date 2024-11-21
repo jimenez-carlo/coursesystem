@@ -132,14 +132,14 @@
              </p>
            </a>
          </li>
-         <li class="nav-item">
+         <!-- <li class="nav-item">
            <a href="civil_status.php" class="nav-link <?= activate(array("civil_status")) ?>">
              <i class="nav-icon fas fa-cog"></i>
              <p>
                Civil Status Type
              </p>
            </a>
-         </li>
+         </li> -->
          <li class="nav-item">
            <a href="access.php" class="nav-link <?= activate(array("access")) ?>">
              <i class="nav-icon fas fa-cog"></i>

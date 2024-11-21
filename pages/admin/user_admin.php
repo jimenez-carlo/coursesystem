@@ -50,7 +50,7 @@ if (isset($_POST['create'])) {
       $admin_profile = '../../dist/img/profile.png';
     }
     $admin_password = password_hash($admin_password, PASSWORD_DEFAULT);
-    query("INSERT INTO admin_tbl (admin_profile, admin_email ,admin_password,admin_firstname,admin_lastname,access_id) VALUES  ('$admin_profile', '$admin_email' ,'$admin_password','$admin_firstname','$admin_lastname','$access_id') ");
+    query("INSERT INTO admin_tbl (admin_profile, admin_email ,admin_password,admin_firstname,admin_lastname,access_id,department_id) VALUES  ('$admin_profile', '$admin_email' ,'$admin_password','$admin_firstname','$admin_lastname','$access_id', '$department_id') ");
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
@@ -96,7 +96,7 @@ if (isset($_POST['edit'])) {
   if (!empty($check_exists->res)) {
     echo message_error("Record Already In-use!");
   } else {
-    query("UPDATE admin_tbl set admin_profile = '$admin_profile', admin_email ='$admin_email',admin_password ='$admin_password' ,admin_firstname ='$admin_firstname',admin_lastname ='$admin_lastname',access_id ='$access_id' where admin_id = '$id' ");
+    query("UPDATE admin_tbl set admin_profile = '$admin_profile', admin_email ='$admin_email',admin_password ='$admin_password' ,admin_firstname ='$admin_firstname',admin_lastname ='$admin_lastname',access_id ='$access_id', department_id = '$department_id' where admin_id = '$id' ");
     echo message_success("Updated Successfully!");
   }
 }
@@ -216,6 +216,16 @@ if (isset($_POST['edit'])) {
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="admin_profile" name="admin_profile" accept="image/*">
               <label class="custom-file-label" for="admin_profile">Choose file</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group">
+              <label for="department-course" class="font-weight-bold">Department:</label>
+              <select name="department_id" id="department_id" class="form-control">
+                <?php foreach (get_list("SELECT * from department_tbl where deleted_flag = 0") as $row) { ?>
+                  <option value="<?= $row['department_id'] ?>"><?= $row['department_code'] ?></option>
+                <?php } ?>
+              </select>
             </div>
           </div>
           <div class="form-row">

@@ -55,6 +55,10 @@
 
             padding: 0px 16em;
           }
+
+          #DataTables_Table_0_info {
+            display: none;
+          }
         </style>
 
         <body>

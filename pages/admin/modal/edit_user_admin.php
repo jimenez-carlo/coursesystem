@@ -25,6 +25,16 @@ $data = get_one("select * from admin_tbl where admin_id = " . $_GET['id']);
         <label class="custom-file-label" for="admin_profile">Choose file</label>
       </div>
     </div>
+    <div class="form-group">
+      <div class="form-group">
+        <label for="department-course" class="font-weight-bold">Department:</label>
+        <select name="department_id" id="department_id" class="form-control">
+          <?php foreach (get_list("SELECT * from department_tbl where deleted_flag = 0") as $row) { ?>
+            <option value="<?= $row['department_id'] ?>" <?= $row['department_id'] == $data->access_id ? "selected" : "" ?>><?= $row['department_code'] ?></option>
+          <?php } ?>
+        </select>
+      </div>
+    </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="admin_firstname" class="font-weight-bold">First Name:</label>

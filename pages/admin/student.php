@@ -180,7 +180,10 @@ if (isset($_POST['edit'])) {
                     <td>
                       <form method="POST">
                         <input type="hidden" name="delete" value="<?= $row['student_id'] ?>">
-                        <button type='button' class='btn btn-sm btn-warning'>
+                        <a href="edit_student_details.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
+                          <i class='fas fa-user-edit'></i>
+                        </a>
+                        <!-- <button type='button' class='btn btn-sm btn-warning'>
                           <i class='fas fa-folder' data-id='<?= $row['student_id'] ?>'></i>
                         </button>
                         <a href="curriculum_courses.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning'>
@@ -188,7 +191,7 @@ if (isset($_POST['edit'])) {
                         </a>
                         <a href="student_courses.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
                           <i class='fas fa-bookmark'></i>
-                        </a>
+                        </a> -->
                         <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['student_id'] ?>' data-url='edit_student'>
                           <i class='fas fa-edit' data-id='<?= $row['student_id'] ?>' data-url='edit_student'></i>
                         </button>

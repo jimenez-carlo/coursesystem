@@ -55,7 +55,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 
   <?php
 
-  foreach (get_list("SELECT * from recommended_subjects_tbl cd inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id where cd.student_id = '" .  $_SESSION['user_id'] . "' GROUP BY y.year_id,ss.semester_id ORDER BY y.year_id,ss.semester_id ") as $row) {
+  foreach (get_list("SELECT * from recommended_subjects_tbl cd inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id where cd.student_id = '" .  $_SESSION['user_id'] . "' AND cd.semester_id = " . $student_data->semester_id . " AND cd.year_id = " . $student_data->year_id . " GROUP BY y.year_id,ss.semester_id ORDER BY y.year_id,ss.semester_id ") as $row) {
 
   ?>
     <h2 class="first-semester-heading"><?= $row['year_name'] ?> <span style="float:right"><?= $row['semester_name'] ?></span></h2>

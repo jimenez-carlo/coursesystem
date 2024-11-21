@@ -73,10 +73,10 @@ if (isset($_POST['edit'])) {
         <div class="card">
           <div class="card-header">
             <div class="row align-items-center">
-              <div class="col-md-6">
+              <div class="col-md-11">
 
               </div>
-              <div class="col-md-6 text-right">
+              <div class="col-md-1 text-right">
                 <div class="card-tools">
                   <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
                     <i class="nav-icon fas fa-plus"></i>
@@ -99,7 +99,7 @@ if (isset($_POST['edit'])) {
                 </tr>
               </thead>
               <tbody style="text-transform: uppercase;">
-                <?php foreach (get_list("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id") as $row) { ?>
+                <?php foreach (get_list("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where p.department_id =  " . $_SESSION['user_department_id']) as $row) { ?>
                   <tr>
                     <td><?= $row['program_code'] . " (" . $row['program_title'] . ")" ?></td>
                     <td><?= $row['curriculum_semester_year_from'] ?> - <?= $row['curriculum_semester_year_to'] ?></td>
