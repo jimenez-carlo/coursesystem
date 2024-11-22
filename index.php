@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Prepare the SQL query using mysqli
     $check_email_query = "SELECT 
-    admin_email as `user_name`,admin_id as `user_id`,admin_password as `user_password`,access_id FROM admin_tbl WHERE (admin_email = ? OR admin_id = ?) UNION SELECT 
-    student_email as `user_name`,student_id as `user_id`,student_password as `user_password`,access_id FROM student_tbl WHERE (student_email =  ? OR student_id = ?)";
+    admin_email as `user_name`,admin_id as `user_id`,admin_password as `user_password`,access_id,department_id FROM admin_tbl WHERE (admin_email = ? OR admin_id = ?) UNION SELECT 
+    s.student_email as `user_name`,s.student_id as `user_id`,s.student_password as `user_password`,s.access_id,p.department_id FROM student_tbl s inner join curriculum_tbl c on c.curriculum_id = s.curriculum_id inner join program_tbl p on p.program_id = c.program_id  WHERE (s.student_email =  ? OR s.student_id = ? AND s.deleted_flag = 0)";
     $stmt = $conn->prepare($check_email_query);
 
     // Check if the prepared statement was successful
@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['user_id']; // Assuming 'admin_id' is the id column
             $_SESSION['user_name'] = $user['user_name']; // Assuming 'admin_name' is the name column
             $_SESSION['user_access_id'] = $user['access_id']; // Assuming 'admin_name' is the name column
+            $_SESSION['user_department_id'] = $user['department_id']; // Assuming 'admin_name' is the name column
             header("Location: index.php"); // Redirect to a dashboard page after login
             // header("Location: final_index.php"); // Redirect to a dashboard page after login
             exit();
