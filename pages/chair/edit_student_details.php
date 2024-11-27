@@ -140,7 +140,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                         </div>
                         <div class="col-md-1 text-right">
                           <div class="card-tools">
-                            <a class="btn btn-sm btn-default" href="student.php">
+                            <a class="btn btn-sm btn-default" href="curriculum_students.php?id=<?= $data->curriculum_id ?>">
                               <i class="nav-icon fas fa-backward"></i>
                             </a>
                             <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create-recommendation'>

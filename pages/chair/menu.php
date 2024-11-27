@@ -1,6 +1,7 @@
   <nav class="navbar">
     <a href="index.php">Home</a>
     <a href="curriculum.php">Curriculum</a>
+    <a href="search.php">Evaluation</a>
     <a href="student.php">Students</a>
     <a href="ier.php">IER</a>
 

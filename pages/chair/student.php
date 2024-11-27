@@ -177,6 +177,9 @@ if (isset($_POST['edit'])) {
                     </td>
                     <td>
                       <form method="POST">
+                        <a href="student_evaluation.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
+                          <i class='fas fa-address-book'></i>
+                        </a>
                         <input type="hidden" name="delete" value="<?= $row['student_id'] ?>">
                         <!-- <button type='button' class='btn btn-sm btn-warning'>
                           <i class='fas fa-folder' data-id='<?= $row['student_id'] ?>'></i>

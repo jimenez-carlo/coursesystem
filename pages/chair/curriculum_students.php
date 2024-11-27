@@ -51,9 +51,8 @@ if (isset($_POST['create'])) {
     }
     $student_password = password_hash($student_password, PASSWORD_DEFAULT);
     $student_id = insert_get_id("INSERT INTO student_tbl 
-    (  student_profile ,   student_email  ,  student_password ,  student_firstname ,  student_middlename ,  student_lastname ,  curriculum_id ,  student_status_id,  gender_id  ,student_age, student_birth_date  ,student_mobile,year_id,semester_id) VALUES  
-    ('$student_profile', '$student_email' ,'$student_password','$student_firstname','$student_middlename','$student_lastname','$curriculum_id','$student_status_id','$gender_id','$student_age',     '$student_birth_date','$student_mobile','$year_id','$semester_id') ");
-    // '$civil_status_id','$student_address'
+    (  student_profile ,   student_email  ,  student_password ,  student_firstname ,  student_middlename ,  student_lastname ,  curriculum_id ,  student_status_id,  gender_id  ,student_age, student_birth_date  ,  civil_status_id,  student_address  ,student_mobile) VALUES  
+    ('$student_profile', '$student_email' ,'$student_password','$student_firstname','$student_middlename','$student_lastname','$curriculum_id','$student_status_id','$gender_id','$student_age',     '$student_birth_date','$civil_status_id','$student_address','$student_mobile') ");
     query("INSERT INTO student_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) SELECT '$student_id', subject_id,year_id,semester_id,pre_subject_id FROM curriculum_subjects_tbl WHERE curriculum_id = '$curriculum_id' ");
 
     echo "
@@ -101,18 +100,13 @@ if (isset($_POST['edit'])) {
   if (!empty($check_exists->res)) {
     echo message_error("Record Already In-use!");
   } else {
-    query("UPDATE student_tbl set student_profile = '$student_profile', student_email ='$student_email',student_password ='$student_password' ,student_firstname ='$student_firstname',student_lastname ='$student_lastname',student_middlename = '$student_middlename',curriculum_id = '$curriculum_id',student_status_id = '$student_status_id', gender_id= '$gender_id',student_age = '$student_age', student_birth_date = '$student_birth_date', student_mobile ='$student_mobile', year_id = '$year_id', semester_id = '$semester_id'  where student_id = '$id' ");
-
-    if ($semester_id != $default_semester || $year_id != $default_year) {
-      query("UPDATE student_tbl  set confirmed = 0 where student_id = " . $student_id);
-    }
-    // civil_status_id = '$civil_status_id', student_address = '$student_address',
+    query("UPDATE student_tbl set student_profile = '$student_profile', student_email ='$student_email',student_password ='$student_password' ,student_firstname ='$student_firstname',student_lastname ='$student_lastname',access_id ='$access_id' where student_id = '$id' ");
     echo message_success("Updated Successfully!");
   }
 }
 
 
-
+$curriculum = get_one("SELECT * from curriculum_tbl a inner join program_tbl p on p.program_id = a.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = a.curriculum_semester_id where a.curriculum_id = " . $_GET['id']);
 
 
 
@@ -121,8 +115,8 @@ if (isset($_POST['edit'])) {
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 style="font-weight: bold;">MANAGE STUDENTS</h1 style>
+      <div class="col-sm-12">
+        <h1 style="font-weight: bold;"><?= $curriculum->curriculum_title . " " . $curriculum->program_title . " S.Y " . $curriculum->curriculum_semester_year_from . " - " . $curriculum->curriculum_semester_year_to ?></h1 style>
       </div>
     </div>
   </div><!-- /.container-fluid -->
@@ -137,14 +131,18 @@ if (isset($_POST['edit'])) {
         <div class="card">
           <div class="card-header">
             <div class="row align-items-center">
-              <div class="col-md-6">
+              <div class="col-md-11">
 
               </div>
-              <div class="col-md-6 text-right">
+              <div class="col-md-1 text-right">
                 <div class="card-tools">
                   <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
                     <i class="nav-icon fas fa-plus"></i>
                   </button>
+                  <a href="curriculum.php" class="btn btn-sm btn-default">
+                    <i class="nav-icon fas fa-backward"></i>
+                  </a>
+
                 </div>
               </div>
             </div>
@@ -154,6 +152,7 @@ if (isset($_POST['edit'])) {
             <table class="table table-hover text-nowrap datatable">
               <thead>
                 <tr>
+                  <th>Student No</th>
                   <th>Img</th>
                   <th>Type</th>
                   <th>Full Name</th>
@@ -165,8 +164,9 @@ if (isset($_POST['edit'])) {
                 </tr>
               </thead>
               <tbody style="text-transform: uppercase;">
-                <?php foreach (get_list("SELECT a.*,s.student_status,g.gender from student_tbl a inner join student_status_tbl s  on s.student_status_id = a.student_status_id inner join gender_tbl g on g.gender_id = a.gender_id") as $row) { ?>
+                <?php foreach (get_list("SELECT a.*,s.student_status,g.gender from student_tbl a inner join student_status_tbl s  on s.student_status_id = a.student_status_id inner join gender_tbl g on g.gender_id = a.gender_id inner join curriculum_tbl c on a.curriculum_id = c.curriculum_id inner join program_tbl p on p.program_id = c.program_id where a.curriculum_id = " . $_GET['id']) as $row) { ?>
                   <tr>
+                    <td><?= $row['student_id'] ?></td>
                     <td><img src="<?= $row['student_profile'] ?>" class="img-circle elevation-2" alt="User Image" width="33" height="33"></td>
                     <td><?= $row['student_status'] ?></td>
                     <td><?= $row['student_firstname'] . " " . $row['student_middlename'] . "" . $row['student_lastname']  ?></td>
@@ -184,24 +184,24 @@ if (isset($_POST['edit'])) {
                     <td>
                       <form method="POST">
                         <input type="hidden" name="delete" value="<?= $row['student_id'] ?>">
-                        <a href="edit_student_details.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
-                          <i class='fas fa-user-edit'></i>
+                        <a href="student_evaluation.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
+                          <i class='fas fa-address-book'></i>
                         </a>
                         <!-- <button type='button' class='btn btn-sm btn-warning'>
                           <i class='fas fa-folder' data-id='<?= $row['student_id'] ?>'></i>
                         </button>
                         <a href="curriculum_courses.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning'>
                           <i class='fas fa-book'></i>
-                        </a>
-                        <a href="student_courses.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
-                          <i class='fas fa-bookmark'></i>
                         </a> -->
-                        <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['student_id'] ?>' data-url='edit_student'>
+                        <a href="edit_student_details.php?id=<?= $row['student_id'] ?>" class='btn btn-sm btn-warning'>
+                          <i class='fas fa-edit'></i>
+                        </a>
+                        <!-- <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['student_id'] ?>' data-url='edit_student'>
                           <i class='fas fa-edit' data-id='<?= $row['student_id'] ?>' data-url='edit_student'></i>
                         </button>
                         <button type="submit" class='btn btn-sm btn-danger delete'>
                           <i class='fas fa-trash'></i>
-                        </button>
+                        </button> -->
                       </form>
                     </td>
                   </tr>
@@ -234,6 +234,7 @@ if (isset($_POST['edit'])) {
       </div>
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="create" value="1">
+        <input type="hidden" name="curriculum_id" value="<?= $_GET['id'] ?>">
         <div class="modal-body">
           <div class="form-group">
             <label for="department-course" class="font-weight-bold">Image:</label>
@@ -252,25 +253,7 @@ if (isset($_POST['edit'])) {
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <div class="form-group">
-              <label for="department-course" class="font-weight-bold">Year level:</label>
-              <select name="year_id" id="year_id" class="form-control">
-                <?php foreach (get_list("SELECT * from year_levels_tbl where deleted_flag = 0") as $row) { ?>
-                  <option value="<?= $row['year_id'] ?>"><?= $row['year_name'] ?></option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="department-course" class="font-weight-bold">Semester:</label>
-              <select name="semester_id" id="semester_id" class="form-control">
-                <?php foreach (get_list("SELECT * from semester_tbl where deleted_flag = 0") as $row) { ?>
-                  <option value="<?= $row['semester_id'] ?>"><?= $row['semester_name'] ?></option>
-                <?php } ?>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Curriculum:</label>
               <select name="curriculum_id" id="curriculum_id" class="form-control">
@@ -279,23 +262,23 @@ if (isset($_POST['edit'])) {
                 <?php } ?>
               </select>
             </div>
-          </div>
+          </div> -->
           <div class="form-row">
-            <div class="form-group col-md-4">
+            <div class="form-group">
               <label for="student_firstname" class="font-weight-bold">First Name:</label>
               <input type="text" class="form-control" id="student_firstname" name="student_firstname">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group">
               <label for="student_firstname" class="font-weight-bold">Middle Name:</label>
               <input type="text" class="form-control" id="student_middlename" name="student_middlename">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group">
               <label for="student_lastname" class="font-weight-bold">Last Name:</label>
               <input type="text" class="form-control" id="student_lastname" name="student_lastname">
             </div>
           </div>
           <div class="form-row">
-            <div class="form-group col-md-4">
+            <div class="form-group">
               <label for="gender_id" class="font-weight-bold">Gender:</label>
               <select name="gender_id" id="gender_id" class="form-control">
                 <?php foreach (get_list("SELECT * from gender_tbl where deleted_flag = 0") as $row) { ?>
@@ -303,22 +286,22 @@ if (isset($_POST['edit'])) {
                 <?php } ?>
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group">
               <label for="student_age" class="font-weight-bold">Age:</label>
               <input type="text" class="form-control" id="student_age" name="student_age">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group">
               <label for="student_birth_date" class="font-weight-bold">Birth Date:</label>
               <input type="date" class="form-control" id="student_birth_date" name="student_birth_date">
             </div>
           </div>
 
-          <!-- <div class="form-row">
-            <div class="form-group col-md-6">
+          <div class="form-row">
+            <div class="form-group">
               <label for="student_place_of_birth" class="font-weight-bold">Place of Birth:</label>
               <input type="text" class="form-control" id="student_place_of_birth" name="student_place_of_birth">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group">
               <label for="age" class="font-weight-bold">Civil Status:</label>
               <select name="civil_status_id" id="civil_status_id" class="form-control">
                 <?php foreach (get_list("SELECT * from civil_status_tbl where deleted_flag = 0") as $row) { ?>
@@ -327,14 +310,14 @@ if (isset($_POST['edit'])) {
               </select>
             </div>
 
-          </div> -->
+          </div>
 
-          <!-- <div class="form-group">
+          <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Address:</label>
               <textarea name="student_address" id="student_address" class="form-control" rows="3"></textarea>
             </div>
-          </div> -->
+          </div>
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Mobile:</label>

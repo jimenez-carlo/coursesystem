@@ -17,6 +17,8 @@ $data = get_one("select * from student_tbl where student_id = " . $_GET['id']);
   <input type="hidden" name="id" value="<?= $data->student_id ?>">
   <input type="hidden" name="default_img" value="<?= $data->student_profile ?>">
   <input type="hidden" name="default_pass" value="<?= $data->student_password ?>">
+  <input type="hidden" name="default_semester" value="<?= $data->semester_id ?>">
+  <input type="hidden" name="default_year" value="<?= $data->year_id ?>">
   <div class="modal-body">
     <div class="form-group">
       <label for="department-course" class="font-weight-bold">Image:</label>
