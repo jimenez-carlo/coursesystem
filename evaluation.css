@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 130px;
+    color: #333;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 8%;
+    background: rgb(26, 57, 93);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 20px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center; 
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: #ffb703;
+}
+
+.profile a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.profile a:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.profile a i {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.main-content {
+    margin-top: 5px;
+}
+
+h2 {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 80px;
+    text-align: left;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 24px;
+    color: #1a395d;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto 20px auto;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+.student-info form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 60%; 
+    margin: 0 auto; 
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    background-color: #f2f2f2; 
+    margin-bottom: 50px ;
+}
+
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px; 
+}
+
+.form-group {
+    flex: 1 1 20%; 
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input {
+    width: 100%; 
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 10px;
+}
+
+input[readonly] {
+    background-color: #f7f7f7;
+}
+.button-container {
+    text-align: center;
+    margin: 10px 0;
+    margin-top: auto;
+}
+
+.button-container .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-container .btn:hover {
+    background-color: #064589; 
+}
+
+.subjects-table th {
+    background-color: #d3dce1;
+    border: 0.5px solid #bdc2c5;
+    font-weight: 600;
+    color: #333;
+}
+
+.recommendation-table th {
+    background-color: #b0c4f7;
+    border: 0.5px solid #8cb1f0;
+    font-weight: 600;
+    color: #333;
+}
+
+.subjects-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto 20px auto;
+    background-color: #ffffff; 
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recommendation-table {
+    width: 80%;
+    margin: 0 auto 80px auto; 
+    background-color: #dee3ec;
+    color: #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.subjects-table tfoot tr {
+    background-color: #f2f2f2; 
+}
+
+.subjects-table tfoot td {
+    font-weight: bold;
+    padding: 10px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    margin-top: auto;
+    width: 100%;
+    background-color: #f4f4f9;
+    border-top: 1px solid #ddd;
+}
