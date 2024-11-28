@@ -57,7 +57,8 @@ if (isset($_POST['upload'])) {
       $('#modal-create').modal('show');
     });
   </script>";
-    echo message_success("Created Successfully!");
+    // echo message_success("Created Successfully!");
+    echo "<script>alert('Created Successfully!');</script>";
   }
 }
 

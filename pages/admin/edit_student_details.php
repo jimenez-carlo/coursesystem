@@ -205,7 +205,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 
                   <!-- /.card -->
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                   <div class="card">
                     <div class="card-header">
                       <div class="row align-items-center">
@@ -302,7 +302,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                   ?>
                   <!-- /.card -->
                 </div>
-                <div class="col-6">
+                <div class="col-6" style="display: none;">
                   <div class="card">
                     <div class="card-header" style="min-height:66px">
                       <div class="row align-items-center">

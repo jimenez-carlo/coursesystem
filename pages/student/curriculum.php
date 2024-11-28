@@ -7,10 +7,10 @@ if (isset($_POST['delete'])) {
   query("DELETE FROM student_subjects_tbl where student_subject_id = " . $_POST['delete']);
   echo message_success("Deleted Successfully!");
 }
-if (isset($_POST['grade'])) {
+if (isset($_POST['grade_id'])) {
   extract($_POST);
   query("UPDATE student_subjects_tbl set grade_id = '$grade_id'  where student_subject_id = " . $_POST['grade']);
-  echo message_success("Updated Successfully!");
+  echo "<script>alert('Updated Successfully!');</script>";
 }
 
 if (isset($_POST['create'])) {

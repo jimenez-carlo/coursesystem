@@ -17,7 +17,7 @@ $data = get_one("select * from subject_tbl where subject_id = " . $_GET['id']);
   <input type="hidden" name="id" value="<?= $data->subject_id ?>">
 
   <div class="modal-body">
-    <div class="form-group">
+    <!-- <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Program:</label>
         <select name="program_id" id="program_id" class="form-control">
@@ -26,7 +26,7 @@ $data = get_one("select * from subject_tbl where subject_id = " . $_GET['id']);
           <?php } ?>
         </select>
       </div>
-    </div>
+    </div> -->
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Class Type:</label>

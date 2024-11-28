@@ -53,6 +53,7 @@ if (isset($_POST['create'])) {
     $student_id = insert_get_id("INSERT INTO student_tbl 
     (  student_profile ,   student_email  ,  student_password ,  student_firstname ,  student_middlename ,  student_lastname ,  curriculum_id ,  student_status_id,  gender_id  ,student_age, student_birth_date  ,  civil_status_id,  student_address  ,student_mobile) VALUES  
     ('$student_profile', '$student_email' ,'$student_password','$student_firstname','$student_middlename','$student_lastname','$curriculum_id','$student_status_id','$gender_id','$student_age',     '$student_birth_date','$civil_status_id','$student_address','$student_mobile') ");
+    query("UPDATE student_tbl set student_username = student_id where student_id = '$student_id'");
     query("INSERT INTO student_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) SELECT '$student_id', subject_id,year_id,semester_id,pre_subject_id FROM curriculum_subjects_tbl WHERE curriculum_id = '$curriculum_id' ");
 
     echo "

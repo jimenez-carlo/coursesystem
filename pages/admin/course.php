@@ -16,7 +16,7 @@ if (isset($_POST['change_status'])) {
 
 if (isset($_POST['create'])) {
   extract($_POST);
-  $check_exists = get_one("SELECT if(max(subject_id) is null, 0, max(subject_id) + 1) as `res` from subject_tbl  where subject_code ='$subject_code' and  subject_title = '$subject_title' and  subject_unit = '$subject_unit' and  program_id = '$program_id'  and  class_type_id = '$class_type_id' limit 1");
+  $check_exists = get_one("SELECT if(max(subject_id) is null, 0, max(subject_id) + 1) as `res` from subject_tbl  where subject_code ='$subject_code' and  subject_title = '$subject_title' and  subject_unit = '$subject_unit'  and  class_type_id = '$class_type_id' limit 1");
 
   if (!empty($check_exists->res)) {
     echo message_error("Record Already Exists!");
@@ -37,12 +37,12 @@ if (isset($_POST['create'])) {
 
 if (isset($_POST['edit'])) {
   extract($_POST);
-  $check_exists = get_one("SELECT if(max(subject_id) is null, 0, max(subject_id) + 1) as `res` from subject_tbl  where (subject_code ='$subject_code' and  subject_title = '$subject_title' and  subject_unit = '$subject_unit' and  program_id = '$program_id'  and  class_type_id = '$class_type_id') and subject_id <> $id limit 1");
+  $check_exists = get_one("SELECT if(max(subject_id) is null, 0, max(subject_id) + 1) as `res` from subject_tbl  where (subject_code ='$subject_code' and  subject_title = '$subject_title' and  subject_unit = '$subject_unit'  and  class_type_id = '$class_type_id') and subject_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {
     echo message_error("Record Already In-use!");
   } else {
-    query("UPDATE subject_tbl set subject_code = '$subject_code', subject_title ='$subject_title',subject_unit ='$subject_unit',program_id ='$program_id',class_type_id ='$class_type_id'  where subject_id = '$id' ");
+    query("UPDATE subject_tbl set subject_code = '$subject_code', subject_title ='$subject_title',subject_unit ='$subject_unit',class_type_id ='$class_type_id'  where subject_id = '$id' ");
     echo message_success("Updated Successfully!");
   }
 }
@@ -90,7 +90,7 @@ if (isset($_POST['edit'])) {
             <table class="table table-hover text-nowrap datatable">
               <thead>
                 <tr>
-                  <th>Program</th>
+                  <!-- <th>Program</th> -->
                   <th>Course Code</th>
                   <th>Course Title</th>
                   <th>Unit</th>
@@ -100,9 +100,9 @@ if (isset($_POST['edit'])) {
                 </tr>
               </thead>
               <tbody style="text-transform: uppercase;">
-                <?php foreach (get_list("SELECT p.*,c.*,s.* from subject_tbl s inner join program_tbl p on p.program_id = s.program_id inner join class_type_tbl c on s.class_type_id = c.class_type_id") as $row) { ?>
+                <?php foreach (get_list("SELECT p.*,c.*,s.* from subject_tbl s left join program_tbl p on p.program_id = s.program_id inner join class_type_tbl c on s.class_type_id = c.class_type_id") as $row) { ?>
                   <tr>
-                    <td><?= $row['program_code'] . " (" . $row['program_title'] . ")" ?></td>
+                    <!-- <td><?= $row['program_code'] . " (" . $row['program_title'] . ")" ?></td> -->
                     <td><?= $row['subject_code']  ?></td>
                     <td><?= $row['subject_title'] ?></td>
                     <td><?= $row['subject_unit'] ?></td>
@@ -157,7 +157,7 @@ if (isset($_POST['edit'])) {
       <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="create" value="1">
         <div class="modal-body">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Program:</label>
               <select name="program_id" id="program_id" class="form-control">
@@ -166,7 +166,7 @@ if (isset($_POST['edit'])) {
                 <?php } ?>
               </select>
             </div>
-          </div>
+          </div> -->
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Class Type:</label>
