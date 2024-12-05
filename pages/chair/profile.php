@@ -6,7 +6,7 @@ include_once('header.php');
 
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(admin_id) is null, 0, max(admin_id) + 1) as `res` from admin_tbl  where (admin_email ='$admin_email') and admin_id <> $id limit 1");
   // File upload handling
   $target_directory = "../../img/";

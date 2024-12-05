@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE civil_status_tbl set deleted_flag = '$change_status'  where civil_status_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(civil_status_id) is null, 0, max(civil_status_id) + 1) as `res` from civil_status_tbl  where civil_status ='$civil_status' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -36,7 +36,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(civil_status_id) is null, 0, max(civil_status_id) + 1) as `res` from civil_status_tbl  where (civil_status ='$civil_status') and civil_status_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {

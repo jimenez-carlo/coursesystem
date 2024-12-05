@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE admin_tbl set deleted_flag = '$change_status'  where admin_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(admin_id) is null, 0, max(admin_id) + 1) as `res` from admin_tbl  where admin_email ='$admin_email' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -63,7 +63,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(admin_id) is null, 0, max(admin_id) + 1) as `res` from admin_tbl  where (admin_email ='$admin_email') and admin_id <> $id limit 1");
   // File upload handling
   $target_directory = "../../img/";
@@ -144,6 +144,7 @@ if (isset($_POST['edit'])) {
             <table class="table table-hover text-nowrap datatable">
               <thead>
                 <tr>
+                  <th>Department</th>
                   <th>Role</th>
                   <th>Img</th>
                   <th>First Name</th>
@@ -154,8 +155,9 @@ if (isset($_POST['edit'])) {
                 </tr>
               </thead>
               <tbody style="text-transform: uppercase;">
-                <?php foreach (get_list("SELECT aa.access_role,a.* from admin_tbl a inner join access_tbl aa on aa.access_id = a.access_id") as $row) { ?>
+                <?php foreach (get_list("SELECT aa.access_role,a.*,d.* from admin_tbl a inner join access_tbl aa on aa.access_id = a.access_id inner join department_tbl d on d.department_id = a.department_id") as $row) { ?>
                   <tr>
+                    <td><?= $row['department_code'] . " (" . $row['department_title'] . ")" ?></td>
                     <td><?= $row['access_role'] ?></td>
                     <td><img src="<?= $row['admin_profile'] ?>" class="img-circle elevation-2" alt="User Image" width="33" height="33"></td>
                     <td><?= $row['admin_firstname'] ?></td>
@@ -223,7 +225,7 @@ if (isset($_POST['edit'])) {
               <label for="department-course" class="font-weight-bold">Department:</label>
               <select name="department_id" id="department_id" class="form-control">
                 <?php foreach (get_list("SELECT * from department_tbl where deleted_flag = 0") as $row) { ?>
-                  <option value="<?= $row['department_id'] ?>"><?= $row['department_code'] ?></option>
+                  <option value="<?= $row['department_id'] ?>"><?= $row['department_code'] . " (" . $row['department_title'] . ")" ?></option>
                 <?php } ?>
               </select>
             </div>

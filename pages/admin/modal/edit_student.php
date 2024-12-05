@@ -15,6 +15,7 @@ $data = get_one("select * from student_tbl where student_id = " . $_GET['id']);
 <form method="POST" enctype="multipart/form-data">
   <input type="hidden" name="edit" value="1">
   <input type="hidden" name="id" value="<?= $data->student_id ?>">
+  <input type="hidden" name="student_id" value="<?= $data->student_id ?>">
   <input type="hidden" name="default_img" value="<?= $data->student_profile ?>">
   <input type="hidden" name="default_pass" value="<?= $data->student_password ?>">
   <input type="hidden" name="default_semester" value="<?= $data->semester_id ?>">

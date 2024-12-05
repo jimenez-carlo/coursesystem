@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE program_tbl set deleted_flag = '$change_status'  where program_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(program_id) is null, 0, max(program_id) + 1) as `res` from program_tbl  where program_code ='$program_code' or  program_title = '$program_title' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -36,7 +36,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(program_id) is null, 0, max(program_id) + 1) as `res` from program_tbl  where (program_code ='$program_code' or  program_title = '$program_title') and program_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {

@@ -9,7 +9,7 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(curriculum_subjects_id) is null, 0, max(curriculum_subjects_id) + 1) as `res` from curriculum_subjects_tbl  where   curriculum_id = '$curriculum_id' and  subject_id = '$subject_id'  limit 1");
 
   if (!empty($check_exists->res)) {
@@ -28,7 +28,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(curriculum_subjects_id) is null, 0, max(curriculum_subjects_id) + 1) as `res` from curriculum_subjects_tbl  where (curriculum_id = '$curriculum_id' and  subject_id = '$subject_id' ) and curriculum_subjects_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {
@@ -189,7 +189,10 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Course:</label>
               <select name="subject_id" id="subject_id" class="form-control">
-                <?php foreach (get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 and s.program_id = " . $data->program_id) as $row) { ?>
+                <?php foreach (
+                  get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 
+                and s.subject_id not in (select subject_id from curriculum_subjects_tbl where curriculum_id = " . $_GET['id'] . ")") as $row
+                ) { ?>
                   <option value="<?= $row['subject_id'] ?>"><?= $row['subject_code'] ?> (<?= $row['subject_title'] ?>) | <?= $row['class_type_name'] ?> | <?= $row['subject_unit'] ?> Units </option>
                 <?php } ?>
               </select>
@@ -201,7 +204,10 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
               <label for="department-course" class="font-weight-bold">Co/Prerequisite:</label>
               <select name="pre_subject_id" id="pre_subject_id" class="form-control">
                 <option value="0">NONE</option>
-                <?php foreach (get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 and s.program_id = " . $data->program_id) as $row) { ?>
+                <?php foreach (
+                  get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 
+                and s.subject_id not in (select subject_id from curriculum_subjects_tbl where curriculum_id = " . $_GET['id'] . ")") as $row
+                ) { ?>
                   <option value="<?= $row['subject_id'] ?>"><?= $row['subject_code'] ?> (<?= $row['subject_title'] ?>) | <?= $row['class_type_name'] ?> | <?= $row['subject_unit'] ?> Units </option>
                 <?php } ?>
               </select>

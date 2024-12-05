@@ -45,7 +45,7 @@ $data2 = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tb
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Course:</label>
         <select name="subject_id" id="subject_id" class="form-control">
-          <?php foreach (get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 and s.program_id = " . $data2->program_id) as $row) { ?>
+          <?php foreach (get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 and s.subject_id not in (select subject_id from curriculum_subjects_tbl where curriculum_id = " . $data->curriculum_id . ") OR s.subject_id =  $data->subject_id") as $row) { ?>
             <option value="<?= $row['subject_id'] ?>" <?= $row['subject_id'] == $data->subject_id ? "selected" : "" ?>><?= $row['subject_code'] ?> (<?= $row['subject_title'] ?>) | <?= $row['class_type_name'] ?> | <?= $row['subject_unit'] ?> Units </option>
           <?php } ?>
         </select>

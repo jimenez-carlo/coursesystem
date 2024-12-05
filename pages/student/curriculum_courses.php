@@ -9,7 +9,7 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(curriculum_subjects_id) is null, 0, max(curriculum_subjects_id) + 1) as `res` from curriculum_subjects_tbl  where   curriculum_id = '$curriculum_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id'  limit 1");
 
   if (!empty($check_exists->res)) {
@@ -28,7 +28,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(curriculum_subjects_id) is null, 0, max(curriculum_subjects_id) + 1) as `res` from curriculum_subjects_tbl  where (curriculum_id = '$curriculum_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id' ) and curriculum_subjects_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {

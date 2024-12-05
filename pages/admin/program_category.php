@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE program_category_btl set deleted_flag = '$change_status'  where program_category_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(program_category_id) is null, 0, max(program_category_id) + 1) as `res` from program_category_btl  where program_category_name ='$program_category_name' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -36,7 +36,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(program_category_id) is null, 0, max(program_category_id) + 1) as `res` from program_category_btl  where (program_category_name ='$program_category_name' ) and program_category_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {

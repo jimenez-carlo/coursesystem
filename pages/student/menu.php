@@ -1,5 +1,6 @@
   <nav class="navbar">
     <a href="index.php">Home</a>
+    <a href="grade.php">Grade</a>
     <a href="curriculum.php">Curriculum Checklist</a>
     <!-- <a href="recommended.php">Recommendations</a> -->
     <a href="evaluation.php">Evaluation</a>

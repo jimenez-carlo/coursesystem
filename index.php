@@ -1,8 +1,8 @@
 <?php
 require 'conn.php'; // Assuming 'conn.php' contains your mysqli connection
-if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [1, 2, 4])) {
+if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [1, 2])) {
     header("Location: pages/admin");
-} else if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [3])) {
+} else if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [3, 4])) {
     header("Location: pages/chair");
 } else if (isset($_SESSION['user_access_id']) && in_array($_SESSION['user_access_id'], [5])) {
     header("Location: pages/student");
@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Prepare the SQL query using mysqli
     $check_email_query = "SELECT 
-    admin_email as `user_name`,admin_id as `user_id`,admin_password as `user_password`,access_id,department_id FROM admin_tbl WHERE (admin_email = ? OR admin_id = ?) UNION SELECT 
-    s.student_email as `user_name`,s.student_id as `user_id`,s.student_password as `user_password`,s.access_id,p.department_id FROM student_tbl s inner join curriculum_tbl c on c.curriculum_id = s.curriculum_id inner join program_tbl p on p.program_id = c.program_id  WHERE (s.student_email =  ? OR s.student_id = ? AND s.deleted_flag = 0)";
+    a.admin_email as `user_name`,a.admin_id as `user_id`,a.admin_password as `user_password`,a.access_id,a.department_id  FROM admin_tbl a  INNER JOIN access_tbl ac on ac.access_id = a.access_id and ac.deleted_flag = 0 WHERE (a.admin_email = ? OR a.admin_id = ?) UNION SELECT 
+    s.student_email as `user_name`,s.student_id as `user_id`,s.student_password as `user_password`,s.access_id,p.department_id FROM student_tbl s inner join curriculum_tbl c on c.curriculum_id = s.curriculum_id inner join program_tbl p on p.program_id = c.program_id INNER JOIN access_tbl acc on acc.access_id = s.access_id and acc.deleted_flag = 0 WHERE (s.student_email =  ? OR s.student_id = ? ) AND s.deleted_flag = 0";
     $stmt = $conn->prepare($check_email_query);
 
     // Check if the prepared statement was successful

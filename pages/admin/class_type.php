@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE class_type_tbl set deleted_flag = '$change_status'  where class_type_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(class_type_id) is null, 0, max(class_type_id) + 1) as `res` from class_type_tbl  where class_type_name ='$class_type_name' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -36,7 +36,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(class_type_id) is null, 0, max(class_type_id) + 1) as `res` from class_type_tbl  where (class_type_name ='$class_type_name') and class_type_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {

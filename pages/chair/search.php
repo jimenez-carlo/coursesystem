@@ -4,7 +4,7 @@ include_once('../../functions.php');
 include_once('header.php');
 
 if (isset($_POST['recommended_subject_id'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE recommended_subjects_tbl set feedback = '$feedback'  where recommended_subject_id = " . $recommended_subject_id);
   echo message_success("Updated Feedback!");
 }
@@ -20,12 +20,12 @@ if (isset($_GET['save_subjects'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE studen_file_tbl set evaluation_status_id = '$evaluation_status_id'  where studen_file_id = " . $change_status);
   echo message_success("Changed Status!");
 }
 if (isset($_POST['update_feedback'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE studen_file_tbl set feedback = '$feedback'  where studen_file_id = " . $id);
   echo message_success("Updated Feedback!");
 }
@@ -44,13 +44,13 @@ if (isset($_POST['delete'])) {
   echo message_success("Deleted Successfully!");
 }
 if (isset($_POST['grade'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE student_subjects_tbl set grade_id = '$grade_id'  where student_subject_id = " . $_POST['grade']);
   echo message_success("Updated Successfully!");
 }
 
 if (isset($_POST['create_recommendation'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(recommended_subject_id) is null, 0, max(recommended_subject_id) + 1) as `res` from recommended_subjects_tbl  where   student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id'  limit 1");
 
   if (!empty($check_exists->res)) {
@@ -68,7 +68,7 @@ if (isset($_POST['create_recommendation'])) {
   }
 }
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(student_subject_id) is null, 0, max(student_subject_id) + 1) as `res` from student_subjects_tbl  where   student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id'  limit 1");
 
   if (!empty($check_exists->res)) {
@@ -87,7 +87,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(student_subject_id) is null, 0, max(student_subject_id) + 1) as `res` from student_subjects_tbl  where (student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id' ) and student_subject_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {
@@ -99,7 +99,7 @@ if (isset($_POST['edit'])) {
 }
 
 if (isset($_POST['edit_recommendation'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(recommended_subject_id) is null, 0, max(recommended_subject_id) + 1) as `res` from recommended_subjects_tbl  where (student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id' ) and student_id <> $student_id limit 1");
 
   if (!empty($check_exists->res)) {

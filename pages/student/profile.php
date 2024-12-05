@@ -6,7 +6,7 @@ include_once('header.php');
 
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(student_id) is null, 0, max(student_id) + 1) as `res` from student_tbl  where (student_email ='$student_email') and student_id <> $id limit 1");
   // File upload handling
   $target_directory = "../../img/";

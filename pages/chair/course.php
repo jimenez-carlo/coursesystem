@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE subject_tbl set deleted_flag = '$change_status'  where subject_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(subject_id) is null, 0, max(subject_id) + 1) as `res` from subject_tbl  where subject_code ='$subject_code' and  subject_title = '$subject_title' and  subject_unit = '$subject_unit' and  program_id = '$program_id'  and  class_type_id = '$class_type_id' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -36,7 +36,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(subject_id) is null, 0, max(subject_id) + 1) as `res` from subject_tbl  where (subject_code ='$subject_code' and  subject_title = '$subject_title' and  subject_unit = '$subject_unit' and  program_id = '$program_id'  and  class_type_id = '$class_type_id') and subject_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {

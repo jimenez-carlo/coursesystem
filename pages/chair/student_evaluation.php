@@ -3,8 +3,8 @@ include_once('../../conn.php');
 include_once('../../functions.php');
 include_once('header.php');
 
-if (isset($_POST['recommended_subject_id'])) {
-  extract($_POST);
+if (isset($_POST['feedback'])) {
+  extract(array_map('addslashes', $_POST));
   query("UPDATE recommended_subjects_tbl set feedback = '$feedback'  where recommended_subject_id = " . $recommended_subject_id);
   echo message_success("Updated Feedback!");
 }
@@ -12,28 +12,25 @@ if (isset($_GET['save_subjects'])) {
   extract($_GET);
   // recommended_subjects_tbl
   $student = get_one("select * from student_tbl where student_id = " . $student_id);
-  query("DELETE FROM recommended_subjects_tbl where student_id = " . $student_id . " AND year_id = " . $student->year_id . " AND semester_id = " . $student->semester_id);
-  query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) SELECT '$student_id', c.subject_id,c.year_id,c.semester_id,c.pre_subject_id FROM curriculum_subjects_tbl c WHERE c.curriculum_id = '$curriculum_id' and c.year_id = '" . $student->year_id . "' AND c.semester_id =" . $student->semester_id);
+  query("DELETE FROM recommended_subjects_tbl where student_id = " . $student_id);
+  query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) SELECT '$student_id', c.subject_id,c.year_id,c.semester_id,c.pre_subject_id FROM curriculum_subjects_tbl c WHERE  c.curriculum_id <= '$curriculum_id' and c.year_id <= '" . $student->year_id . "' AND c.semester_id <=" . $student->semester_id . " AND c.subject_id IN (SELECT subject_id from student_subjects_tbl WHERE grade_id IN(11,12,13,14,15))");
 
   query("UPDATE student_tbl set `confirmed` = '1'  where student_id = " . $student_id);
   echo message_success("Subjects Saved!");
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE studen_file_tbl set evaluation_status_id = '$evaluation_status_id'  where studen_file_id = " . $change_status);
   echo message_success("Changed Status!");
 }
-if (isset($_POST['update_feedback'])) {
-  extract($_POST);
-  query("UPDATE studen_file_tbl set feedback = '$feedback'  where studen_file_id = " . $id);
-  echo message_success("Updated Feedback!");
-}
 
-if (isset($_POST['delete_recommended_subject'])) {
-  query("DELETE FROM recommended_subjects_tbl where recommended_subject_id = " . $_POST['delete']);
-  echo message_success("Deleted Successfully!");
-}
+
+// if (isset($_POST['feedback'])) {
+//   extract(array_map('addslashes', $_POST));
+//   query("UPDATE recommended_subjects_tbl set feedback='$feedback' WHERE recommended_subject_id = " . $recommended_subject_id);
+//   echo message_success("Updated Successfully!");
+// }
 
 if (isset($_POST['delete_recommendation'])) {
   query("DELETE FROM recommended_subjects_tbl where recommended_subject_id = " . $_POST['delete_recommendation']);
@@ -44,13 +41,13 @@ if (isset($_POST['delete'])) {
   echo message_success("Deleted Successfully!");
 }
 if (isset($_POST['grade'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE student_subjects_tbl set grade_id = '$grade_id'  where student_subject_id = " . $_POST['grade']);
   echo message_success("Updated Successfully!");
 }
 
 if (isset($_POST['create_recommendation'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(recommended_subject_id) is null, 0, max(recommended_subject_id) + 1) as `res` from recommended_subjects_tbl  where   student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id'  limit 1");
 
   if (!empty($check_exists->res)) {
@@ -68,7 +65,7 @@ if (isset($_POST['create_recommendation'])) {
   }
 }
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(student_subject_id) is null, 0, max(student_subject_id) + 1) as `res` from student_subjects_tbl  where   student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id'  limit 1");
 
   if (!empty($check_exists->res)) {
@@ -87,7 +84,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(student_subject_id) is null, 0, max(student_subject_id) + 1) as `res` from student_subjects_tbl  where (student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id' ) and student_subject_id <> $id limit 1");
 
   if (!empty($check_exists->res)) {
@@ -99,7 +96,7 @@ if (isset($_POST['edit'])) {
 }
 
 if (isset($_POST['edit_recommendation'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(recommended_subject_id) is null, 0, max(recommended_subject_id) + 1) as `res` from recommended_subjects_tbl  where (student_id = '$student_id' and  subject_id = '$subject_id' and  year_id = '$year_id'  and  semester_id = '$semester_id' ) and student_id <> $student_id limit 1");
 
   if (!empty($check_exists->res)) {
@@ -188,7 +185,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
       </thead>
       <tbody>
         <?php $ctr = 0; ?>
-        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id = '" . $student_data->year_id . "' AND ss.semester_id = '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
+        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id = '" . $student_data->year_id . "' AND ss.semester_id = '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
 
           <tr>
 
@@ -225,55 +222,75 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
     </div>
   <?php } ?>
 
-  <table class="recommendation-table">
-    <h2>Recommendation</h2>
-    <thead>
-      <tr>
-        <th>Course Code</th>
-        <th>Course Title</th>
-        <th>Units</th>
-        <th>Class Type</th>
-        <th>Pre-requisite</th>
-        <th>Feedback</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from recommended_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" .  $student_data->student_id . "' AND y.year_id = '" . $student_data->year_id . "' AND ss.semester_id = '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id") as $row2) { ?>
+  <?php if (isset($_GET['load_subjects']) && !isset($_GET['save_subjects']) && !$student_data->confirmed) { ?>
+    <table class="recommendation-table">
+      <h2>Recommendation</h2>
+      <thead>
         <tr>
-
-          <td><?= $row2['subject_code'] ?></td>
-          <td><?= $row2['subject_title'] ?></td>
-          <td><?= $row2['class_type_name']  ?></td>
-          <td><?= $row2['subject_unit'] ?></td>
-          <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
-          <!-- <td>
-            <form method="POST">
-              <input type="hidden" name="delete_recommendation" value="<?= $row2['recommended_subject_id'] ?>">
-              <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['recommended_subject_id'] ?>' data-url='edit_student_recommendation'>
-                <i class='fas fa-edit' data-id='<?= $row2['recommended_subject_id'] ?>' data-url='edit_student_recommendation'></i>
-              </button>
-              <button type="submit" class='btn btn-sm btn-danger delete'>
-                <i class='fas fa-trash'></i>
-              </button>
-            </form>
-          </td> -->
-          <td>
-            <form method="POST">
-
-              <div class="input-group input-group">
-                <input type="hidden" name="recommended_subject_id" value="<?= $row2['recommended_subject_id'] ?>">
-                <textarea name="feedback" id="" class="form-control"><?= $row2['feedback'] ?></textarea>
-                <button type="submit" class="btn btn-primary btn-flat btn-sm">Save</button>
-              </div>
-
-
-            </form>
-          </td>
+          <th>Course Code</th>
+          <th>Course Title</th>
+          <th>Units</th>
+          <th>Class Type</th>
+          <th>Pre-requisite</th>
         </tr>
-      <?php }  ?>
+      </thead>
+      <tbody>
+        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
+          <tr>
 
-    </tbody>
-  </table>
+            <td><?= $row2['subject_code'] ?></td>
+            <td><?= $row2['subject_title'] ?></td>
+            <td><?= $row2['class_type_name']  ?></td>
+            <td><?= $row2['subject_unit'] ?></td>
+            <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+          </tr>
+        <?php }  ?>
+
+      </tbody>
+    </table>
+  <?php } ?>
+
+  <?php if (isset($_GET['load_subjects']) && $student_data->confirmed) { ?>
+    <table class="recommendation-table">
+      <h2>Recommendation</h2>
+      <thead>
+        <tr>
+          <th>Course Code</th>
+          <th>Course Title</th>
+          <th>Units</th>
+          <th>Class Type</th>
+          <th>Pre-requisite</th>
+          <th>Feedback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from recommended_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" .  $student_data->student_id . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id") as $row2) { ?>
+          <tr>
+
+            <td><?= $row2['subject_code'] ?></td>
+            <td><?= $row2['subject_title'] ?></td>
+            <td><?= $row2['class_type_name']  ?></td>
+            <td><?= $row2['subject_unit'] ?></td>
+            <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+
+            <td>
+              <form method="POST">
+
+                <div class="input-group input-group">
+                  <input type="hidden" name="recommended_subject_id" value="<?= $row2['recommended_subject_id'] ?>">
+                  <textarea name="feedback" id="" class="form-control"><?= $row2['feedback'] ?></textarea>
+                  <button type="submit" class="btn btn-primary btn-flat btn-sm">Save</button>
+                </div>
+
+
+              </form>
+            </td>
+          </tr>
+        <?php }  ?>
+
+      </tbody>
+    </table>
+  <?php } ?>
 </div>
 
 

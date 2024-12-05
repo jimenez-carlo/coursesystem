@@ -9,13 +9,13 @@ if (isset($_POST['delete'])) {
 }
 
 if (isset($_POST['change_status'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   query("UPDATE admin_tbl set deleted_flag = '$change_status'  where admin_id = $id");
   echo message_success("Changed Status Successfully!");
 }
 
 if (isset($_POST['create'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(admin_id) is null, 0, max(admin_id) + 1) as `res` from admin_tbl  where admin_email ='$admin_email' limit 1");
 
   if (!empty($check_exists->res)) {
@@ -63,7 +63,7 @@ if (isset($_POST['create'])) {
 }
 
 if (isset($_POST['edit'])) {
-  extract($_POST);
+  extract(array_map('addslashes', $_POST));
   $check_exists = get_one("SELECT if(max(admin_id) is null, 0, max(admin_id) + 1) as `res` from admin_tbl  where (admin_email ='$admin_email') and admin_id <> $id limit 1");
   // File upload handling
   $target_directory = "../../img/";
