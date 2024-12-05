@@ -223,30 +223,29 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         <input type="hidden" name="curriculum_id" value="<?= $student_data->curriculum_id  ?>">
       </form>
     </div>
-  <?php } ?>
 
-  <table class="recommendation-table">
-    <h2>Recommendation</h2>
-    <thead>
-      <tr>
-        <th>Course Code</th>
-        <th>Course Title</th>
-        <th>Units</th>
-        <th>Class Type</th>
-        <th>Pre-requisite</th>
-        <th>Feedback</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from recommended_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" .  $student_data->student_id . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id") as $row2) { ?>
+    <table class="recommendation-table">
+      <h2>Recommendation</h2>
+      <thead>
         <tr>
+          <th>Course Code</th>
+          <th>Course Title</th>
+          <th>Units</th>
+          <th>Class Type</th>
+          <th>Pre-requisite</th>
+          <th>Feedback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from recommended_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" .  $student_data->student_id . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id") as $row2) { ?>
+          <tr>
 
-          <td><?= $row2['subject_code'] ?></td>
-          <td><?= $row2['subject_title'] ?></td>
-          <td><?= $row2['class_type_name']  ?></td>
-          <td><?= $row2['subject_unit'] ?></td>
-          <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
-          <!-- <td>
+            <td><?= $row2['subject_code'] ?></td>
+            <td><?= $row2['subject_title'] ?></td>
+            <td><?= $row2['class_type_name']  ?></td>
+            <td><?= $row2['subject_unit'] ?></td>
+            <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+            <!-- <td>
             <form method="POST">
               <input type="hidden" name="delete_recommendation" value="<?= $row2['recommended_subject_id'] ?>">
               <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['recommended_subject_id'] ?>' data-url='edit_student_recommendation'>
@@ -257,16 +256,17 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
               </button>
             </form>
           </td> -->
-          <td>
-            <?= $row2['feedback'] ?>
+            <td>
+              <?= $row2['feedback'] ?>
 
-          </td>
-        </tr>
-      <?php }  ?>
+            </td>
+          </tr>
+        <?php }  ?>
 
-    </tbody>
+      </tbody>
 
-  </table>
+    </table>
+  <?php } ?>
 </div>
 
 
