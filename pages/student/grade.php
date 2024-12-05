@@ -52,7 +52,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 
 <div class="main-content">
 
-  <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase">Grades</h1>
+  <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase">Grade's</h1>
 
   <?php
 
