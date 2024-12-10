@@ -9,7 +9,7 @@ if (isset($_POST['delete'])) {
 }
 if (isset($_POST['grade_id'])) {
   extract(array_map('addslashes', $_POST));
-  query("UPDATE student_subjects_tbl set grade_id = '$grade_id'  where student_subject_id = " . $_POST['grade']);
+  query("UPDATE student_subjects_tbl set grade_id = '$grade_id',saved = 1  where student_subject_id = " . $_POST['grade']);
   echo "<script>alert('Updated Successfully!');</script>";
 }
 
@@ -86,7 +86,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                         <option value="<?= $row['grade_id'] ?>" <?= $row['grade_id'] == $row2['grade_id'] ? "selected" : "" ?>><?= $row['grade'] ?> </option>
                       <?php } ?>
                     </select>
-                    <button type="submit" class="btn btn-primary btn-flat btn-sm"> <i class='fas fa-save'></i></button>
+                    <button type="submit" class="btn btn-<?= ($row2['saved'] == 1) ? 'success' : 'primary' ?> btn-flat btn-sm"> <i class='fas fa-save'></i></button>
                   </div>
                 </form>
               <?php } else { ?>

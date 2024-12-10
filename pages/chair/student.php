@@ -149,6 +149,9 @@ if (isset($_POST['edit'])) {
             <table class="table table-hover text-nowrap datatable">
               <thead>
                 <tr>
+                  <th>Program</th>
+                  <th>Year</th>
+                  <th>Semester</th>
                   <th>Img</th>
                   <th>Type</th>
                   <th>Full Name</th>
@@ -160,8 +163,11 @@ if (isset($_POST['edit'])) {
                 </tr>
               </thead>
               <tbody style="text-transform: uppercase;">
-                <?php foreach (get_list("SELECT a.*,s.student_status,g.gender from student_tbl a inner join student_status_tbl s  on s.student_status_id = a.student_status_id inner join gender_tbl g on g.gender_id = a.gender_id inner join curriculum_tbl c on a.curriculum_id = c.curriculum_id inner join program_tbl p on p.program_id = c.program_id where p.department_id = " . $_SESSION['user_department_id']) as $row) { ?>
+                <?php foreach (get_list("SELECT a.*,s.student_status,g.gender,st.semester_name,yt.year_name,p.program_code from student_tbl a inner join student_status_tbl s  on s.student_status_id = a.student_status_id inner join gender_tbl g on g.gender_id = a.gender_id inner join curriculum_tbl c on a.curriculum_id = c.curriculum_id inner join program_tbl p on p.program_id = c.program_id inner join  year_levels_tbl yt on yt.year_id = a.year_id inner join semester_tbl st on st.semester_id = a.semester_id where p.department_id = " . $_SESSION['user_department_id']) as $row) { ?>
                   <tr>
+                    <td><?= $row['program_code'] ?></td>
+                    <td><?= $row['year_name'] ?></td>
+                    <td><?= $row['semester_name'] ?></td>
                     <td><img src="<?= $row['student_profile'] ?>" class="img-circle elevation-2" alt="User Image" width="33" height="33"></td>
                     <td><?= $row['student_status'] ?></td>
                     <td><?= $row['student_firstname'] . " " . $row['student_middlename'] . "" . $row['student_lastname']  ?></td>
