@@ -3,6 +3,11 @@ include_once('../../conn.php');
 include_once('../../functions.php');
 include_once('header.php');
 
+if (isset($_POST['change_year'])) {
+  extract(array_map('addslashes', $_POST));
+  query("UPDATE student_tbl set year_id = '$year_id', semester_id = '$semester_id',`confirmed` = 0  where student_id = " . $student_id);
+  echo message_success("Student Updated!");
+}
 if (isset($_POST['feedback'])) {
   extract(array_map('addslashes', $_POST));
   query("UPDATE recommended_subjects_tbl set feedback = '$feedback'  where recommended_subject_id = " . $recommended_subject_id);
@@ -11,9 +16,16 @@ if (isset($_POST['feedback'])) {
 if (isset($_GET['save_subjects'])) {
   extract($_GET);
   // recommended_subjects_tbl
+  $subjects = explode(",", $_GET['subjects']);
+  $presubjects = explode(",", $_GET['presubjects']);
   $student = get_one("select * from student_tbl where student_id = " . $student_id);
   query("DELETE FROM recommended_subjects_tbl where student_id = " . $student_id);
-  query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) SELECT '$student_id', c.subject_id,c.year_id,c.semester_id,c.pre_subject_id FROM curriculum_subjects_tbl c WHERE  c.curriculum_id <= '$curriculum_id' and c.year_id <= '" . $student->year_id . "' AND c.semester_id <=" . $student->semester_id . " AND c.subject_id IN (SELECT subject_id from student_subjects_tbl WHERE grade_id IN(11,12,13,14,15))");
+
+  foreach ($subjects as $key => $res) {
+    query("DELETE  from student_subjects_tbl where subject_id = " . $res . "  and student_id = " . $student_id);
+    query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('" . $student_id . "','" . $res . "','$year_id', '$semester_id','" . $presubjects[$key] . "')");
+  }
+  // query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) SELECT '$student_id', c.subject_id,c.year_id,c.semester_id,c.pre_subject_id FROM curriculum_subjects_tbl c WHERE  c.curriculum_id <= '$curriculum_id' and c.year_id <= '" . $student->year_id . "' AND c.semester_id <=" . $student->semester_id . " AND c.subject_id IN (SELECT subject_id from student_subjects_tbl WHERE grade_id IN(11,12,13,14,15))");
 
   query("UPDATE student_tbl set `confirmed` = '1'  where student_id = " . $student_id);
   echo message_success("Subjects Saved!");
@@ -107,15 +119,14 @@ if (isset($_POST['edit_recommendation'])) {
   }
 }
 $student_data = get_one("SELECT * from student_tbl s inner join year_levels_tbl y on y.year_id = s.year_id inner join semester_tbl ss on ss.semester_id = s.semester_id where s.student_id = " . $_GET['id']);
-$data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where c.curriculum_id = " . $student_data->curriculum_id)
-
-
-
+$data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where c.curriculum_id = " . $student_data->curriculum_id);
+$student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculum_subjects_tbl  cs inner join subject_tbl s on s.subject_id = cs.subject_id where cs.year_id = " . $student_data->year_id . " and cs.semester_id = " . $student_data->semester_id . " and  cs.curriculum_id = " . $student_data->curriculum_id)->total_units;
 
 ?>
 <link rel="stylesheet" href="../../evaluation.css">
 <div class="student-info">
-  <form>
+  <form method="post">
+    <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
     <!-- Student Number Row -->
     <div class="form-row">
       <!-- Name -->
@@ -144,18 +155,32 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
       <!-- Year -->
       <div class="form-group">
         <label for="year">Year:</label>
-        <input type="text" id="year" readonly value="<?= $student_data->year_name ?>" disabled>
+        <select name="year_id" id="year_id" class="">
+
+          <?php foreach (get_list("SELECT * from year_levels_tbl  where deleted_flag = 0") as $row) { ?>
+            <option value="<?= $row['year_id'] ?>" <?= $row['year_id'] == $student_data->year_id ? "selected" : "" ?>><?= $row['year_name'] ?> </option>
+          <?php } ?>
+        </select>
       </div>
       <!-- Semester -->
       <div class="form-group">
         <label for="semester">Semester:</label>
-        <input type="text" id="semester" readonly value="<?= $student_data->semester_name ?>" disabled>
+
+        <select name="semester_id" id="semester_id" class="">
+
+          <?php foreach (get_list("SELECT * from semester_tbl  where deleted_flag = 0") as $row) { ?>
+            <option value="<?= $row['semester_id'] ?>" <?= $row['semester_id'] == $student_data->semester_id ? "selected" : "" ?>><?= $row['semester_name'] ?> </option>
+          <?php } ?>
+        </select>
       </div>
       <!-- School Year -->
       <div class="form-group">
         <label for="school-year">School Year:</label>
         <input type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
       </div>
+    </div>
+    <div class="form-row">
+      <button type="submit" name="change_year" class="btn btn-primary btn-sm btn-flat">Update</button>
     </div>
   </form>
 </div>
@@ -184,9 +209,25 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         </tr>
       </thead>
       <tbody>
-        <?php $ctr = 0; ?>
-        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id = '" . $student_data->year_id . "' AND ss.semester_id = '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
-
+        <?php
+        $unit_ctr = 0;
+        $ctr = 0;
+        $subjects = [];
+        $presubjects = [];
+        ?>
+        <?php foreach (
+          get_list(
+            "SELECT 
+              y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,ct.* FROM coursesystem.curriculum_subjects_tbl cs 
+              inner join subject_tbl s on s.subject_id = cs.subject_id 
+              inner join year_levels_tbl y on y.year_id = cs.year_id 
+              inner join semester_tbl se on se.semester_id = cs.semester_id 
+              inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
+              left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . " and std.grade_id NOT IN (1, 11, 12, 13, 14, 15) 
+              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id = " . $student_data->year_id . " and (cs.pre_subject_id IS NOT NULL AND std.student_subject_id IS NULL ) order by cs.year_id,cs.semester_id"
+            // "SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id = '" . $student_data->year_id . "' AND ss.semester_id = '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id "
+          ) as $row2
+        ) { ?>
           <tr>
 
             <td><?= $row2['subject_code'] ?></td>
@@ -195,7 +236,12 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
             <td><?= $row2['class_type_name']  ?></td>
             <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
           </tr>
-          <?php $ctr += $row2['subject_unit'] ?>
+          <?php
+          $ctr += $row2['subject_unit'];
+          $subjects[] = $row2['subject_id'];
+          $presubjects[] = $row2['pre_subject_id'];
+          ?>
+          <?php $unit_ctr += $row2['subject_unit'] ?>
         <?php }  ?>
 
       </tbody>
@@ -210,16 +256,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 
     <!-- Save Subjects Button -->
 
-    <div class="button-container">
-      <form method="get">
-        <input type="hidden" name="save_subjects" value="1">
-        <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-        <input type="hidden" name="load_subjects" value="1">
-        <input type="hidden" name="student_id" value="<?= $student_data->student_id  ?>">
-        <input type="hidden" name="curriculum_id" value="<?= $student_data->curriculum_id  ?>">
-        <button class="btn" type="submit">Save Subjects</button>
-      </form>
-    </div>
+
   <?php } ?>
 
   <?php if (isset($_GET['load_subjects']) && !isset($_GET['save_subjects']) && !$student_data->confirmed) { ?>
@@ -235,7 +272,24 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         </tr>
       </thead>
       <tbody>
-        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
+        <?php foreach (
+          get_list(
+            "SELECT 
+              y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,ct.* FROM coursesystem.curriculum_subjects_tbl cs 
+              inner join subject_tbl s on s.subject_id = cs.subject_id 
+              inner join year_levels_tbl y on y.year_id = cs.year_id 
+              inner join semester_tbl se on se.semester_id = cs.semester_id 
+              inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
+              left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . " and std.grade_id NOT IN (1, 11, 12, 13, 14, 15) 
+              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id < " . $student_data->year_id . " and (cs.pre_subject_id IS NOT NULL AND std.student_subject_id IS NULL ) order by cs.year_id,cs.semester_id"
+            // "SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id "
+          ) as $row2
+        ) {
+          if ($unit_ctr >= $student_units) {
+            continue;
+          }
+        ?>
+          <input type="hidden" name="subject_id[]" value="<?= $row2['subject_id'] ?>">
           <tr>
 
             <td><?= $row2['subject_code'] ?></td>
@@ -244,6 +298,11 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
             <td><?= $row2['subject_unit'] ?></td>
             <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
           </tr>
+          <?php
+          $unit_ctr += $row2['subject_unit'];
+          $subjects[] = $row2['subject_id'];
+          $presubjects[] = $row2['pre_subject_id'];
+          ?>
         <?php }  ?>
 
       </tbody>
@@ -264,7 +323,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         </tr>
       </thead>
       <tbody>
-        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from recommended_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" .  $student_data->student_id . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id") as $row2) { ?>
+        <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from recommended_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" .  $student_data->student_id . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id = '" . $student_data->semester_id . "' ORDER BY y.year_id,ss.semester_id") as $row2) { ?>
           <tr>
 
             <td><?= $row2['subject_code'] ?></td>
@@ -291,6 +350,20 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
       </tbody>
     </table>
   <?php } ?>
+  <div class="button-container">
+    <form method="get">
+      <input type="hidden" name="save_subjects" value="1">
+      <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+      <input type="hidden" name="load_subjects" value="1">
+      <input type="hidden" name="student_id" value="<?= $student_data->student_id  ?>">
+      <input type="hidden" name="curriculum_id" value="<?= $student_data->curriculum_id  ?>">
+      <input type="hidden" name="subjects" value="<?= implode(',', $subjects) ?>">
+      <input type="hidden" name="presubjects" value="<?= implode(',', $presubjects) ?>">
+      <input type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
+      <input type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
+      <button class="btn" type="submit">Save Subjects</button>
+    </form>
+  </div>
 </div>
 
 

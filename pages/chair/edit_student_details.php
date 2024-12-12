@@ -3,6 +3,9 @@ include_once('../../conn.php');
 include_once('../../functions.php');
 include_once('header.php');
 
+if (isset($_POST['save_grades'])) {
+  print_r($_POST);
+}
 if (isset($_POST['change_status'])) {
   extract(array_map('addslashes', $_POST));
   query("UPDATE studen_file_tbl set evaluation_status_id = '$evaluation_status_id'  where studen_file_id = " . $change_status);
@@ -28,8 +31,14 @@ if (isset($_POST['delete'])) {
   echo message_success("Deleted Successfully!");
 }
 if (isset($_POST['grade'])) {
-  extract(array_map('addslashes', $_POST));
-  query("UPDATE student_subjects_tbl set grade_id = '$grade_id',saved = 1  where student_subject_id = " . $_POST['grade']);
+  // extract(array_map('addslashes', $_POST));
+  extract($_POST);
+  // print_r($grade_id);
+  foreach ($grade_id as $key => $value) {
+    # code...
+    query("UPDATE student_subjects_tbl set grade_id = '$value', saved = 1  where student_subject_id = " . $key);
+  }
+  // query("UPDATE student_subjects_tbl set grade_id = '$grade_id',saved = 1  where student_subject_id = " . $_POST['grade']);
   echo message_success("Updated Successfully!");
 }
 
@@ -206,100 +215,103 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                   <!-- /.card -->
                 </div>
                 <div class="col-12">
-                  <div class="card">
-                    <div class="card-header">
-                      <div class="row align-items-center">
-                        <div class="col-md-11" style="font-weight:bold">
-                          STUDENT SUBJECTS
-                        </div>
-                        <div class="col-md-1 text-right">
-                          <div class="card-tools">
+                  <form method="post">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="row align-items-center">
+                          <div class="col-md-11" style="font-weight:bold">
+                            STUDENT SUBJECTS
+                          </div>
+                          <div class="col-md-1 text-right">
+                            <div class="card-tools">
 
-                            <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                              <i class="nav-icon fas fa-plus"></i>
-                            </button>
+                              <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
+                                <i class="nav-icon fas fa-plus"></i>
+                              </button>
+                              <button type="submit" class="btn btn-sm btn-default" name="save_grades">
+                                <i class="nav-icon fas fa-save"></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
+
+
+
+                      <!-- /.card-header -->
+
+                      <!-- /.card-body -->
+
                     </div>
 
+                    <?php
 
+                    foreach (get_list("SELECT * from student_subjects_tbl cd inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id where cd.student_id = '" . $_GET['id'] . "' GROUP BY y.year_id,ss.semester_id ORDER BY y.year_id,ss.semester_id ") as $row) {
 
-                    <!-- /.card-header -->
-
-                    <!-- /.card-body -->
-
-                  </div>
-                  <?php
-
-                  foreach (get_list("SELECT * from student_subjects_tbl cd inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id where cd.student_id = '" . $_GET['id'] . "' GROUP BY y.year_id,ss.semester_id ORDER BY y.year_id,ss.semester_id ") as $row) {
-
-                  ?>
-                    <div class="card mt-5 mb-5 ">
-                      <div class="card-header" style="font-weight:bold"><?= $row['year_name'] ?> <span style="float:right"> <?= $row['semester_name'] ?></span></div>
-                      <div class="card-body table-responsive p-3">
-                        <table class="table table-hover text-nowrap">
-                          <thead>
-                            <tr>
-                              <th style="min-width: 160px;">Grade</th>
-                              <th>Course Code</th>
-                              <th>Description</th>
-                              <th>Type</th>
-                              <th>Unit</th>
-                              <th>Co/Prerequisite</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody style="text-transform: uppercase;">
-                            <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id = '" . $row['year_id'] . "' AND ss.semester_id = '" . $row['semester_id'] . "' ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
+                    ?>
+                      <div class="card mt-5 mb-5 ">
+                        <div class="card-header" style="font-weight:bold"><?= $row['year_name'] ?> <span style="float:right"> <?= $row['semester_name'] ?></span></div>
+                        <div class="card-body table-responsive p-3">
+                          <table class="table table-hover text-nowrap">
+                            <thead>
                               <tr>
-                                <td style="min-width: 160px;">
-                                  <form method="POST">
+                                <th style="min-width: 160px;">Grade</th>
+                                <th>Course Code</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Unit</th>
+                                <th>Co/Prerequisite</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody style="text-transform: uppercase;">
+                              <?php foreach (get_list("SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id = '" . $row['year_id'] . "' AND ss.semester_id = '" . $row['semester_id'] . "' ORDER BY y.year_id,ss.semester_id ") as $row2) { ?>
+                                <tr>
+                                  <td style="min-width: 160px;">
+                                    <!-- <form method="POST"> -->
                                     <input type="hidden" name="grade" value="<?= $row2['student_subject_id'] ?>">
 
                                     <div class="input-group input-group">
-                                      <select name="grade_id" id="grade_id" class="form-control">
+                                      <select name="grade_id[<?= $row2['student_subject_id'] ?>]" id="grade_id" class="form-control">
 
                                         <?php foreach (get_list("SELECT * from grade_range_tbl  where deleted_flag = 0") as $row) { ?>
                                           <option value="<?= $row['grade_id'] ?>" <?= $row['grade_id'] == $row2['grade_id'] ? "selected" : "" ?>><?= $row['grade'] ?> </option>
                                         <?php } ?>
                                       </select>
-                                      <span class="input-group-append">
+                                      <!-- <span class="input-group-append">
                                         <button type="submit" class="btn btn-<?= ($row2['saved'] == 1) ? 'success' : 'primary' ?> btn-flat btn-sm" style="min-height: 100%"> <i class='fas fa-save'></i></button>
-                                      </span>
+                                      </span> -->
                                     </div>
 
 
-                                  </form>
-                                </td>
-                                <td><?= $row2['subject_code'] ?></td>
-                                <td><?= $row2['subject_title'] ?></td>
-                                <td><?= $row2['class_type_name']  ?></td>
-                                <td><?= $row2['subject_unit'] ?></td>
-                                <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
-                                <td>
-                                  <form method="POST">
-                                    <input type="hidden" name="delete" value="<?= $row2['student_subject_id'] ?>">
+                                    <!-- </form> -->
+                                  </td>
+                                  <td><?= $row2['subject_code'] ?></td>
+                                  <td><?= $row2['subject_title'] ?></td>
+                                  <td><?= $row2['class_type_name']  ?></td>
+                                  <td><?= $row2['subject_unit'] ?></td>
+                                  <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+                                  <td>
                                     <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'>
                                       <i class='fas fa-edit' data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'></i>
                                     </button>
-                                    <button type="submit" class='btn btn-sm btn-danger delete'>
+                                    <button type="submit" class='btn btn-sm btn-danger delete' name="delete" value="<?= $row2['student_subject_id'] ?>">
                                       <i class='fas fa-trash'></i>
                                     </button>
-                                  </form>
-                                </td>
-                              </tr>
-                            <?php }  ?>
-                          </tbody>
-                        </table>
+                                  </td>
+                                </tr>
+                              <?php }  ?>
+                            </tbody>
+                          </table>
 
+                        </div>
                       </div>
-                    </div>
 
 
-                  <?php
-                  }
-                  ?>
+                    <?php
+                    }
+                    ?>
+                  </form>
                   <!-- /.card -->
                 </div>
                 <div class="col-6" style="display:none">

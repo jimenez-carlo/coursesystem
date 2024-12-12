@@ -206,7 +206,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                 <option value="0">NONE</option>
                 <?php foreach (
                   get_list("SELECT cc.*,s.* from subject_tbl s inner join class_type_tbl cc on cc.class_type_id = s.class_type_id where s.deleted_flag = 0 
-                and s.subject_id not in (select subject_id from curriculum_subjects_tbl where curriculum_id = " . $_GET['id'] . ")") as $row
+                and s.subject_id") as $row
                 ) { ?>
                   <option value="<?= $row['subject_id'] ?>"><?= $row['subject_code'] ?> (<?= $row['subject_title'] ?>) | <?= $row['class_type_name'] ?> | <?= $row['subject_unit'] ?> Units </option>
                 <?php } ?>
