@@ -4,7 +4,7 @@ include_once('../../functions.php');
 include_once('header.php');
 
 if (isset($_POST['save_grades'])) {
-  print_r($_POST);
+  // print_r($_POST);
 }
 if (isset($_POST['change_status'])) {
   extract(array_map('addslashes', $_POST));

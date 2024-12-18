@@ -6,8 +6,10 @@ include_once('header.php');
 if (isset($_POST['change_year'])) {
   extract(array_map('addslashes', $_POST));
   query("UPDATE student_tbl set year_id = '$year_id', semester_id = '$semester_id',`confirmed` = 0  where student_id = " . $student_id);
+  query("DELETE FROM recommended_subjects_tbl where student_id = " . $student_id);
   echo message_success("Student Updated!");
 }
+
 if (isset($_POST['feedback'])) {
   extract(array_map('addslashes', $_POST));
   query("UPDATE recommended_subjects_tbl set feedback = '$feedback'  where recommended_subject_id = " . $recommended_subject_id);
@@ -48,6 +50,22 @@ if (isset($_POST['change_status'])) {
 if (isset($_POST['delete_recommendation'])) {
   query("DELETE FROM recommended_subjects_tbl where recommended_subject_id = " . $_POST['delete_recommendation']);
   echo message_success("Deleted Successfully!");
+}
+if (isset($_POST['delete_subject'])) {
+  extract($_POST);
+  query("DELETE FROM recommended_subjects_tbl where recommended_subject_id = " . $_POST['delete_subject']);
+  query("DELETE FROM student_subjects_tbl where student_id = '" . $_POST['student_id'] . "' and subject_id = " . $_POST['subject_id']);
+  echo message_success("Subject Deleted Successfully!");
+}
+if (isset($_POST['add_subject'])) {
+  extract($_POST);
+  if (intval($ctr) + intval($subject_unit) > $max_units) {
+    echo message_error("Maximum units exceed!");
+    return;
+  }
+  query("INSERT INTO student_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('$student_id','$add_subject','$year_id','$semester_id','$pre_subject_id')");
+  query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('$student_id','$add_subject','$year_id','$semester_id','$pre_subject_id')");
+  echo message_success("Subject Added Successfully!");
 }
 if (isset($_POST['delete'])) {
   query("DELETE FROM student_subjects_tbl where student_subject_id = " . $_POST['delete']);
@@ -122,12 +140,16 @@ if (isset($_POST['edit_recommendation'])) {
 $student_data = get_one("SELECT * from student_tbl s inner join year_levels_tbl y on y.year_id = s.year_id inner join semester_tbl ss on ss.semester_id = s.semester_id where s.student_id = " . $_GET['id']);
 $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where c.curriculum_id = " . $student_data->curriculum_id);
 $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculum_subjects_tbl  cs inner join subject_tbl s on s.subject_id = cs.subject_id where cs.year_id = " . $student_data->year_id . " and cs.semester_id = " . $student_data->semester_id . " and  cs.curriculum_id = " . $student_data->curriculum_id)->total_units;
+$passed_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as ids from student_subjects_tbl s where s.grade_id not in (1, 11, 12, 13, 14, 15) and s.student_id = " . $student_data->student_id)->ids;
+$curriculum_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as ids from curriculum_subjects_tbl s where s.year_id = '" . $student_data->year_id . "' and s.semester_id = '" . $student_data->year_id . "'")->ids;
+$recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as ids from recommended_subjects_tbl s where s.student_id = '" . $student_data->student_id . "' and  s.year_id = '" . $student_data->year_id . "' and s.semester_id = '" . $student_data->year_id . "'")->ids;
 
 ?>
 <link rel="stylesheet" href="../../evaluation.css">
 <div class="student-info">
   <form method="post">
     <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+
     <!-- Student Number Row -->
     <div class="form-row">
       <!-- Name -->
@@ -208,6 +230,7 @@ $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculu
           <th>Units</th>
           <th>Class Type</th>
           <th>Pre-requisite</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -217,33 +240,73 @@ $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculu
         $subjects = [];
         $presubjects = [];
         ?>
-        <?php foreach (
-          get_list(
-            "SELECT 
-                  y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,s2.subject_title as pre_subject_title,s2.subject_code as pre_subject_code,ct.* FROM coursesystem.curriculum_subjects_tbl cs 
+        <?php if (!$student_data->confirmed) { ?>
+          <?php foreach (
+            get_list(
+              "SELECT 
+                  y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,s2.subject_title as pre_subject_title,s2.subject_code as pre_subject_code,ct.* FROM curriculum_subjects_tbl cs 
               inner join subject_tbl s on s.subject_id = cs.subject_id 
               left join subject_tbl s2 on s2.subject_id = cs.pre_subject_id
               inner join year_levels_tbl y on y.year_id = cs.year_id 
               inner join semester_tbl se on se.semester_id = cs.semester_id 
               inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
-              left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . " and std.grade_id NOT IN (1, 11, 12, 13, 14, 15) 
-              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id = " . $student_data->year_id . " and (cs.pre_subject_id IS NOT NULL AND std.student_subject_id IS NULL ) order by cs.year_id,cs.semester_id"
-          ) as $row2
-        ) { ?>
-          <tr>
 
-            <td><?= $row2['subject_code'] ?></td>
-            <td><?= $row2['subject_title'] ?></td>
-            <td><?= $row2['subject_unit'] ?></td>
-            <td><?= $row2['class_type_name']  ?></td>
-            <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
-          </tr>
-          <?php
-          $ctr += $row2['subject_unit'];
-          $subjects[] = $row2['subject_id'];
-          $presubjects[] = $row2['pre_subject_id'];
-          ?>
-          <?php $unit_ctr += $row2['subject_unit'] ?>
+              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id = " . $student_data->year_id . " 
+              and (cs.pre_subject_id in (SELECT sy.subject_id from student_subjects_tbl sy where sy.grade_id not in (1, 11, 12, 13, 14, 15) and sy.student_id = " . $student_data->student_id . ") or cs.pre_subject_id = 0)
+               order by cs.year_id,cs.semester_id"
+            ) as $row2
+          ) { ?>
+            <tr>
+
+              <td><?= $row2['subject_code'] ?></td>
+              <td><?= $row2['subject_title'] ?></td>
+              <td><?= $row2['subject_unit'] ?></td>
+              <td><?= $row2['class_type_name']  ?></td>
+              <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+              <td> </td>
+            </tr>
+            <?php
+            $ctr += $row2['subject_unit'];
+            $subjects[] = $row2['subject_id'];
+            $presubjects[] = $row2['pre_subject_id'];
+            $unit_ctr += $row2['subject_unit'] ?>
+          <?php }  ?>
+        <?php } else { ?>
+          <?php foreach (
+            get_list(
+              "SELECT 
+                  cs.recommended_subject_id,y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,cs.subject_id,s2.subject_title as pre_subject_title,s2.subject_code as pre_subject_code,ct.* FROM recommended_subjects_tbl cs 
+              inner join subject_tbl s on s.subject_id = cs.subject_id 
+              left join subject_tbl s2 on s2.subject_id = cs.pre_subject_id
+              inner join year_levels_tbl y on y.year_id = cs.year_id 
+              inner join semester_tbl se on se.semester_id = cs.semester_id 
+              inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
+              where cs.student_id = " . $student_data->student_id . " order by cs.year_id,cs.semester_id"
+            ) as $row2
+          ) { ?>
+            <tr>
+
+              <td><?= $row2['subject_code'] ?></td>
+              <td><?= $row2['subject_title'] ?></td>
+              <td><?= $row2['subject_unit'] ?></td>
+              <td><?= $row2['class_type_name']  ?></td>
+              <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+              <td>
+                <?php if (in_array($row2['subject_id'], explode(",", $curriculum_subjects))) { ?>
+                  <form method="post">
+                    <input type="hidden" name="subject_id" value="<?= $row2['subject_id'] ?>">
+                    <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+                    <button type="submit" name="delete_subject" class="btn btn-flat btn-sm btn-danger" value="<?= $row2['recommended_subject_id'] ?>"><i class="fa fa-trash"></i></button>
+                  </form>
+                <?php } ?>
+              </td>
+            </tr>
+            <?php
+            $ctr += $row2['subject_unit'];
+            $subjects[] = $row2['subject_id'];
+            $presubjects[] = $row2['pre_subject_id'];
+            $unit_ctr += $row2['subject_unit'] ?>
+          <?php }  ?>
         <?php }  ?>
 
       </tbody>
@@ -251,7 +314,7 @@ $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculu
         <tr>
           <td colspan="2" style="text-align: right; font-weight: bold;">Total Units:</td>
           <td id="total-units" style=><?= $ctr ?></td>
-          <td colspan="2"></td>
+          <td colspan="3"></td>
         </tr>
       </tfoot>
     </table>
@@ -271,6 +334,7 @@ $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculu
           <th>Units</th>
           <th>Class Type</th>
           <th>Pre-requisite</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -284,13 +348,13 @@ $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculu
               inner join semester_tbl se on se.semester_id = cs.semester_id 
               inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
               left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . " and std.grade_id NOT IN (1, 11, 12, 13, 14, 15) 
-              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id < " . $student_data->year_id . " and (cs.pre_subject_id IS NOT NULL AND std.student_subject_id IS NULL ) order by cs.year_id,cs.semester_id"
+              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id < " . ($student_data->year_id + 1) . " and (cs.pre_subject_id IS NOT NULL AND std.student_subject_id IS NULL ) order by cs.year_id,cs.semester_id"
             // "SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id "
           ) as $row2
         ) {
-          if ($unit_ctr >= $student_units + 99) {
-            continue;
-          }
+          // if ($unit_ctr >= $student_units) {
+          //   continue;
+          // }
 
         ?>
           <?php if (!in_array($row2['subject_id'], $subjects)) { ?>
@@ -298,14 +362,28 @@ $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculu
 
               <td><?= $row2['subject_code'] ?></td>
               <td><?= $row2['subject_title'] ?></td>
-              <td><?= $row2['class_type_name']  ?></td>
               <td><?= $row2['subject_unit'] ?></td>
+              <td><?= $row2['class_type_name']  ?></td>
               <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+              <td>
+                <?php if (!in_array($row2['subject_id'], explode(",", $passed_subjects))) { ?>
+                  <form method="post">
+                    <input type="hidden" name="year_id" value="<?= $row2['year_id'] ?>">
+                    <input type="hidden" name="semester_id" value="<?= $row2['semester_id'] ?>">
+                    <input type="hidden" name="pre_subject_id" value="<?= $row2['pre_subject_id'] ?>">
+                    <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+                    <input type="hidden" name="subject_unit" value="<?= $student_data->subject_unit ?>">
+                    <input type="hidden" name="max_units" value="<?= $student_units ?>">
+                    <input type="hidden" name="ctr" value="<?= $ctr ?>">
+                    <button type="submit" name="add_subject" class="btn btn-flat btn-sm btn-success" value="<?= $row2['subject_id'] ?>"><i class="fa fa-plus"></i></button>
+                  </form>
+                <?php } ?>
+              </td>
             </tr>
             <?php
-            $unit_ctr += $row2['subject_unit'];
-            $subjects[] = $row2['subject_id'];
-            $presubjects[] = $row2['pre_subject_id'];
+            // $unit_ctr += $row2['subject_unit'];
+            // $subjects[] = $row2['subject_id'];
+            // $presubjects[] = $row2['pre_subject_id'];
             ?>
           <?php }  ?>
         <?php }  ?>
