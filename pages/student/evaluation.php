@@ -114,6 +114,8 @@ $student_data = get_one("SELECT * from student_tbl s inner join year_levels_tbl 
 $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where c.curriculum_id = " . $student_data->curriculum_id);
 $student_units = get_one("SELECT sum(subject_unit) as total_units FROM curriculum_subjects_tbl  cs inner join subject_tbl s on s.subject_id = cs.subject_id where cs.year_id = " . $student_data->year_id . " and cs.semester_id = " . $student_data->semester_id . " and  cs.curriculum_id = " . $student_data->curriculum_id)->total_units;
 $passed_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as ids from student_subjects_tbl s where s.grade_id not in (1, 11, 12, 13, 14, 15) and s.student_id = " . $student_data->student_id)->ids;
+$curriculum_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as ids from curriculum_subjects_tbl s where s.year_id = '" . $student_data->year_id . "' and s.semester_id = '" . $student_data->year_id . "'")->ids;
+$recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as ids from recommended_subjects_tbl s where s.student_id = '" . $student_data->student_id . "' and  s.year_id = '" . $student_data->year_id . "' and s.semester_id = '" . $student_data->year_id . "'")->ids;
 
 
 ?>
