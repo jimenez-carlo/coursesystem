@@ -146,62 +146,66 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
 
 ?>
 <link rel="stylesheet" href="../../evaluation.css">
+
 <div class="student-info">
   <form method="post">
     <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
 
-    <!-- Student Number Row -->
-    <div class="form-row">
-      <!-- Name -->
-      <div class="form-group">
-        <label for="student-name">Name:</label>
-        <input type="text" id="student-name" readonly value="<?= $student_data->student_firstname . " " . $student_data->student_middlename . " " . $student_data->student_lastname ?>" disabled>
+    <div id="main-content">
+      <!-- Student Number Row -->
+      <div class="form-row">
+        <!-- Name -->
+        <div class="form-group">
+          <label for="student-name">Name:</label>
+          <input type="text" id="student-name" readonly value="<?= $student_data->student_firstname . " " . $student_data->student_middlename . " " . $student_data->student_lastname ?>" disabled>
+        </div>
+      </div>
+
+      <!-- Name and Course Row -->
+      <div class="form-row">
+        <!-- Student Number -->
+        <div class="form-group">
+          <label for="student-no">Student Number:</label>
+          <input type="text" id="student-no" readonly value="<?= $student_data->student_id  ?>" disabled>
+        </div>
+        <!-- Course -->
+        <div class="form-group">
+          <label for="course">Course:</label>
+          <input type="text" id="course" readonly value="<?= $data->program_title ?>" disabled>
+        </div>
+      </div>
+
+      <!-- Year, Semester, and School Year Row -->
+      <div class="form-row">
+        <!-- Year -->
+        <div class="form-group">
+          <label for="year">Year:</label>
+          <select name="year_id" id="year_id" class="">
+
+            <?php foreach (get_list("SELECT * from year_levels_tbl  where deleted_flag = 0") as $row) { ?>
+              <option value="<?= $row['year_id'] ?>" <?= $row['year_id'] == $student_data->year_id ? "selected" : "" ?>><?= $row['year_name'] ?> </option>
+            <?php } ?>
+          </select>
+        </div>
+        <!-- Semester -->
+        <div class="form-group">
+          <label for="semester">Semester:</label>
+
+          <select name="semester_id" id="semester_id" class="">
+
+            <?php foreach (get_list("SELECT * from semester_tbl  where deleted_flag = 0") as $row) { ?>
+              <option value="<?= $row['semester_id'] ?>" <?= $row['semester_id'] == $student_data->semester_id ? "selected" : "" ?>><?= $row['semester_name'] ?> </option>
+            <?php } ?>
+          </select>
+        </div>
+        <!-- School Year -->
+        <div class="form-group">
+          <label for="school-year">School Year:</label>
+          <input type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
+        </div>
       </div>
     </div>
 
-    <!-- Name and Course Row -->
-    <div class="form-row">
-      <!-- Student Number -->
-      <div class="form-group">
-        <label for="student-no">Student Number:</label>
-        <input type="text" id="student-no" readonly value="<?= $student_data->student_id  ?>" disabled>
-      </div>
-      <!-- Course -->
-      <div class="form-group">
-        <label for="course">Course:</label>
-        <input type="text" id="course" readonly value="<?= $data->program_title ?>" disabled>
-      </div>
-    </div>
-
-    <!-- Year, Semester, and School Year Row -->
-    <div class="form-row">
-      <!-- Year -->
-      <div class="form-group">
-        <label for="year">Year:</label>
-        <select name="year_id" id="year_id" class="">
-
-          <?php foreach (get_list("SELECT * from year_levels_tbl  where deleted_flag = 0") as $row) { ?>
-            <option value="<?= $row['year_id'] ?>" <?= $row['year_id'] == $student_data->year_id ? "selected" : "" ?>><?= $row['year_name'] ?> </option>
-          <?php } ?>
-        </select>
-      </div>
-      <!-- Semester -->
-      <div class="form-group">
-        <label for="semester">Semester:</label>
-
-        <select name="semester_id" id="semester_id" class="">
-
-          <?php foreach (get_list("SELECT * from semester_tbl  where deleted_flag = 0") as $row) { ?>
-            <option value="<?= $row['semester_id'] ?>" <?= $row['semester_id'] == $student_data->semester_id ? "selected" : "" ?>><?= $row['semester_name'] ?> </option>
-          <?php } ?>
-        </select>
-      </div>
-      <!-- School Year -->
-      <div class="form-group">
-        <label for="school-year">School Year:</label>
-        <input type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
-      </div>
-    </div>
     <div class="form-row">
       <button type="submit" name="change_year" class="btn btn-primary btn-sm btn-flat">Update</button>
     </div>
@@ -222,28 +226,29 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
 <div class="main-content">
 
   <?php if (isset($_GET['load_subjects'])) { ?>
-    <table class="subjects-table">
-      <thead>
-        <tr>
-          <th>Course Code</th>
-          <th>Course Title</th>
-          <th>Units</th>
-          <th>Class Type</th>
-          <th>Pre-requisite</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $unit_ctr = 0;
-        $ctr = 0;
-        $subjects = [];
-        $presubjects = [];
-        ?>
-        <?php if (!$student_data->confirmed) { ?>
-          <?php foreach (
-            get_list(
-              "SELECT 
+    <div id="printTable">
+      <table class="subjects-table">
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Units</th>
+            <th>Class Type</th>
+            <th>Pre-requisite</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $unit_ctr = 0;
+          $ctr = 0;
+          $subjects = [];
+          $presubjects = [];
+          ?>
+          <?php if (!$student_data->confirmed) { ?>
+            <?php foreach (
+              get_list(
+                "SELECT 
                   y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,s2.subject_title as pre_subject_title,s2.subject_code as pre_subject_code,ct.* FROM curriculum_subjects_tbl cs 
               inner join subject_tbl s on s.subject_id = cs.subject_id 
               left join subject_tbl s2 on s2.subject_id = cs.pre_subject_id
@@ -254,27 +259,27 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id = " . $student_data->year_id . " 
               and (cs.pre_subject_id in (SELECT sy.subject_id from student_subjects_tbl sy where sy.grade_id not in (1, 11, 12, 13, 14, 15) and sy.student_id = " . $student_data->student_id . ") or cs.pre_subject_id = 0)
                order by cs.year_id,cs.semester_id"
-            ) as $row2
-          ) { ?>
-            <tr>
+              ) as $row2
+            ) { ?>
+              <tr>
 
-              <td><?= $row2['subject_code'] ?></td>
-              <td><?= $row2['subject_title'] ?></td>
-              <td><?= $row2['subject_unit'] ?></td>
-              <td><?= $row2['class_type_name']  ?></td>
-              <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
-              <td> </td>
-            </tr>
-            <?php
-            $ctr += $row2['subject_unit'];
-            $subjects[] = $row2['subject_id'];
-            $presubjects[] = $row2['pre_subject_id'];
-            $unit_ctr += $row2['subject_unit'] ?>
-          <?php }  ?>
-        <?php } else { ?>
-          <?php foreach (
-            get_list(
-              "SELECT 
+                <td><?= $row2['subject_code'] ?></td>
+                <td><?= $row2['subject_title'] ?></td>
+                <td><?= $row2['subject_unit'] ?></td>
+                <td><?= $row2['class_type_name']  ?></td>
+                <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+                <td> </td>
+              </tr>
+              <?php
+              $ctr += $row2['subject_unit'];
+              $subjects[] = $row2['subject_id'];
+              $presubjects[] = $row2['pre_subject_id'];
+              $unit_ctr += $row2['subject_unit'] ?>
+            <?php }  ?>
+          <?php } else { ?>
+            <?php foreach (
+              get_list(
+                "SELECT 
                   cs.recommended_subject_id,y.year_id,se.semester_id,year_name,se.semester_name,cs.pre_subject_id,s.*,cs.subject_id,s2.subject_title as pre_subject_title,s2.subject_code as pre_subject_code,ct.* FROM recommended_subjects_tbl cs 
               inner join subject_tbl s on s.subject_id = cs.subject_id 
               left join subject_tbl s2 on s2.subject_id = cs.pre_subject_id
@@ -282,43 +287,43 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               inner join semester_tbl se on se.semester_id = cs.semester_id 
               inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
               where cs.student_id = " . $student_data->student_id . " order by cs.year_id,cs.semester_id"
-            ) as $row2
-          ) { ?>
-            <tr>
+              ) as $row2
+            ) { ?>
+              <tr>
 
-              <td><?= $row2['subject_code'] ?></td>
-              <td><?= $row2['subject_title'] ?></td>
-              <td><?= $row2['subject_unit'] ?></td>
-              <td><?= $row2['class_type_name']  ?></td>
-              <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
-              <td>
-                <?php if (in_array($row2['subject_id'], explode(",", $curriculum_subjects))) { ?>
-                  <form method="post">
-                    <input type="hidden" name="subject_id" value="<?= $row2['subject_id'] ?>">
-                    <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
-                    <button type="submit" name="delete_subject" class="btn btn-flat btn-sm btn-danger" value="<?= $row2['recommended_subject_id'] ?>"><i class="fa fa-trash"></i></button>
-                  </form>
-                <?php } ?>
-              </td>
-            </tr>
-            <?php
-            $ctr += $row2['subject_unit'];
-            $subjects[] = $row2['subject_id'];
-            $presubjects[] = $row2['pre_subject_id'];
-            $unit_ctr += $row2['subject_unit'] ?>
+                <td><?= $row2['subject_code'] ?></td>
+                <td><?= $row2['subject_title'] ?></td>
+                <td><?= $row2['subject_unit'] ?></td>
+                <td><?= $row2['class_type_name']  ?></td>
+                <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
+                <td>
+                  <?php if (in_array($row2['subject_id'], explode(",", $curriculum_subjects))) { ?>
+                    <form method="post">
+                      <input type="hidden" name="subject_id" value="<?= $row2['subject_id'] ?>">
+                      <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+                      <button type="submit" name="delete_subject" class="btn btn-flat btn-sm btn-danger" value="<?= $row2['recommended_subject_id'] ?>"><i class="fa fa-trash"></i></button>
+                    </form>
+                  <?php } ?>
+                </td>
+              </tr>
+              <?php
+              $ctr += $row2['subject_unit'];
+              $subjects[] = $row2['subject_id'];
+              $presubjects[] = $row2['pre_subject_id'];
+              $unit_ctr += $row2['subject_unit'] ?>
+            <?php }  ?>
           <?php }  ?>
-        <?php }  ?>
 
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="2" style="text-align: right; font-weight: bold;">Total Units:</td>
-          <td id="total-units" style=><?= $ctr ?></td>
-          <td colspan="3"></td>
-        </tr>
-      </tfoot>
-    </table>
-
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="text-align: right; font-weight: bold;">Total Units:</td>
+            <td id="total-units" style=><?= $ctr ?></td>
+            <td colspan="3"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
     <!-- Save Subjects Button -->
 
 
@@ -347,8 +352,11 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               inner join year_levels_tbl y on y.year_id = cs.year_id 
               inner join semester_tbl se on se.semester_id = cs.semester_id 
               inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
-              left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . " and std.grade_id NOT IN (1, 11, 12, 13, 14, 15) 
-              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id < " . ($student_data->year_id + 1) . " and (cs.pre_subject_id IS NOT NULL AND std.student_subject_id IS NULL ) order by cs.year_id,cs.semester_id"
+              left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . "
+              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id <= " . ($student_data->year_id + 1) .
+              " 
+              and (cs.pre_subject_id in (SELECT sy.subject_id from student_subjects_tbl sy where sy.grade_id not in (1, 11, 12, 13, 14, 15) and sy.student_id = " . $student_data->student_id . ") or cs.pre_subject_id = 0)
+              order by cs.year_id,cs.semester_id"
             // "SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id "
           ) as $row2
         ) {
@@ -357,7 +365,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
           // }
 
         ?>
-          <?php if (!in_array($row2['subject_id'], $subjects)) { ?>
+          <?php if (!in_array($row2['subject_id'], $subjects) && !in_array($row2['subject_id'], explode(",", $passed_subjects))) { ?>
             <tr>
 
               <td><?= $row2['subject_code'] ?></td>
@@ -458,6 +466,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
       <input type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
       <input type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
       <button class="btn" type="submit">Save Subjects</button>
+      <button class="btn" type="button" onclick="printData()">Print</button>
     </form>
   </div>
 </div>
@@ -596,7 +605,57 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
     </div>
   </div>
 </div>
+<script>
+  function printData() {
+    // Get the HTML of the table and the additional div
+    var tableContent = document.getElementById("printTable").innerHTML;
+    var additionalContent = document.getElementById("main-content").innerHTML;
 
+    // Get the HTML of the whole page
+    var oldPage = document.body.innerHTML;
+
+    // Include the specified links in the dynamically created HTML
+    document.body.innerHTML =
+      `
+      <html>
+      <head>
+        <title>Print</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/recommendation.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+        <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+        <link rel="stylesheet" href="../../plugins/jqvmap/jqvmap.min.css">
+        <link rel="stylesheet" href="dist/css/adminlte.min.css">
+        <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+        <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+        <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+        <link rel="stylesheet" href="../../evaluation.css">
+               <style>
+          @media print {
+            table td:last-child {
+              display: none;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div style='padding: 0px 101px'>${additionalContent}</div>
+        ${tableContent}
+      </body>
+      </html>
+      `;
+
+    // Print the page
+    window.print();
+
+    // Restore the original HTML
+    document.body.innerHTML = oldPage;
+  }
+</script>
 <?php
 include_once('footer.php');
 

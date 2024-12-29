@@ -120,6 +120,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
 
 ?>
 <link rel="stylesheet" href="../../evaluation.css">
+
 <div class="student-info">
   <form>
     <!-- Student Number Row -->
@@ -275,7 +276,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
   <?php } ?>
 
   <?php if (isset($_GET['load_subjects'])) { ?>
-    <table class="recommendation-table">
+    <table class="recommendation-table" style="display:none">
       <h2>Recommendation</h2>
       <thead>
         <tr>
