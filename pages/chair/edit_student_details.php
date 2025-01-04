@@ -72,7 +72,7 @@ if (isset($_POST['create'])) {
   <script>  
     document.addEventListener('DOMContentLoaded', 
     function(){
-      $('#modal-create').modal('show');
+      // $('#modal-create').modal('show');
     });
   </script>";
     echo message_success("Created Successfully!");
@@ -147,15 +147,15 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                         <div class="col-md-11" style="font-weight:bold">
                           RECOMMENDATION'S
                         </div>
-                        <div class="col-md-1 text-right">
-                          <div class="card-tools">
-                            <a class="btn btn-sm btn-default" href="curriculum_students.php?id=<?= $data->curriculum_id ?>">
-                              <i class="nav-icon fas fa-backward"></i>
-                            </a>
-                            <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create-recommendation'>
-                              <i class="nav-icon fas fa-plus"></i>
-                            </button>
-                          </div>
+                        <div class="card-tools">
+                          <a class="btn btn-sm btn-primary" href="curriculum_students.php?id=<?= $data->curriculum_id ?>">
+                            <i class="nav-icon fas fa-arrow-left"></i>
+                          </a>
+                          <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create-recommendation'>
+                            Add Subject
+                          </button>
+                        </div>
+                        <div class="col-md-1">
                         </div>
                       </div>
                     </div>
@@ -222,16 +222,16 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                           <div class="col-md-11" style="font-weight:bold">
                             STUDENT SUBJECTS
                           </div>
-                          <div class="col-md-1 text-right">
-                            <div class="card-tools">
+                          <div class="card-tools">
 
-                              <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                                <i class="nav-icon fas fa-plus"></i>
-                              </button>
-                              <button type="submit" class="btn btn-sm btn-default" name="save_grades">
-                                <i class="nav-icon fas fa-save"></i>
-                              </button>
-                            </div>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
+                              <i class="nav-icon fas fa-plus"></i>
+                            </button>
+                            <button type="submit" class="btn btn-sm btn-primary" name="save_grades">
+                              <i class="nav-icon fas fa-save"></i>
+                            </button>
+                          </div>
+                          <div class="col-md-1 text-right">
                           </div>
                         </div>
                       </div>

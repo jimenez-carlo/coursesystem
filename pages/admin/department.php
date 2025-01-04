@@ -74,14 +74,14 @@ if (isset($_POST['edit'])) {
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col-md-6">
+                <div class="card-tools">
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
+                    Add Department
+                  </button>
+                </div>
 
               </div>
               <div class="col-md-6 text-right">
-                <div class="card-tools">
-                  <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                    <i class="nav-icon fas fa-plus"></i>
-                  </button>
-                </div>
               </div>
             </div>
           </div>

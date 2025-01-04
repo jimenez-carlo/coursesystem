@@ -6,7 +6,7 @@ $data = get_one("select * from program_category_btl where program_category_id = 
 <div class="modal-header bg-primary text-white">
   <div class="row w-100 justify-content-between align-items-center">
     <div class="col">
-      <h4 class="modal-title">Edit Program Category</h4>
+      <h4 class="modal-title">Edit College</h4>
     </div>
     <div class="col-auto">
     </div>
@@ -18,7 +18,7 @@ $data = get_one("select * from program_category_btl where program_category_id = 
   <div class="modal-body">
     <div class="form-group">
       <div class="form-group">
-        <label for="department-course" class="font-weight-bold">Program Category:</label>
+        <label for="department-course" class="font-weight-bold">College:</label>
         <input type="text" class="form-control" id="program_category_name" name="program_category_name" required value="<?= $data->program_category_name ?>">
       </div>
     </div>

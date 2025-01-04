@@ -74,14 +74,15 @@ if (isset($_POST['edit'])) {
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col-md-6">
+                <div class="card-tools">
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
+                    Add Program
+                  </button>
+                </div>
 
               </div>
               <div class="col-md-6 text-right">
-                <div class="card-tools">
-                  <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                    <i class="nav-icon fas fa-plus"></i>
-                  </button>
-                </div>
+
               </div>
             </div>
           </div>
@@ -90,7 +91,7 @@ if (isset($_POST['edit'])) {
             <table class="table table-hover text-nowrap datatable">
               <thead>
                 <tr>
-                  <th>Category</th>
+                  <th>College</th>
                   <th>Department</th>
                   <th>Program Code</th>
                   <th>Program Name</th>
@@ -110,7 +111,7 @@ if (isset($_POST['edit'])) {
                       <form method="POST">
                         <input type="hidden" name="id" value="<?= $row['program_id'] ?>">
                         <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Inactive" ?></button>
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>
@@ -157,7 +158,7 @@ if (isset($_POST['edit'])) {
         <div class="modal-body">
           <div class="form-group">
             <div class="form-group">
-              <label for="department-course" class="font-weight-bold">Category:</label>
+              <label for="department-course" class="font-weight-bold">College:</label>
               <select name="program_category_id" id="program_category_id" class="form-control">
                 <?php foreach (get_list("SELECT * from program_category_btl where deleted_flag = 0") as $row) { ?>
                   <option value="<?= $row['program_category_id'] ?>"><?= $row['program_category_name'] ?></option>

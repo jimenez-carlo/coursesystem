@@ -59,7 +59,7 @@ if (isset($_POST['create'])) {
   <script>  
     document.addEventListener('DOMContentLoaded', 
     function(){
-      $('#modal-create').modal('show');
+      // $('#modal-create').modal('show');
     });
   </script>";
     echo message_success("Created Successfully!");
@@ -133,17 +133,17 @@ $curriculum = get_one("SELECT * from curriculum_tbl a inner join program_tbl p o
             <div class="row align-items-center">
               <div class="col-md-11">
 
-              </div>
-              <div class="col-md-1 text-right">
                 <div class="card-tools">
-                  <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                    <i class="nav-icon fas fa-plus"></i>
-                  </button>
-                  <a href="curriculum.php" class="btn btn-sm btn-default">
-                    <i class="nav-icon fas fa-backward"></i>
+                  <a href="curriculum.php" class="btn btn-sm btn-primary">
+                    <i class="nav-icon fas fa-arrow-left"></i>
                   </a>
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
+                    Add Student
+                  </button>
 
                 </div>
+              </div>
+              <div class="col-md-1 text-right">
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ $curriculum = get_one("SELECT * from curriculum_tbl a inner join program_tbl p o
                       <form method="POST">
                         <input type="hidden" name="id" value="<?= $row['student_id'] ?>">
                         <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Inactive" ?></button>
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>

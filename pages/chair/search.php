@@ -79,7 +79,7 @@ if (isset($_POST['create'])) {
   <script>  
     document.addEventListener('DOMContentLoaded', 
     function(){
-      $('#modal-create').modal('show');
+      // $('#modal-create').modal('show');
     });
   </script>";
     echo message_success("Created Successfully!");

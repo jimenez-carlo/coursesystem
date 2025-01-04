@@ -28,7 +28,7 @@ if (isset($_POST['create'])) {
   <script>  
     document.addEventListener('DOMContentLoaded', 
     function(){
-      $('#modal-create').modal('show');
+      // $('#modal-create').modal('show');
     });
   </script>";
     echo message_success("Created Successfully!");
@@ -106,7 +106,7 @@ if (isset($_POST['edit'])) {
                       <form method="POST">
                         <input type="hidden" name="id" value="<?= $row['department_id'] ?>">
                         <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Inactive" ?></button>
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>

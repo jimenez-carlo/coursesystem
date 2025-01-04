@@ -19,7 +19,7 @@ $data = get_one("select * from program_tbl where program_id = " . $_GET['id']);
   <div class="modal-body">
     <div class="form-group">
       <div class="form-group">
-        <label for="department-course" class="font-weight-bold">Category:</label>
+        <label for="department-course" class="font-weight-bold">College:</label>
         <select name="program_category_id" id="program_category_id" class="form-control">
           <?php foreach (get_list("SELECT * from program_category_btl where deleted_flag = 0") as $row) { ?>
             <option value="<?= $row['program_category_id'] ?>" <?= $row['program_category_id'] == $data->program_category_id ? "selected" : "" ?>><?= $row['program_category_name'] ?></option>

@@ -58,7 +58,7 @@ if (isset($_POST['edit'])) {
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 style="font-weight: bold;">MANAGE PROGRAM CATEGORY</h1 style>
+        <h1 style="font-weight: bold;">MANAGE COLLEGE</h1 style>
       </div>
     </div>
   </div><!-- /.container-fluid -->
@@ -74,14 +74,14 @@ if (isset($_POST['edit'])) {
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col-md-6">
-
-              </div>
-              <div class="col-md-6 text-right">
                 <div class="card-tools">
-                  <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                    <i class="nav-icon fas fa-plus"></i>
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
+                    Add College
                   </button>
                 </div>
+              </div>
+              <div class="col-md-6 text-right">
+
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@ if (isset($_POST['edit'])) {
             <table class="table table-hover text-nowrap datatable" style="text-transform: uppercase;">
               <thead>
                 <tr>
-                  <th>Program Category</th>
+                  <th>College</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -104,7 +104,7 @@ if (isset($_POST['edit'])) {
                       <form method="POST">
                         <input type="hidden" name="id" value="<?= $row['program_category_id'] ?>">
                         <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Inactive" ?></button>
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>
@@ -140,7 +140,7 @@ if (isset($_POST['edit'])) {
       <div class="modal-header bg-primary text-white">
         <div class="row w-100 justify-content-between align-items-center">
           <div class="col">
-            <h4 class="modal-title" id="modal-add-title">Add Program Category</h4>
+            <h4 class="modal-title" id="modal-add-title">Add College</h4>
           </div>
           <div class="col-auto">
           </div>
@@ -151,7 +151,7 @@ if (isset($_POST['edit'])) {
         <div class="modal-body">
           <div class="form-group">
             <div class="form-group">
-              <label for="department-course" class="font-weight-bold">Program Category:</label>
+              <label for="department-course" class="font-weight-bold">College:</label>
               <input type="text" class="form-control" id="program_category_name" name="program_category_name" required>
             </div>
           </div>

@@ -25,7 +25,7 @@ if (isset($_POST['create'])) {
   <script>  
     document.addEventListener('DOMContentLoaded', 
     function(){
-      $('#modal-create').modal('show');
+      // $('#modal-create').modal('show');
     });
   </script>";
     echo message_success("Created Successfully!");
@@ -76,7 +76,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
               <div class="col-md-6 text-right">
                 <div class="card-tools">
                   <a class="btn btn-sm btn-default" href="student.php">
-                    <i class="nav-icon fas fa-backward"></i>
+                    <i class="nav-icon fas fa-arrow-left"></i>
                   </a>
                   <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
                     <i class="nav-icon fas fa-plus"></i>

@@ -66,17 +66,16 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
           <div class="card-header">
             <div class="row align-items-center">
               <div class="col-md-6">
-
-              </div>
-              <div class="col-md-6 text-right">
                 <div class="card-tools">
-                  <a class="btn btn-sm btn-default" href="curriculum.php">
-                    <i class="nav-icon fas fa-backward"></i>
+                  <a class="btn btn-sm btn-primary" href="curriculum.php">
+                    <i class="nav-icon fas fa-arrow-left"></i>
                   </a>
-                  <button type="button" class="btn btn-sm btn-default" data-toggle='modal' data-target='#modal-create'>
-                    <i class="nav-icon fas fa-plus"></i>
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
+                    Add Subject
                   </button>
                 </div>
+              </div>
+              <div class="col-md-6 text-right">
               </div>
             </div>
           </div>

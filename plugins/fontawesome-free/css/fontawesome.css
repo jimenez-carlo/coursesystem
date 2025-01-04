@@ -432,7 +432,7 @@ readers do not read off random characters that represent icons */
 .fa-backspace:before {
   content: "\f55a"; }
 
-.fa-backward:before {
+.fa-arrow-left:before {
   content: "\f04a"; }
 
 .fa-bacon:before {

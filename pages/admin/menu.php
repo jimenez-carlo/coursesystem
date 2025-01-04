@@ -30,7 +30,7 @@
            <a href="program_category.php" class="nav-link <?= activate(array("program_category")) ?>">
              <i class="fas fa-book nav-icon"></i>
              <p>
-               Category
+               Manage College
              </p>
            </a>
          </li>
