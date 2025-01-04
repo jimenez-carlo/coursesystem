@@ -43,6 +43,10 @@
               color: #007bff;
               /* Change the color on hover, you can adjust this as needed */
             }
+
+            body {
+              zoom: 95%;
+            }
           </style>
         </head>
 
