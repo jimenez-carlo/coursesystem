@@ -19,13 +19,13 @@ $data = get_one("select * from grade_range_tbl where grade_id = " . $_GET['id'])
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Grade Value:</label>
-        <input type="text" class="form-control" id="grade" name="grade" required value="<?= $data->grade ?>">
+        <input required type="text" class="form-control" id="grade" name="grade" required value="<?= $data->grade ?>">
       </div>
     </div>
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Grade Description:</label>
-        <input type="text" class="form-control" id="description" name="description" required value="<?= $data->description ?>">
+        <input required type="text" class="form-control" id="description" name="description" required value="<?= $data->description ?>">
       </div>
     </div>
     <div class="modal-footer">

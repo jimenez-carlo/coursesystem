@@ -21,18 +21,18 @@ $data = get_one("select * from admin_tbl where admin_id = " . $_GET['id']);
     <div class="form-group">
       <label for="department-course" class="font-weight-bold">Image:</label>
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="admin_profile" name="admin_profile" accept="image/*">
+        <input required type="file" class="custom-file-input required" id="admin_profile" name="admin_profile" accept="image/*">
         <label class="custom-file-label" for="admin_profile">Choose file</label>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="admin_firstname" class="font-weight-bold">First Name:</label>
-        <input type="text" class="form-control" id="admin_firstname" name="admin_firstname" value="<?= $data->admin_firstname ?>">
+        <input required type="text" class="form-control" id="admin_firstname" name="admin_firstname" value="<?= $data->admin_firstname ?>">
       </div>
       <div class="form-group col-md-6">
         <label for="admin_lastname" class="font-weight-bold">Last Name:</label>
-        <input type="text" class="form-control" id="admin_lastname" name="admin_lastname" value="<?= $data->admin_lastname ?>">
+        <input required type="text" class="form-control" id="admin_lastname" name="admin_lastname" value="<?= $data->admin_lastname ?>">
       </div>
     </div>
     <div class="form-group">
@@ -49,7 +49,7 @@ $data = get_one("select * from admin_tbl where admin_id = " . $_GET['id']);
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Email:</label>
-        <input type="email" class="form-control" id="admin_email" name="admin_email" required value="<?= $data->admin_email ?>">
+        <input required type="email" class="form-control" id="admin_email" name="admin_email" required value="<?= $data->admin_email ?>">
       </div>
     </div>
     <div class="form-group">

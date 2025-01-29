@@ -108,24 +108,24 @@ if (isset($_POST['edit'])) {
                     <td>
 
                       <form method="POST">
-                        <input type="hidden" name="id" value="<?= $row['curriculum_id'] ?>">
-                        <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
+                        <input required type="hidden" name="id" value="<?= $row['curriculum_id'] ?>">
+                        <input required type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>
                       <form method="POST">
-                        <input type="hidden" name="delete" value="<?= $row['curriculum_id'] ?>">
+                        <input required type="hidden" name="delete" value="<?= $row['curriculum_id'] ?>">
                         <a href="curriculum_students.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning'>
                           <i class='fas fa-user'></i>
                         </a>
                         <a href="curriculum_courses.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning'>
                           <i class='fas fa-book'></i>
                         </a>
-                        <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'>
+                        <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'>
                           <i class='fas fa-edit' data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'></i>
                         </button>
-                        <button type="submit" class='btn btn-sm btn-danger delete'>
+                        <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                           <i class='fas fa-trash'></i>
                         </button>
                       </form>
@@ -158,7 +158,7 @@ if (isset($_POST['edit'])) {
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
+        <input required type="hidden" name="create" value="1">
         <div class="modal-body">
           <div class="form-group">
             <div class="form-group">
@@ -184,7 +184,7 @@ if (isset($_POST['edit'])) {
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Curriculum title:</label>
-              <input type="text" class="form-control" id="curriculum_title" name="curriculum_title" required>
+              <input required type="text" class="form-control" id="curriculum_title" name="curriculum_title" required>
             </div>
           </div>
           <div class="form-group">

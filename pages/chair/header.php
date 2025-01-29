@@ -59,6 +59,10 @@
           #DataTables_Table_0_info {
             display: none;
           }
+
+          .tooltip .arrow {
+            display: none;
+          }
         </style>
 
         <body>

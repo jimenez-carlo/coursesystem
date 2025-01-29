@@ -14,9 +14,9 @@ $data2 = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tb
   </div>
 </div>
 <form method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="edit" value="1">
-  <input type="hidden" name="id" value="<?= $data->curriculum_subjects_id ?>">
-  <input type="hidden" name="curriculum_id" value="<?= $data2->curriculum_id ?>">
+  <input required type="hidden" name="edit" value="1">
+  <input required type="hidden" name="id" value="<?= $data->curriculum_subjects_id ?>">
+  <input required type="hidden" name="curriculum_id" value="<?= $data2->curriculum_id ?>">
 
   <div class="modal-body">
     <div class="form-group">

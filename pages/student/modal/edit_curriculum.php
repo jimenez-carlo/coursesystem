@@ -13,8 +13,8 @@ $data = get_one("select * from curriculum_tbl where curriculum_id = " . $_GET['i
   </div>
 </div>
 <form method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="edit" value="1">
-  <input type="hidden" name="id" value="<?= $data->curriculum_id ?>">
+  <input required type="hidden" name="edit" value="1">
+  <input required type="hidden" name="id" value="<?= $data->curriculum_id ?>">
 
   <div class="modal-body">
     <div class="form-group">
@@ -41,7 +41,7 @@ $data = get_one("select * from curriculum_tbl where curriculum_id = " . $_GET['i
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Curriculum title:</label>
-        <input type="text" class="form-control" id="curriculum_title" name="curriculum_title" required value="<?= $data->curriculum_title ?>">
+        <input required type="text" class="form-control" id="curriculum_title" name="curriculum_title" required value="<?= $data->curriculum_title ?>">
       </div>
     </div>
     <div class="form-group">

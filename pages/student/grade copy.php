@@ -36,9 +36,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }
@@ -67,7 +67,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
   <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase">Grade's</h1>
   <form method="post">
     <button type="submit" class="btn btn-primary btn-sm" name="save_grades" style="top:5h;right:5vw;position:fixed;z-index;99" value="1">
-      <i class="nav-icon fas fa-save"></i>
+      Save
     </button>
     <?php
 
@@ -93,14 +93,14 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                 <?php if ($row2['year_id'] == $student_data->year_id && $row2['semester_id'] == $student_data->semester_id) { ?>
 
 
-                  <div class="input-group input-group">
+                  <div class="input required-group input required-group">
                     <select name="grade_id[<?= $row2['student_subject_id'] ?>]" id="grade_id" class="form-control">
 
                       <?php foreach (get_list("SELECT * from grade_range_tbl  where deleted_flag = 0") as $row) { ?>
                         <option value="<?= $row['grade_id'] ?>" <?= $row['grade_id'] == $row2['grade_id'] ? "selected" : "" ?>><?= $row['grade'] ?> </option>
                       <?php } ?>
                     </select>
-                    <!-- <span class="input-group-append">
+                    <!-- <span class="input required-group-append">
                                         <button type="submit" class="btn btn-<?= ($row2['saved'] == 1) ? 'success' : 'primary' ?> btn-flat btn-sm" style="min-height: 100%"> <i class='fas fa-save'></i></button>
                                       </span> -->
                   </div>

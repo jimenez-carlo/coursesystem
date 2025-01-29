@@ -41,6 +41,11 @@
     </head>
 
     <body>
+      <style>
+        .tooltip .arrow {
+          display: none;
+        }
+      </style>
       <header class="header">
         <a href="#" class="logo">
           <img src="../../main/img/psu_logo.png" alt="PSU Logo" style="height: 50px;">

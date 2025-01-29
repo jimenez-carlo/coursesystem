@@ -59,7 +59,7 @@
 
      <li class="nav-item  <?= activate2(array("user_admin", "student")) ?>">
        <a href="#" class="nav-link">
-         <i class="nav-icon fas fa-users"></i>
+         <i class="fas fa-users"></i>
          <p>
            Users
            <i class="right fas fa-angle-left"></i>
@@ -68,13 +68,13 @@
        <ul class="nav nav-treeview">
          <li class="nav-item">
            <a href="user_admin.php" class="nav-link <?= activate(array("user_admin")) ?>">
-             <i class="fa-solid fa-user-tie"></i>
+             <i class="fas fa-user-tie"></i>
              <p>Admin</p>
            </a>
          </li>
          <li class="nav-item">
            <a href="student.php" class="nav-link <?= activate(array("student")) ?>">
-             <i class="fa-solid fa-user-graduate"></i>
+             <i class="fas fa-user-graduate"></i>
              <p>Student
              </p>
            </a>
@@ -84,9 +84,9 @@
      </li>
      <li class="nav-item <?= activate2(array("config", "year", "semester", "student_status", "grade", "class_type", "civil_status", "access", "gender")) ?>">
        <a href="#" class="nav-link">
-         <i class="nav-icon fas fa-cogs"></i>
+         <i class="fas fa-cogs"></i>
          <p>
-           Config
+           General
            <i class="right fas fa-angle-left"></i>
          </p>
        </a>

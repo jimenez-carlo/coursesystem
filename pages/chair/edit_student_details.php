@@ -54,7 +54,7 @@ if (isset($_POST['create_recommendation'])) {
   <script>  
     document.addEventListener('DOMContentLoaded', 
     function(){
-      $('#modal-create-recommendation').modal('show');
+      //$('#modal-create-recommendation').modal('show');
     });
   </script>";
     echo message_success("Created Successfully!");
@@ -149,7 +149,8 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                         </div>
                         <div class="card-tools">
                           <a class="btn btn-sm btn-primary" href="curriculum_students.php?id=<?= $data->curriculum_id ?>">
-                            <i class="nav-icon fas fa-arrow-left"></i>
+                            <i class="nav-icon fas fa-chevron-left"></i>
+                            <i class="nav-icon fas fa-chevron-left"></i>
                           </a>
                           <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create-recommendation'>
                             Add Subject
@@ -194,10 +195,10 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                               <td>
                                 <form method="POST">
                                   <input type="hidden" name="delete_recommendation" value="<?= $row2['recommended_subject_id'] ?>">
-                                  <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['recommended_subject_id'] ?>' data-url='edit_student_recommendation'>
+                                  <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row2['recommended_subject_id'] ?>' data-url='edit_student_recommendation'>
                                     <i class='fas fa-edit' data-id='<?= $row2['recommended_subject_id'] ?>' data-url='edit_student_recommendation'></i>
                                   </button>
-                                  <button type="submit" class='btn btn-sm btn-danger delete'>
+                                  <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                                     <i class='fas fa-trash'></i>
                                   </button>
                                 </form>
@@ -225,10 +226,10 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                           <div class="card-tools">
 
                             <button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#modal-create'>
-                              <i class="nav-icon fas fa-plus"></i>
+                              Add Subject
                             </button>
                             <button type="submit" class="btn btn-sm btn-primary" name="save_grades">
-                              <i class="nav-icon fas fa-save"></i>
+                              Save
                             </button>
                           </div>
                           <div class="col-md-1 text-right">
@@ -271,14 +272,14 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                                     <!-- <form method="POST"> -->
                                     <input type="hidden" name="grade" value="<?= $row2['student_subject_id'] ?>">
 
-                                    <div class="input-group input-group">
+                                    <div class="input required-group input required-group">
                                       <select name="grade_id[<?= $row2['student_subject_id'] ?>]" id="grade_id" class="form-control">
 
                                         <?php foreach (get_list("SELECT * from grade_range_tbl  where deleted_flag = 0") as $row) { ?>
                                           <option value="<?= $row['grade_id'] ?>" <?= $row['grade_id'] == $row2['grade_id'] ? "selected" : "" ?>><?= $row['grade'] ?> </option>
                                         <?php } ?>
                                       </select>
-                                      <!-- <span class="input-group-append">
+                                      <!-- <span class="input required-group-append">
                                         <button type="submit" class="btn btn-<?= ($row2['saved'] == 1) ? 'success' : 'primary' ?> btn-flat btn-sm" style="min-height: 100%"> <i class='fas fa-save'></i></button>
                                       </span> -->
                                     </div>
@@ -292,10 +293,10 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                                   <td><?= $row2['subject_unit'] ?></td>
                                   <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
                                   <td>
-                                    <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'>
+                                    <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'>
                                       <i class='fas fa-edit' data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'></i>
                                     </button>
-                                    <button type="submit" class='btn btn-sm btn-danger delete' name="delete" value="<?= $row2['student_subject_id'] ?>">
+                                    <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete" name="delete" value="<?= $row2['student_subject_id'] ?>">
                                       <i class='fas fa-trash'></i>
                                     </button>
                                   </td>
@@ -390,14 +391,14 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                     <?php foreach (get_list("SELECT * from studen_file_tbl f inner join evaluation_status_tbl es on es.evaluation_status_id = f.evaluation_status_id left join semester_tbl s on s.semester_id = f.semester_id left join  year_levels_tbl y on y.year_id = f.year_id where f.student_id = " . $student_data->student_id) as $row2) { ?>
                       <tr>
                         <td>
-                          <a href="<?= $row2['file_name'] ?>" target="_blank" class="btn btn-sm btn-primary"><i class='fas fa-eye'></i></a>
-                          <a href="<?= $row2['file_name'] ?>" download class="btn btn-sm btn-primary"><i class='fas fa-download'></i></a>
+                          <a href="<?= $row2['file_name'] ?>" target="_blank" data-toggle="tooltip" title="View" class="btn btn-sm btn-primary"><i class='fas fa-eye'></i></a>
+                          <a href="<?= $row2['file_name'] ?>" download data-toggle="tooltip" title="Download" class="btn btn-sm btn-primary"><i class='fas fa-download data-toggle="tooltip" title="Download"'></i></a>
                         </td>
                         <td>
                           <!-- <?= $row2['evaluation_status'] ?> -->
                           <form method="POST">
 
-                            <div class="input-group input-group">
+                            <div class="input required-group input-group">
                               <input type="hidden" name="change_status" value="<?= $row2['studen_file_id'] ?>">
                               <select name="evaluation_status_id" id="evaluation_status_id" class="form-control">
 
@@ -405,7 +406,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                                   <option value="<?= $row['evaluation_status_id'] ?>" <?= $row['evaluation_status_id'] == $row2['evaluation_status_id'] ? "selected" : "" ?>><?= $row['evaluation_status'] ?> </option>
                                 <?php } ?>
                               </select>
-                              <button type="submit" class="btn btn-primary btn-flat btn-sm"> <i class='fas fa-save'></i></button>
+                              <button type="submit" class="btn btn-primary btn-flat btn-sm"> Save</button>
                             </div>
 
 
@@ -414,7 +415,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                         <td>
                           <form method="POST">
 
-                            <div class="input-group input-group">
+                            <div class="input required-group input-group">
 
                               <input type="hidden" name="update_feedback" value="1">
                               <input type="hidden" name="id" value="<?= $row2['studen_file_id'] ?>">

@@ -27,9 +27,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }
@@ -108,18 +108,18 @@ if (isset($_POST['edit'])) {
                     <td>
 
                       <form method="POST">
-                        <input type="hidden" name="id" value="<?= $row['program_id'] ?>">
-                        <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
+                        <input required type="hidden" name="id" value="<?= $row['program_id'] ?>">
+                        <input required type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>
                       <form method="POST">
-                        <input type="hidden" name="delete" value="<?= $row['program_id'] ?>">
-                        <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['program_id'] ?>' data-url='edit_program'>
+                        <input required type="hidden" name="delete" value="<?= $row['program_id'] ?>">
+                        <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['program_id'] ?>' data-url='edit_program'>
                           <i class='fas fa-edit' data-id='<?= $row['program_id'] ?>' data-url='edit_program'></i>
                         </button>
-                        <button type="submit" class='btn btn-sm btn-danger delete'>
+                        <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                           <i class='fas fa-trash'></i>
                         </button>
                       </form>
@@ -153,7 +153,7 @@ if (isset($_POST['edit'])) {
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
+        <input required type="hidden" name="create" value="1">
         <div class="modal-body">
           <div class="form-group">
             <div class="form-group">
@@ -178,13 +178,13 @@ if (isset($_POST['edit'])) {
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Program Code:</label>
-              <input type="text" class="form-control" id="program_code" name="program_code" required>
+              <input required type="text" class="form-control" id="program_code" name="program_code" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Program Name:</label>
-              <input type="text" class="form-control" id="program_title" name="program_title" required>
+              <input required type="text" class="form-control" id="program_title" name="program_title" required>
             </div>
           </div>
           <div class="modal-footer">

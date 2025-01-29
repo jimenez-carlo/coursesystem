@@ -19,7 +19,7 @@ $data = get_one("select * from gender_tbl where gender_id = " . $_GET['id']);
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Gender Name:</label>
-        <input type="text" class="form-control" id="gender" name="gender" required value="<?= $data->gender ?>">
+        <input required type="text" class="form-control" id="gender" name="gender" required value="<?= $data->gender ?>">
       </div>
     </div>
 

@@ -19,9 +19,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }
@@ -117,11 +117,11 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                       <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
                       <td>
                         <form method="POST">
-                          <input type="hidden" name="delete" value="<?= $row2['curriculum_subjects_id'] ?>">
-                          <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['curriculum_subjects_id'] ?>' data-url='edit_curriculum_course'>
+                          <input required type="hidden" name="delete" value="<?= $row2['curriculum_subjects_id'] ?>">
+                          <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row2['curriculum_subjects_id'] ?>' data-url='edit_curriculum_course'>
                             <i class='fas fa-edit' data-id='<?= $row2['curriculum_subjects_id'] ?>' data-url='edit_curriculum_course'></i>
                           </button>
-                          <button type="submit" class='btn btn-sm btn-danger delete'>
+                          <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                             <i class='fas fa-trash'></i>
                           </button>
                         </form>
@@ -159,8 +159,8 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
-        <input type="hidden" name="curriculum_id" value="<?= $data->curriculum_id ?>">
+        <input required type="hidden" name="create" value="1">
+        <input required type="hidden" name="curriculum_id" value="<?= $data->curriculum_id ?>">
 
         <div class="modal-body">
           <div class="form-group">

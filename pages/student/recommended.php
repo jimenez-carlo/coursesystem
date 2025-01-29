@@ -24,9 +24,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }

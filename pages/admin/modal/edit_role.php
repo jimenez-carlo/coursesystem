@@ -19,7 +19,7 @@ $data = get_one("select * from access_tbl where access_id = " . $_GET['id']);
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Role Name:</label>
-        <input type="text" class="form-control" id="access_role" name="access_role" required value="<?= $data->access_role ?>">
+        <input required type="text" class="form-control" id="access_role" name="access_role" required value="<?= $data->access_role ?>">
       </div>
     </div>
 

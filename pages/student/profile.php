@@ -251,7 +251,7 @@ $student_data = get_one("SELECT * from student_tbl where student_id = " . $_SESS
     color: #333;
   }
 
-  .form-group input,
+  .form-group input required,
   .form-group select,
   .form-group textarea {
     width: 100%;
@@ -262,7 +262,7 @@ $student_data = get_one("SELECT * from student_tbl where student_id = " . $_SESS
     transition: border-color 0.3s ease;
   }
 
-  .form-group input:focus,
+  .form-group input required:focus,
   .form-group select:focus,
   .form-group textarea:focus {
     border-color: #007bff;
@@ -423,27 +423,27 @@ $student_data = get_one("SELECT * from student_tbl where student_id = " . $_SESS
       <form method="POST" enctype="multipart/form-data">
         <div class="image-upload">
           <img src="<?= $student_data->student_profile ?>" alt="Profile Image" class="profile-image">
-          <label for="file-input" class="upload-btn">Upload a new image</label>
-          <input id="file-input" type="file" style="display: none;" name="student_profile">
+          <label for="file-input required" class="upload-btn">Upload a new image</label>
+          <input required id="file-input required" type="file" style="display: none;" name="student_profile">
         </div>
-        <input type="hidden" name="id" value="<?= $student_data->student_id ?>">
-        <input type="hidden" name="default_img" value="<?= $student_data->student_profile ?>">
-        <input type="hidden" name="default_pass" value="<?= $student_data->student_password ?>">
+        <input required type="hidden" name="id" value="<?= $student_data->student_id ?>">
+        <input required type="hidden" name="default_img" value="<?= $student_data->student_profile ?>">
+        <input required type="hidden" name="default_pass" value="<?= $student_data->student_password ?>">
         <div class="form-group">
           <label for="studentNo">Student ID:</label>
-          <input type="text" id="student_username" name="student_username" required="" value="<?= $student_data->student_username ?>">
+          <input required type="text" id="student_username" name="student_username" required="" value="<?= $student_data->student_username ?>">
         </div>
         <div class="form-group">
           <label for="lastName">Last Name:</label>
-          <input type="text" id="last_name" name="student_lastname" required="" value="<?= $student_data->student_lastname ?>">
+          <input required type="text" id="last_name" name="student_lastname" required="" value="<?= $student_data->student_lastname ?>">
         </div>
         <div class="form-group">
           <label for="firstName">First Name:</label>
-          <input type="text" id="first_name" name="student_firstname" required="" value="<?= $student_data->student_firstname ?>">
+          <input required type="text" id="first_name" name="student_firstname" required="" value="<?= $student_data->student_firstname ?>">
         </div>
         <div class="form-group">
           <label for="middleName">Middle Name:</label>
-          <input type="text" id="middle_name" name="student_middlename" required="" value="<?= $student_data->student_middlename ?>">
+          <input required type="text" id="middle_name" name="student_middlename" required="" value="<?= $student_data->student_middlename ?>">
         </div>
         <div class="form-group">
           <label for="address">Address:</label>
@@ -451,11 +451,11 @@ $student_data = get_one("SELECT * from student_tbl where student_id = " . $_SESS
         </div>
         <div class="form-group">
           <label for="telephoneNo">Telephone No.:</label>
-          <input type="text" id="telephone_no" name="student_mobile" required="" value="<?= $student_data->student_mobile ?>">
+          <input required type="text" id="telephone_no" name="student_mobile" required="" value="<?= $student_data->student_mobile ?>">
         </div>
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="email" id="username" name="student_email" required="" value="<?= $student_data->student_email ?>">
+          <input required type="email" id="username" name="student_email" required="" value="<?= $student_data->student_email ?>">
         </div>
         <div class="button-container">
           <button type="submit" class="btn-submit" name="edit">Save</button>

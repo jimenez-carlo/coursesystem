@@ -12,6 +12,7 @@
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
           <title>Course Evaluation System</title>
 
           <!-- Google Font: Source Sans Pro -->
@@ -45,7 +46,15 @@
             }
 
             body {
-              zoom: 95%;
+              zoom: 98%;
+            }
+
+            .datatable {
+              width: 100% !important;
+            }
+
+            .tooltip .arrow {
+              display: none;
             }
           </style>
         </head>
@@ -70,7 +79,7 @@
               <!-- Right navbar links -->
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                  <a class="nav-link" data-widget="fullscreen" href="#" role="button" style="display:none">
                     <i class="fas fa-expand-arrows-alt"></i>
                   </a>
                 </li>
@@ -112,7 +121,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <input type="file" name="profile_image" id="uploadProfile" accept="image/*">
+                      <input required type="file" name="profile_image" id="uploadProfile" accept="image/*">
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

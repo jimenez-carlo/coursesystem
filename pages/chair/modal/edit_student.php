@@ -24,7 +24,7 @@ $data = get_one("select * from student_tbl where student_id = " . $_GET['id']);
     <div class="form-group">
       <label for="department-course" class="font-weight-bold">Image:</label>
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="student_profile" name="student_profile" accept="image/*">
+        <input required type="file" class="custom-file-input required" id="student_profile" name="student_profile" accept="image/*">
         <label class="custom-file-label" for="student_profile">Choose file</label>
       </div>
     </div>
@@ -51,15 +51,15 @@ $data = get_one("select * from student_tbl where student_id = " . $_GET['id']);
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="student_firstname" class="font-weight-bold">First Name:</label>
-        <input type="text" class="form-control" id="student_firstname" name="student_firstname" value="<?= $data->student_firstname ?>">
+        <input required type="text" class="form-control" id="student_firstname" name="student_firstname" value="<?= $data->student_firstname ?>">
       </div>
       <div class="form-group col-md-4">
         <label for="student_firstname" class="font-weight-bold">Middle Name:</label>
-        <input type="text" class="form-control" id="student_middlename" name="student_middlename" value="<?= $data->student_middlename ?>">
+        <input required type="text" class="form-control" id="student_middlename" name="student_middlename" value="<?= $data->student_middlename ?>">
       </div>
       <div class="form-group col-md-4">
         <label for="student_lastname" class="font-weight-bold">Last Name:</label>
-        <input type="text" class="form-control" id="student_lastname" name="student_lastname" value="<?= $data->student_lastname ?>">
+        <input required type="text" class="form-control" id="student_lastname" name="student_lastname" value="<?= $data->student_lastname ?>">
       </div>
     </div>
     <div class="form-row">
@@ -73,18 +73,18 @@ $data = get_one("select * from student_tbl where student_id = " . $_GET['id']);
       </div>
       <div class="form-group col-md-4">
         <label for="student_age" class="font-weight-bold">Age:</label>
-        <input type="text" class="form-control" id="student_age" name="student_age" value="<?= $data->student_age ?>">
+        <input required type="text" class="form-control" id="student_age" name="student_age" value="<?= $data->student_age ?>">
       </div>
       <div class="form-group col-md-4">
         <label for="student_birth_date" class="font-weight-bold">Birth Date:</label>
-        <input type="date" class="form-control" id="student_birth_date" name="student_birth_date" value="<?= $data->student_birth_date ?>">
+        <input required type="date" class="form-control" id="student_birth_date" name="student_birth_date" value="<?= $data->student_birth_date ?>">
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="student_place_of_birth" class="font-weight-bold">Place of Birth:</label>
-        <input type="text" class="form-control" id="student_place_of_birth" name="student_place_of_birth" value="<?= $data->student_place_of_birth ?>">
+        <input required type="text" class="form-control" id="student_place_of_birth" name="student_place_of_birth" value="<?= $data->student_place_of_birth ?>">
       </div>
       <div class="form-group col-md-6">
         <label for="age" class="font-weight-bold">Civil Status:</label>
@@ -106,13 +106,13 @@ $data = get_one("select * from student_tbl where student_id = " . $_GET['id']);
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Mobile:</label>
-        <input type="number" class="form-control" id="student_mobile" name="student_mobile" required value="<?= $data->student_mobile ?>">
+        <input required type="number" class="form-control" id="student_mobile" name="student_mobile" required value="<?= $data->student_mobile ?>">
       </div>
     </div>
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Email:</label>
-        <input type="email" class="form-control" id="student_email" name="student_email" required value="<?= $data->student_email ?>">
+        <input required type="email" class="form-control" id="student_email" name="student_email" required value="<?= $data->student_email ?>">
       </div>
     </div>
     <div class="form-group">

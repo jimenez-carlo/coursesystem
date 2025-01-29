@@ -24,9 +24,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }
@@ -118,16 +118,16 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                     <tr>
                       <td>
                         <form method="POST">
-                          <input type="hidden" name="grade" value="<?= $row2['student_subject_id'] ?>">
+                          <input required type="hidden" name="grade" value="<?= $row2['student_subject_id'] ?>">
 
-                          <div class="input-group input-group">
+                          <div class="input required-group input required-group">
                             <select name="grade_id" id="grade_id" class="form-control">
 
                               <?php foreach (get_list("SELECT * from grade_range_tbl  where deleted_flag = 0") as $row) { ?>
                                 <option value="<?= $row['grade_id'] ?>" <?= $row['grade_id'] == $row2['grade_id'] ? "selected" : "" ?>><?= $row['grade'] ?> </option>
                               <?php } ?>
                             </select>
-                            <span class="input-group-append">
+                            <span class="input required-group-append">
                               <button type="submit" class="btn btn-success btn-flat btn-sm"> <i class='fas fa-save'></i></button>
                             </span>
                           </div>
@@ -142,11 +142,11 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
                       <td><?= !empty($row2['pre_subject_code']) ? $row2['pre_subject_code'] . " (" . $row2['pre_subject_title'] . ")" : "NONE" ?></td>
                       <td>
                         <form method="POST">
-                          <input type="hidden" name="delete" value="<?= $row2['student_subject_id'] ?>">
-                          <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'>
+                          <input required type="hidden" name="delete" value="<?= $row2['student_subject_id'] ?>">
+                          <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'>
                             <i class='fas fa-edit' data-id='<?= $row2['student_subject_id'] ?>' data-url='edit_student_course'></i>
                           </button>
-                          <button type="submit" class='btn btn-sm btn-danger delete'>
+                          <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                             <i class='fas fa-trash'></i>
                           </button>
                         </form>
@@ -184,8 +184,8 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
-        <input type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
+        <input required type="hidden" name="create" value="1">
+        <input required type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
 
         <div class="modal-body">
           <div class="form-group">

@@ -19,7 +19,7 @@ $data = get_one("select * from civil_status_tbl where civil_status_id = " . $_GE
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Civil Status Name:</label>
-        <input type="text" class="form-control" id="civil_status" name="civil_status" required value="<?= $data->civil_status ?>">
+        <input required type="text" class="form-control" id="civil_status" name="civil_status" required value="<?= $data->civil_status ?>">
       </div>
     </div>
 

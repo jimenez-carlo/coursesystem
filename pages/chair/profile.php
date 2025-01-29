@@ -251,7 +251,7 @@ $admin_data = get_one("SELECT * from admin_tbl where admin_id = " . $_SESSION['u
     color: #333;
   }
 
-  .form-group input,
+  .form-group input required,
   .form-group select,
   .form-group textarea {
     width: 100%;
@@ -262,7 +262,7 @@ $admin_data = get_one("SELECT * from admin_tbl where admin_id = " . $_SESSION['u
     transition: border-color 0.3s ease;
   }
 
-  .form-group input:focus,
+  .form-group input required:focus,
   .form-group select:focus,
   .form-group textarea:focus {
     border-color: #007bff;
@@ -423,28 +423,28 @@ $admin_data = get_one("SELECT * from admin_tbl where admin_id = " . $_SESSION['u
       <form method="POST" enctype="multipart/form-data">
         <div class="image-upload">
           <img src="<?= $admin_data->admin_profile ?>" alt="Profile Image" class="profile-image">
-          <label for="file-input" class="upload-btn">Upload a new image</label>
-          <input id="file-input" type="file" style="display: none;" name="admin_profile">
+          <label for="file-input required" class="upload-btn">Upload a new image</label>
+          <input required id="file-input required" type="file" style="display: none;" name="admin_profile">
         </div>
         <input type="hidden" name="id" value="<?= $admin_data->admin_id ?>">
         <input type="hidden" name="default_img" value="<?= $admin_data->admin_profile ?>">
         <input type="hidden" name="default_pass" value="<?= $admin_data->admin_password ?>">
         <div class="form-group">
           <label for="studentNo">Username:</label>
-          <input type="text" id="admin_username" name="admin_username" required="" value="<?= $admin_data->admin_username ?>">
+          <input required type="text" id="admin_username" name="admin_username" required="" value="<?= $admin_data->admin_username ?>">
         </div>
         <div class="form-group">
           <label for="lastName">Last Name:</label>
-          <input type="text" id="last_name" name="admin_lastname" required="" value="<?= $admin_data->admin_lastname ?>">
+          <input required type="text" id="last_name" name="admin_lastname" required="" value="<?= $admin_data->admin_lastname ?>">
         </div>
         <div class="form-group">
           <label for="firstName">First Name:</label>
-          <input type="text" id="first_name" name="admin_firstname" required="" value="<?= $admin_data->admin_firstname ?>">
+          <input required type="text" id="first_name" name="admin_firstname" required="" value="<?= $admin_data->admin_firstname ?>">
         </div>
 
         <div class="form-group">
           <label for="email">E-mail:</label>
-          <input type="email" id="username" name="admin_email" required="" value="<?= $admin_data->admin_email ?>">
+          <input required type="email" id="username" name="admin_email" required="" value="<?= $admin_data->admin_email ?>">
         </div>
         <div class="button-container">
           <button type="submit" class="btn-submit" name="edit">Save</button>

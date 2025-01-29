@@ -14,11 +14,11 @@ $student_data = get_one("SELECT s.*,c.program_id from student_tbl s inner join c
   </div>
 </div>
 <form method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="edit_recommendation" value="1">
-  <input type="hidden" name="student_id" value="<?= $data->student_id ?>">
-  <input type="hidden" name="id" value="<?= $data->recommended_subject_id ?>">
-  <input type="hidden" name="year_id" value="<?= $data->year_id ?>">
-  <input type="hidden" name="semester_id" value="<?= $data->semester_id ?>">
+  <input required type="hidden" name="edit_recommendation" value="1">
+  <input required type="hidden" name="student_id" value="<?= $data->student_id ?>">
+  <input required type="hidden" name="id" value="<?= $data->recommended_subject_id ?>">
+  <input required type="hidden" name="year_id" value="<?= $data->year_id ?>">
+  <input required type="hidden" name="semester_id" value="<?= $data->semester_id ?>">
 
   <div class="modal-body">
 

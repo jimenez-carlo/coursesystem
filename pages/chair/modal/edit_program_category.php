@@ -13,13 +13,13 @@ $data = get_one("select * from program_category_btl where program_category_id = 
   </div>
 </div>
 <form method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="edit" value="1">
-  <input type="hidden" name="id" value="<?= $data->program_category_id ?>">
+  <input required type="hidden" name="edit" value="1">
+  <input required type="hidden" name="id" value="<?= $data->program_category_id ?>">
   <div class="modal-body">
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Program Category:</label>
-        <input type="text" class="form-control" id="program_category_name" name="program_category_name" required value="<?= $data->program_category_name ?>">
+        <input required type="text" class="form-control" id="program_category_name" name="program_category_name" required value="<?= $data->program_category_name ?>">
       </div>
     </div>
 

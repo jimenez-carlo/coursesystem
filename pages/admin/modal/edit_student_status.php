@@ -19,7 +19,7 @@ $data = get_one("select * from student_status_tbl where student_status_id = " . 
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Student Status Name:</label>
-        <input type="text" class="form-control" id="student_status" name="student_status" required value="<?= $data->student_status ?>">
+        <input required type="text" class="form-control" id="student_status" name="student_status" required value="<?= $data->student_status ?>">
       </div>
     </div>
 

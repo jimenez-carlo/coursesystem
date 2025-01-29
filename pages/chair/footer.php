@@ -29,6 +29,7 @@
       "autoWidth": true,
       "responsive": true,
     });
+    $('[data-toggle="tooltip"]').tooltip()
   });
 
   function load_edit_modal(id, url) {

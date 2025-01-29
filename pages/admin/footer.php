@@ -150,6 +150,7 @@
       "autoWidth": true,
       "responsive": true,
     });
+    $('[data-toggle="tooltip"]').tooltip()
   });
 </script>
 </body>

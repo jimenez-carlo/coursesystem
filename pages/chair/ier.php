@@ -108,22 +108,22 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
           <!-- <td><?= $row2['year_name'] ?></td>
           <td><?= $row2['semester_name'] ?></td> -->
           <td>
-            <a href="<?= $row2['file_name'] ?>" target="_blank" class="btn btn-sm btn-primary"><i class='fas fa-eye'></i></a>
-            <a href="<?= $row2['file_name'] ?>" download class="btn btn-sm btn-primary"><i class='fas fa-download'></i></a>
+            <a href="<?= $row2['file_name'] ?>" target="_blank" data-toggle="tooltip" title="View" class="btn btn-sm btn-primary"><i class='fas fa-eye'></i></a>
+            <a href="<?= $row2['file_name'] ?>" download data-toggle="tooltip" title="Download" class="btn btn-sm btn-primary"><i class='fas fa-download data-toggle="tooltip" title="Download"'></i></a>
           </td>
           <td>
             <!-- <?= $row2['evaluation_status'] ?> -->
             <form method="POST">
 
-              <div class="input-group input-group">
-                <input type="hidden" name="change_status" value="<?= $row2['studen_file_id'] ?>">
+              <div class=" input-group">
+                <input required type="hidden" name="change_status" value="<?= $row2['studen_file_id'] ?>">
                 <select name="evaluation_status_id" id="evaluation_status_id" class="form-control">
 
                   <?php foreach (get_list("SELECT * from evaluation_status_tbl  where deleted_flag = 0") as $row) { ?>
                     <option value="<?= $row['evaluation_status_id'] ?>" <?= $row['evaluation_status_id'] == $row2['evaluation_status_id'] ? "selected" : "" ?>><?= $row['evaluation_status'] ?> </option>
                   <?php } ?>
                 </select>
-                <button type="submit" class="btn btn-primary btn-flat btn-sm"> <i class='fas fa-save'></i></button>
+                <button type="submit" class="btn btn-primary btn-flat btn-sm"> Save</button>
               </div>
 
 
@@ -132,8 +132,8 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
           <td>
             <form method="POST">
 
-              <div class="input-group input-group">
-                <input type="hidden" name="id" value="<?= $row2['studen_file_id'] ?>">
+              <div class="input-group">
+                <input required type="hidden" name="id" value="<?= $row2['studen_file_id'] ?>">
                 <textarea name="feedback" id="" class="form-control"><?= $row2['feedback'] ?></textarea>
                 <button type="submit" class="btn btn-primary btn-flat btn-sm">Save</button>
               </div>

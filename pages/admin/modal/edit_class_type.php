@@ -19,7 +19,7 @@ $data = get_one("select * from class_type_tbl where class_type_id = " . $_GET['i
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Semester Name:</label>
-        <input type="text" class="form-control" id="class_type_name" name="class_type_name" required value="<?= $data->class_type_name ?>">
+        <input required type="text" class="form-control" id="class_type_name" name="class_type_name" required value="<?= $data->class_type_name ?>">
       </div>
     </div>
 

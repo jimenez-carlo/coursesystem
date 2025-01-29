@@ -40,13 +40,13 @@ $data = get_one("select * from program_tbl where program_id = " . $_GET['id']);
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Program Code:</label>
-        <input type="text" class="form-control" id="program_code" name="program_code" required value="<?= $data->program_code ?>">
+        <input required type="text" class="form-control" id="program_code" name="program_code" required value="<?= $data->program_code ?>">
       </div>
     </div>
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Program Name:</label>
-        <input type="text" class="form-control" id="program_title" name="program_title" required value="<?= $data->program_title ?>">
+        <input required type="text" class="form-control" id="program_title" name="program_title" required value="<?= $data->program_title ?>">
       </div>
     </div>
     <div class="modal-footer">

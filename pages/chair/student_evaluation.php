@@ -149,7 +149,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
 
 <div class="student-info">
   <form method="post">
-    <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+    <input required type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
 
     <div id="main-content">
       <!-- Student Number Row -->
@@ -157,7 +157,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         <!-- Name -->
         <div class="form-group">
           <label for="student-name">Name:</label>
-          <input type="text" id="student-name" readonly value="<?= $student_data->student_firstname . " " . $student_data->student_middlename . " " . $student_data->student_lastname ?>" disabled>
+          <input required type="text" id="student-name" readonly value="<?= $student_data->student_firstname . " " . $student_data->student_middlename . " " . $student_data->student_lastname ?>" disabled>
         </div>
       </div>
 
@@ -166,12 +166,12 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         <!-- Student Number -->
         <div class="form-group">
           <label for="student-no">Student Number:</label>
-          <input type="text" id="student-no" readonly value="<?= $student_data->student_id  ?>" disabled>
+          <input required type="text" id="student-no" readonly value="<?= $student_data->student_id  ?>" disabled>
         </div>
         <!-- Course -->
         <div class="form-group">
           <label for="course">Course:</label>
-          <input type="text" id="course" readonly value="<?= $data->program_title ?>" disabled>
+          <input required type="text" id="course" readonly value="<?= $data->program_title ?>" disabled>
         </div>
       </div>
 
@@ -201,7 +201,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         <!-- School Year -->
         <div class="form-group">
           <label for="school-year">School Year:</label>
-          <input type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
+          <input required type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
         </div>
       </div>
     </div>
@@ -216,8 +216,8 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
 <div class="button-container">
   <form method="get">
 
-    <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-    <input type="hidden" name="load_subjects" value="1">
+    <input required type="hidden" name="id" value="<?= $_GET['id'] ?>">
+    <input required type="hidden" name="load_subjects" value="1">
     <button class="btn" type="submit">Load Subjects</button>
   </form>
 </div>
@@ -299,8 +299,8 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
                 <td>
                   <?php if (in_array($row2['subject_id'], explode(",", $curriculum_subjects))) { ?>
                     <form method="post">
-                      <input type="hidden" name="subject_id" value="<?= $row2['subject_id'] ?>">
-                      <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+                      <input required type="hidden" name="subject_id" value="<?= $row2['subject_id'] ?>">
+                      <input required type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
                       <button type="submit" name="delete_subject" class="btn btn-flat btn-sm btn-danger" value="<?= $row2['recommended_subject_id'] ?>"><i class="fa fa-trash"></i></button>
                     </form>
                   <?php } ?>
@@ -376,13 +376,13 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               <td>
                 <?php if (!in_array($row2['subject_id'], explode(",", $passed_subjects))) { ?>
                   <form method="post">
-                    <input type="hidden" name="year_id" value="<?= $row2['year_id'] ?>">
-                    <input type="hidden" name="semester_id" value="<?= $row2['semester_id'] ?>">
-                    <input type="hidden" name="pre_subject_id" value="<?= $row2['pre_subject_id'] ?>">
-                    <input type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
-                    <input type="hidden" name="subject_unit" value="<?= $student_data->subject_unit ?>">
-                    <input type="hidden" name="max_units" value="<?= $student_units ?>">
-                    <input type="hidden" name="ctr" value="<?= $ctr ?>">
+                    <input required type="hidden" name="year_id" value="<?= $row2['year_id'] ?>">
+                    <input required type="hidden" name="semester_id" value="<?= $row2['semester_id'] ?>">
+                    <input required type="hidden" name="pre_subject_id" value="<?= $row2['pre_subject_id'] ?>">
+                    <input required type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
+                    <input required type="hidden" name="subject_unit" value="<?= $student_data->subject_unit ?>">
+                    <input required type="hidden" name="max_units" value="<?= $student_units ?>">
+                    <input required type="hidden" name="ctr" value="<?= $ctr ?>">
                     <button type="submit" name="add_subject" class="btn btn-flat btn-sm btn-success" value="<?= $row2['subject_id'] ?>"><i class="fa fa-plus"></i></button>
                   </form>
                 <?php } ?>
@@ -433,8 +433,8 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               <td>
                 <form method="POST">
 
-                  <div class="input-group input-group">
-                    <input type="hidden" name="recommended_subject_id" value="<?= $row2['recommended_subject_id'] ?>">
+                  <div class="input required-group input required-group">
+                    <input required type="hidden" name="recommended_subject_id" value="<?= $row2['recommended_subject_id'] ?>">
                     <textarea name="feedback" id="" class="form-control"><?= $row2['feedback'] ?></textarea>
                     <button type="submit" class="btn btn-primary btn-flat btn-sm">Save</button>
                   </div>
@@ -456,15 +456,15 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
   <?php } */ ?>
   <div class="button-container">
     <form method="get">
-      <input type="hidden" name="save_subjects" value="1">
-      <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
-      <input type="hidden" name="load_subjects" value="1">
-      <input type="hidden" name="student_id" value="<?= $student_data->student_id  ?>">
-      <input type="hidden" name="curriculum_id" value="<?= $student_data->curriculum_id  ?>">
-      <input type="hidden" name="subjects" value="<?= implode(',', $subjects) ?>">
-      <input type="hidden" name="presubjects" value="<?= implode(',', $presubjects) ?>">
-      <input type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
-      <input type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
+      <input required type="hidden" name="save_subjects" value="1">
+      <input required type="hidden" name="id" value="<?= $_GET['id'] ?>">
+      <input required type="hidden" name="load_subjects" value="1">
+      <input required type="hidden" name="student_id" value="<?= $student_data->student_id  ?>">
+      <input required type="hidden" name="curriculum_id" value="<?= $student_data->curriculum_id  ?>">
+      <input required type="hidden" name="subjects" value="<?= implode(',', $subjects) ?>">
+      <input required type="hidden" name="presubjects" value="<?= implode(',', $presubjects) ?>">
+      <input required type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
+      <input required type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
       <button class="btn" type="submit">Save Subjects</button>
       <button class="btn" type="button" onclick="printData()">Print</button>
     </form>
@@ -486,8 +486,8 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
-        <input type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
+        <input required type="hidden" name="create" value="1">
+        <input required type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
 
         <div class="modal-body">
           <div class="form-group">
@@ -557,10 +557,10 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create_recommendation" value="1">
-        <input type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
-        <input type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
-        <input type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
+        <input required type="hidden" name="create_recommendation" value="1">
+        <input required type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
+        <input required type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
+        <input required type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
 
         <div class="modal-body">
 

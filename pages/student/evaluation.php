@@ -78,9 +78,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }
@@ -128,7 +128,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
       <!-- Name -->
       <div class="form-group">
         <label for="student-name">Name:</label>
-        <input type="text" id="student-name" readonly value="<?= $student_data->student_firstname . " " . $student_data->student_middlename . " " . $student_data->student_lastname ?>" disabled>
+        <input required type="text" id="student-name" readonly value="<?= $student_data->student_firstname . " " . $student_data->student_middlename . " " . $student_data->student_lastname ?>" disabled>
       </div>
     </div>
 
@@ -137,12 +137,12 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
       <!-- Student Number -->
       <div class="form-group">
         <label for="student-no">Student Number:</label>
-        <input type="text" id="student-no" readonly value="<?= $student_data->student_id  ?>" disabled>
+        <input required type="text" id="student-no" readonly value="<?= $student_data->student_id  ?>" disabled>
       </div>
       <!-- Course -->
       <div class="form-group">
         <label for="course">Course:</label>
-        <input type="text" id="course" readonly value="<?= $data->program_title ?>" disabled>
+        <input required type="text" id="course" readonly value="<?= $data->program_title ?>" disabled>
       </div>
     </div>
 
@@ -151,17 +151,17 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
       <!-- Year -->
       <div class="form-group">
         <label for="year">Year:</label>
-        <input type="text" id="year" readonly value="<?= $student_data->year_name ?>" disabled>
+        <input required type="text" id="year" readonly value="<?= $student_data->year_name ?>" disabled>
       </div>
       <!-- Semester -->
       <div class="form-group">
         <label for="semester">Semester:</label>
-        <input type="text" id="semester" readonly value="<?= $student_data->semester_name ?>" disabled>
+        <input required type="text" id="semester" readonly value="<?= $student_data->semester_name ?>" disabled>
       </div>
       <!-- School Year -->
       <div class="form-group">
         <label for="school-year">School Year:</label>
-        <input type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
+        <input required type="text" id="school-year" readonly value="S.Y. <?= $data->curriculum_semester_year_from . " - " . $data->curriculum_semester_year_to ?>" disabled>
       </div>
     </div>
   </form>
@@ -171,8 +171,8 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
 <div class="button-container">
   <form method="get">
 
-    <input type="hidden" name="id" value="<?= $_SESSION['user_id'] ?>">
-    <input type="hidden" name="load_subjects" value="1">
+    <input required type="hidden" name="id" value="<?= $_SESSION['user_id'] ?>">
+    <input required type="hidden" name="load_subjects" value="1">
     <button class="btn" type="submit">Load Subjects</button>
   </form>
 </div>
@@ -350,8 +350,8 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
-        <input type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
+        <input required type="hidden" name="create" value="1">
+        <input required type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
 
         <div class="modal-body">
           <div class="form-group">
@@ -421,10 +421,10 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create_recommendation" value="1">
-        <input type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
-        <input type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
-        <input type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
+        <input required type="hidden" name="create_recommendation" value="1">
+        <input required type="hidden" name="student_id" value="<?= $_GET['id'] ?>">
+        <input required type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
+        <input required type="hidden" name="semester_id" value="<?= $student_data->semester_id ?>">
 
         <div class="modal-body">
 

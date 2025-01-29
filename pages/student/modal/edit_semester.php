@@ -13,13 +13,13 @@ $data = get_one("select * from semester_tbl where semester_id = " . $_GET['id'])
   </div>
 </div>
 <form method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="edit" value="1">
-  <input type="hidden" name="id" value="<?= $data->department_id ?>">
+  <input required type="hidden" name="edit" value="1">
+  <input required type="hidden" name="id" value="<?= $data->department_id ?>">
   <div class="modal-body">
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Semester Name:</label>
-        <input type="text" class="form-control" id="semester_name" name="semester_name" required value="<?= $data->semester_name ?>">
+        <input required type="text" class="form-control" id="semester_name" name="semester_name" required value="<?= $data->semester_name ?>">
       </div>
     </div>
 

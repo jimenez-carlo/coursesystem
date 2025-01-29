@@ -13,7 +13,7 @@
    </div>
 
    <div class="home-img">
-     <img src="main/img/psu.jpg" alt="">
+   <img src="../../main/img/psu.jpg" alt="PSU Logo">
    </div>
    </div>
  </section>

@@ -54,9 +54,9 @@ if (isset($_POST['create'])) {
     echo "
   <script>  
     document.addEventListener('DOMContentLoaded', 
-    function(){
-      $('#modal-create').modal('show');
-    });
+    // function(){
+     //  $('#modal- create').modal('show');
+//    });
   </script>";
     echo message_success("Created Successfully!");
   }
@@ -166,18 +166,18 @@ if (isset($_POST['edit'])) {
                     <td>
 
                       <form method="POST">
-                        <input type="hidden" name="id" value="<?= $row['admin_id'] ?>">
-                        <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
+                        <input required type="hidden" name="id" value="<?= $row['admin_id'] ?>">
+                        <input required type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>
                       <form method="POST">
-                        <input type="hidden" name="delete" value="<?= $row['admin_id'] ?>">
-                        <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['admin_id'] ?>' data-url='edit_user_admin'>
+                        <input required type="hidden" name="delete" value="<?= $row['admin_id'] ?>">
+                        <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['admin_id'] ?>' data-url='edit_user_admin'>
                           <i class='fas fa-edit' data-id='<?= $row['admin_id'] ?>' data-url='edit_user_admin'></i>
                         </button>
-                        <button type="submit" class='btn btn-sm btn-danger delete'>
+                        <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                           <i class='fas fa-trash'></i>
                         </button>
                       </form>
@@ -211,12 +211,12 @@ if (isset($_POST['edit'])) {
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
+        <input required type="hidden" name="create" value="1">
         <div class="modal-body">
           <div class="form-group">
             <label for="department-course" class="font-weight-bold">Image:</label>
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="admin_profile" name="admin_profile" accept="image/*">
+              <input required type="file" class="custom-file-input required" id="admin_profile" name="admin_profile" accept="image/*">
               <label class="custom-file-label" for="admin_profile">Choose file</label>
             </div>
           </div>
@@ -233,11 +233,11 @@ if (isset($_POST['edit'])) {
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="admin_firstname" class="font-weight-bold">First Name:</label>
-              <input type="text" class="form-control" id="admin_firstname" name="admin_firstname">
+              <input required type="text" class="form-control" id="admin_firstname" name="admin_firstname">
             </div>
             <div class="form-group col-md-6">
               <label for="admin_lastname" class="font-weight-bold">Last Name:</label>
-              <input type="text" class="form-control" id="admin_lastname" name="admin_lastname">
+              <input required type="text" class="form-control" id="admin_lastname" name="admin_lastname">
             </div>
           </div>
           <div class="form-group">
@@ -254,13 +254,13 @@ if (isset($_POST['edit'])) {
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Email:</label>
-              <input type="email" class="form-control" id="admin_email" name="admin_email" required>
+              <input required type="email" class="form-control" id="admin_email" name="admin_email" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Password:</label>
-              <input type="password" class="form-control" id="admin_password" name="admin_password" required>
+              <input required type="password" class="form-control" id="admin_password" name="admin_password" required>
             </div>
           </div>
           <div class="modal-footer">

@@ -41,7 +41,7 @@ $data = get_one("select * from curriculum_tbl where curriculum_id = " . $_GET['i
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Curriculum title:</label>
-        <input type="text" class="form-control" id="curriculum_title" name="curriculum_title" required value="<?= $data->curriculum_title ?>">
+        <input required type="text" class="form-control" id="curriculum_title" name="curriculum_title" required value="<?= $data->curriculum_title ?>">
       </div>
     </div>
     <div class="form-group">

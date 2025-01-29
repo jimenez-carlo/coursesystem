@@ -40,19 +40,19 @@ $data = get_one("select * from subject_tbl where subject_id = " . $_GET['id']);
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Course Code:</label>
-        <input type="text" class="form-control" id="subject_code" name="subject_code" required value="<?= $data->subject_code ?>">
+        <input required type="text" class="form-control" id="subject_code" name="subject_code" required value="<?= $data->subject_code ?>">
       </div>
     </div>
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Course Name:</label>
-        <input type="text" class="form-control" id="subject_title" name="subject_title" required value="<?= $data->subject_title ?>">
+        <input required type="text" class="form-control" id="subject_title" name="subject_title" required value="<?= $data->subject_title ?>">
       </div>
     </div>
     <div class="form-group">
       <div class="form-group">
         <label for="department-course" class="font-weight-bold">Unit:</label>
-        <input type="number" class="form-control" id="subject_unit" name="subject_unit" required value="<?= $data->subject_unit ?>">
+        <input required type="number" class="form-control" id="subject_unit" name="subject_unit" required value="<?= $data->subject_unit ?>">
       </div>
     </div>
     <div class="modal-footer">

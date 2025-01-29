@@ -2,7 +2,7 @@
 include("../../conn.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize input data
+    // Sanitize input required data
     $admin_email = isset($_POST['admin_email']) ? mysqli_real_escape_string($conn, $_POST['admin_email']) : '';
     $admin_password = isset($_POST['admin_password']) ? password_hash($_POST['admin_password'], PASSWORD_DEFAULT) : ''; // Hashing the password
     $admin_firstname = isset($_POST['admin_firstname']) ? mysqli_real_escape_string($conn, $_POST['admin_firstname']) : '';
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES['admin_profile']['name'])) {
         $admin_profile = $_FILES['admin_profile']['name'];
         $target_file = $target_directory . uniqid() . '_' . basename($admin_profile);
-        
+
         // Check if file is an actual image
         if (!getimagesize($_FILES['admin_profile']['tmp_name'])) {
             die('File is not an image.');
@@ -59,4 +59,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: Admin.php");
     exit();
 }
-?>

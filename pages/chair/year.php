@@ -104,18 +104,18 @@ if (isset($_POST['edit'])) {
                     <td>
 
                       <form method="POST">
-                        <input type="hidden" name="id" value="<?= $row['year_id'] ?>">
-                        <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>'><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
+                        <input required type="hidden" name="id" value="<?= $row['year_id'] ?>">
+                        <input required type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
                       </form>
                     </td>
                     <td>
                       <form method="POST">
-                        <input type="hidden" name="delete" value="<?= $row['year_id'] ?>">
-                        <button type='button' class='btn btn-sm btn-warning button-edit' data-id='<?= $row['year_id'] ?>' data-url='edit_year'>
+                        <input required type="hidden" name="delete" value="<?= $row['year_id'] ?>">
+                        <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['year_id'] ?>' data-url='edit_year'>
                           <i class='fas fa-edit' data-id='<?= $row['year_id'] ?>' data-url='edit_year'></i>
                         </button>
-                        <button type="submit" class='btn btn-sm btn-danger delete'>
+                        <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
                           <i class='fas fa-trash'></i>
                         </button>
                       </form>
@@ -149,18 +149,18 @@ if (isset($_POST['edit'])) {
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="create" value="1">
+        <input required type="hidden" name="create" value="1">
         <div class="modal-body">
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Year Code:</label>
-              <input type="text" class="form-control" id="year_code" name="year_code" required>
+              <input required type="text" class="form-control" id="year_code" name="year_code" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-group">
               <label for="department-course" class="font-weight-bold">Year Name:</label>
-              <input type="text" class="form-control" id="year_name" name="year_name" required>
+              <input required type="text" class="form-control" id="year_name" name="year_name" required>
             </div>
           </div>
           <div class="modal-footer">
