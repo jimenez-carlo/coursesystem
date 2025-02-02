@@ -51,7 +51,7 @@ function insert_get_id($sql)
 function message_error($message = "Oops Something Went Wrong!", $title = "Error!")
 {
   return sprintf(
-    '<script>
+    '<script defer>
      document.addEventListener("DOMContentLoaded", function() {
     swal({
 title:"%s",
@@ -66,7 +66,7 @@ text:"%s",
 function message_success($message = "Action Successfull!", $title = "Success!")
 {
   return sprintf(
-    '<script>
+    '<script defer>
      document.addEventListener("DOMContentLoaded", function() {
     swal({
 title:"%s",

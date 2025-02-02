@@ -86,51 +86,123 @@ if (isset($_POST['edit'])) {
             </div>
           </div>
           <!-- /.card-header -->
+          <div class="div card-tabs">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="false">ARCHIVE</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="true">UNARCHIVE</a>
+              </li>
+            </ul>
+          </div>
+
           <div class="card-body table-responsive p-3">
-            <table class="table table-hover text-nowrap datatable">
-              <thead>
-                <tr>
-                  <th>Program</th>
-                  <th>S.Y.</th>
-                  <th>Curriculum Code</th>
-                  <th>Curriculum Description</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody style="text-transform: uppercase;">
-                <?php foreach (get_list("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id") as $row) { ?>
-                  <tr>
-                    <td><?= $row['program_code'] . " (" . $row['program_title'] . ")" ?></td>
-                    <td><?= $row['curriculum_semester_year_from'] ?> - <?= $row['curriculum_semester_year_to'] ?></td>
-                    <td><?= $row['curriculum_title']  ?></td>
-                    <td><?= $row['curriculum_description'] ?></td>
-                    <td>
+            <div class="tab-content" id="custom-tabs-one-tabContent">
+              <div class="tab-pane fade active show" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                <table class="table table-hover text-nowrap datatable">
+                  <thead>
+                    <tr>
+                      <th>Program</th>
+                      <th>S.Y.</th>
+                      <th>Curriculum Code</th>
+                      <th>Curriculum Description</th>
+                      <!-- <th>Status</th> -->
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody style="text-transform: uppercase;">
+                    <?php foreach (get_list("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where c.deleted_flag = 0") as $row) { ?>
+                      <tr>
+                        <td><?= $row['program_code'] . " (" . $row['program_title'] . ")" ?></td>
+                        <td><?= $row['curriculum_semester_year_from'] ?> - <?= $row['curriculum_semester_year_to'] ?></td>
+                        <td><?= $row['curriculum_title']  ?></td>
+                        <td><?= $row['curriculum_description'] ?></td>
+                        <!-- <td>
 
                       <form method="POST">
                         <input type="hidden" name="id" value="<?= $row['curriculum_id'] ?>">
                         <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
-                        <button type="submit" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Active" : "Disabled" ?></button>
+                        <button type="button" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Archive" : "Unarchive" ?></button>
                       </form>
-                    </td>
-                    <td>
+                    </td> -->
+                        <td style="display: flex; flex-direction:row">
+                          <form method="POST">
+                            <!-- <input type="hidden" name="delete" value="<?= $row['curriculum_id'] ?>"> -->
+                            <a href="curriculum_courses.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning' data-toggle="tooltip" title="Subjects">
+                              <i class='fas fa-book'></i>
+                            </a>
+                            <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'>
+                              <i class='fas fa-edit' data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'></i>
+                            </button>
+                            <!-- <button type="submit" class='btn btn-sm btn-warning delete' data-toggle="tooltip" title="Archive">
+                          <i class='fas fa-archive'></i>
+                        </button> -->
+                            <input type="hidden" name="id" value="<?= $row['curriculum_id'] ?>">
+                            <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                            <button type="submit" class='btn btn-sm btn-warning' data-toggle="tooltip" title="Archive"><i class='fas fa-archive'></i></button>
+                          </form>
+
+
+                        </td>
+                      </tr>
+                    <?php }  ?>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                <table class="table table-hover text-nowrap datatable">
+                  <thead>
+                    <tr>
+                      <th>Program</th>
+                      <th>S.Y.</th>
+                      <th>Curriculum Code</th>
+                      <th>Curriculum Description</th>
+                      <!-- <th>Status</th> -->
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody style="text-transform: uppercase;">
+                    <?php foreach (get_list("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl p on p.program_id = c.program_id inner join curriculum_semester_tbl s on s.curriculum_semester_id = c.curriculum_semester_id where c.deleted_flag = 1") as $row) { ?>
+                      <tr>
+                        <td><?= $row['program_code'] . " (" . $row['program_title'] . ")" ?></td>
+                        <td><?= $row['curriculum_semester_year_from'] ?> - <?= $row['curriculum_semester_year_to'] ?></td>
+                        <td><?= $row['curriculum_title']  ?></td>
+                        <td><?= $row['curriculum_description'] ?></td>
+                        <!-- <td>
+
                       <form method="POST">
-                        <input type="hidden" name="delete" value="<?= $row['curriculum_id'] ?>">
-                        <a href="curriculum_courses.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning' data-toggle="tooltip" title="Subjects">
-                          <i class='fas fa-book'></i>
-                        </a>
-                        <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'>
-                          <i class='fas fa-edit' data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'></i>
-                        </button>
-                        <button type="submit" class='btn btn-sm btn-danger delete' data-toggle="tooltip" title="Delete">
-                          <i class='fas fa-trash'></i>
-                        </button>
+                        <input type="hidden" name="id" value="<?= $row['curriculum_id'] ?>">
+                        <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                        <button type="button" class='btn btn-sm btn-<?= empty($row['deleted_flag']) ? "success" : "danger" ?>' data-toggle="tooltip" title="Change Status"><?= empty($row['deleted_flag']) ? "Archive" : "Unarchive" ?></button>
                       </form>
-                    </td>
-                  </tr>
-                <?php }  ?>
-              </tbody>
-            </table>
+                    </td> -->
+                        <td style="display: flex; flex-direction:row">
+                          <form method="POST">
+                            <!-- <input type="hidden" name="delete" value="<?= $row['curriculum_id'] ?>"> -->
+                            <a href="curriculum_courses.php?id=<?= $row['curriculum_id'] ?>" class='btn btn-sm btn-warning' data-toggle="tooltip" title="Subjects">
+                              <i class='fas fa-book'></i>
+                            </a>
+                            <button type='button' class='btn btn-sm btn-warning button-edit' data-toggle="tooltip" title="Edit" data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'>
+                              <i class='fas fa-edit' data-id='<?= $row['curriculum_id'] ?>' data-url='edit_curriculum'></i>
+                            </button>
+                            <!-- <button type="submit" class='btn btn-sm btn-warning delete' data-toggle="tooltip" title="Archive">
+                          <i class='fas fa-archive'></i>
+                        </button> -->
+                            <input type="hidden" name="id" value="<?= $row['curriculum_id'] ?>">
+                            <input type="hidden" name="change_status" value="<?= !$row['deleted_flag'] ?>">
+                            <button type="submit" class='btn btn-sm btn-warning' data-toggle="tooltip" title="Archive"><i class='fas fa-archive'></i></button>
+                          </form>
+
+
+                        </td>
+                      </tr>
+                    <?php }  ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
 
           </div>
           <!-- /.card-body -->

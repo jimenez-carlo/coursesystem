@@ -61,10 +61,11 @@ if (isset($_POST['add_subject'])) {
   extract($_POST);
   if (intval($ctr) + intval($subject_unit) > $max_units) {
     echo message_error("Maximum units exceed!");
-    return;
   }
   query("INSERT INTO student_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('$student_id','$add_subject','$year_id','$semester_id','$pre_subject_id')");
   query("INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('$student_id','$add_subject','$year_id','$semester_id','$pre_subject_id')");
+  // echo "INSERT INTO student_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('$student_id','$add_subject','$year_id','$semester_id','$pre_subject_id')";
+  // echo "INSERT INTO recommended_subjects_tbl (student_id,subject_id,year_id,semester_id,pre_subject_id) VALUES ('$student_id','$add_subject','$year_id','$semester_id','$pre_subject_id')";
   echo message_success("Subject Added Successfully!");
 }
 if (isset($_POST['delete'])) {
@@ -246,6 +247,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
           $presubjects = [];
           ?>
           <?php if (!$student_data->confirmed) { ?>
+
             <?php foreach (
               get_list(
                 "SELECT 
@@ -257,7 +259,7 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
 
               where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id = " . $student_data->year_id . " 
-              and (cs.pre_subject_id in (SELECT sy.subject_id from student_subjects_tbl sy where sy.grade_id not in (1, 11, 12, 13, 14, 15) and sy.student_id = " . $student_data->student_id . ") or cs.pre_subject_id = 0)
+              and ((cs.pre_subject_id in (SELECT sy.subject_id from student_subjects_tbl sy where sy.grade_id not in (1, 11, 12, 13, 14, 15) and sy.student_id = " . $student_data->student_id . ") or cs.pre_subject_id = 0))
                order by cs.year_id,cs.semester_id"
               ) as $row2
             ) { ?>
@@ -353,12 +355,11 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               inner join semester_tbl se on se.semester_id = cs.semester_id 
               inner join class_type_tbl ct on ct.class_type_id = s.class_type_id
               left join student_subjects_tbl std on cs.pre_subject_id = std.subject_id and std.student_id = " . $student_data->student_id . "
-              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id <= " . ($student_data->year_id + 1) .
-              " 
+              where cs.curriculum_id = " . $student_data->curriculum_id . " and cs.semester_id = " . $student_data->semester_id . " and cs.year_id <= " . ($student_data->year_id + 1) . " 
               and (cs.pre_subject_id in (SELECT sy.subject_id from student_subjects_tbl sy where sy.grade_id not in (1, 11, 12, 13, 14, 15) and sy.student_id = " . $student_data->student_id . ") or cs.pre_subject_id = 0)
               order by cs.year_id,cs.semester_id"
-            // "SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id "
           ) as $row2
+          // "SELECT s2.subject_code as pre_subject_code,s2.subject_title as pre_subject_title,s.*,ct.*,cd.* from student_subjects_tbl cd  left join subject_tbl s2 on s2.subject_id = cd.pre_subject_id inner join subject_tbl s on s.subject_id = cd.subject_id inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id inner join class_type_tbl ct on ct.class_type_id = s.class_type_id where cd.student_id = '" . $_GET['id'] . "' AND y.year_id <= '" . $student_data->year_id . "' AND ss.semester_id <= '" . $student_data->semester_id . "' and cd.grade_id in (11,12,13,14,15) ORDER BY y.year_id,ss.semester_id "
         ) {
           // if ($unit_ctr >= $student_units) {
           //   continue;
@@ -376,11 +377,11 @@ $recommended_subjects =  get_one("SELECT ifnull(group_concat(s.subject_id),0) as
               <td>
                 <?php if (!in_array($row2['subject_id'], explode(",", $passed_subjects))) { ?>
                   <form method="post">
-                    <input required type="hidden" name="year_id" value="<?= $row2['year_id'] ?>">
+                    <input required type="hidden" name="year_id" value="<?= $student_data->year_id ?>">
                     <input required type="hidden" name="semester_id" value="<?= $row2['semester_id'] ?>">
                     <input required type="hidden" name="pre_subject_id" value="<?= $row2['pre_subject_id'] ?>">
                     <input required type="hidden" name="student_id" value="<?= $student_data->student_id ?>">
-                    <input required type="hidden" name="subject_unit" value="<?= $student_data->subject_unit ?>">
+                    <input required type="hidden" name="subject_unit" value="<?= $row2['subject_unit'] ?>">
                     <input required type="hidden" name="max_units" value="<?= $student_units ?>">
                     <input required type="hidden" name="ctr" value="<?= $ctr ?>">
                     <button type="submit" name="add_subject" class="btn btn-flat btn-sm btn-success" value="<?= $row2['subject_id'] ?>"><i class="fa fa-plus"></i></button>

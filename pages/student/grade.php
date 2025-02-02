@@ -61,14 +61,23 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 
 
 ?>
-
+<style>
+  .buttonko {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+</style>
 <div class="main-content">
 
   <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase">Grade's</h1>
   <form method="post">
-    <button type="submit" class="btn btn-primary btn-sm" name="save_grades" style="top:5h;right:5vw;position:fixed;z-index;99" value="1">
-      Save
-    </button>
+
     <?php
 
     foreach (get_list("SELECT * from student_subjects_tbl cd inner join year_levels_tbl y on y.year_id = cd.year_id inner join semester_tbl ss on ss.semester_id = cd.semester_id where cd.student_id = '" .  $_SESSION['user_id'] . "' and y.year_id <= '" . $student_data->year_id . "'  GROUP BY y.year_id,ss.semester_id ORDER BY y.year_id,ss.semester_id ") as $row) {
@@ -122,6 +131,11 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
     <?php
     }
     ?>
+    <button type="submit" class="buttonko" name="save_grades" value="1" style="margin:0 auto; display:grid;margin-bottom:50px">
+      Save
+    </button>
+    <div class="button-container" style="width: 100%;">
+    </div>
   </form>
 
 

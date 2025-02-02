@@ -113,7 +113,7 @@ if (isset($_POST['edit_recommendation'])) {
 
 ?>
 <link rel="stylesheet" href="../../evaluation.css">
-<div class="student-info">
+<div class="student-info" style="margin:unset">
   <form method="GET" action="student_evaluation.php">
     <!-- Student Number Row -->
     <div class="form-row">

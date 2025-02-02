@@ -16,6 +16,7 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="../../css/recommendation.css">
+      <link rel="stylesheet" href="../../css/chair_students.css">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
       <!-- Google Font: Source Sans Pro -->
@@ -31,13 +32,17 @@
       <!-- JQVMap -->
       <link rel="stylesheet" href="../../plugins/jqvmap/jqvmap.min.css">
       <!-- Theme style -->
-      <link rel="stylesheet" href="dist/css/adminlte.min.css">
+      <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
       <!-- overlayScrollbars -->
       <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
       <!-- Daterange picker -->
       <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
       <!-- summernote -->
       <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+
+      <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+      <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+      <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     </head>
 
     <body>

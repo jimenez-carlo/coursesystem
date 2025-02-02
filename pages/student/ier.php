@@ -81,25 +81,39 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 ?>
 
 <div class="main-content">
-  <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase"><?= $student_data->student_lastname . ", " . $student_data->student_firstname ?> COURSE <?= " " . $data->program_title . " - S.Y. " . $data->curriculum_semester_year_from . " to " . $data->curriculum_semester_year_to ?></h1>
-
-  <form method="post" style="margin-left:16em" enctype="multipart/form-data">
-
+  <div style="text-align:center">
+    <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase">
+      Individual Evaluation Report
+    </h1>
+    <br>
+    <p>
+      <?= $data->program_title ?>
+      <br>
+      <br>
+      <?= "S.Y. " . $data->curriculum_semester_year_from . " to " . $data->curriculum_semester_year_to ?>
+    </p>
+  </div>
+  <!-- <p> <?= $student_data->student_lastname . ", " . $student_data->student_firstname ?> COURSE <?= " " . $data->program_title . " - S.Y. " . $data->curriculum_semester_year_from . " to " . $data->curriculum_semester_year_to ?></p> -->
+  <form method="post" style="margin-left:10em" enctype="multipart/form-data">
+    <h1 style="font-weight: bold;font-family: 'Trebuchet MS', sans-serif;
+    font-size: 26px;display:inline;
+    color: #1a395d;"><?= ucfirst($student_data->student_lastname) . ", " . ucfirst($student_data->student_firstname) ?></h1>
     <input required type="file" id="file-upload" class="upload-btn" accept="image/*" required name="filename">
-    <button class="btn btn-sm btn-primary" type="submit" name="upload">Upload Individual Evaluation Report </button>
+    <button class="btn btn-sm btn-primary" type="submit" name="upload">
+      upload individual evaluation report </button>
   </form>
   <table class="first-semester-table">
     <thead>
       <tr>
         <!-- <th>Year</th>
         <th>Semester</th> -->
-        <th>Filename</th>
-        <th>Status</th>
-        <th>Feedback</th>
+        <th style="text-align: center;">Filename</th>
+        <th style="text-align: center;">Status</th>
+        <th style="text-align: center;">Feedback</th>
       </tr>
     </thead>
     <tbody>
-      <?php foreach (get_list("SELECT * from studen_file_tbl f inner join evaluation_status_tbl es on es.evaluation_status_id = f.evaluation_status_id left join semester_tbl s on s.semester_id = f.semester_id left join  year_levels_tbl y on y.year_id = f.year_id where f.student_id = " . $_SESSION['user_id']) as $row2) { ?>
+      <?php foreach (get_list("SELECT * from studen_file_tbl f inner join evaluation_status_tbl es on es.evaluation_status_id = f.evaluation_status_id left join semester_tbl s on s.semester_id = f.semester_id left join  year_levels_tbl y on y.year_id = f.year_id where f.student_id = " . $_SESSION['user_id'] . " order by f.studen_file_id DESC limit 1") as $row2) { ?>
         <tr>
           <!-- <td><?= $row2['year_name'] ?></td>
           <td><?= $row2['semester_name'] ?></td> -->

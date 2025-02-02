@@ -84,7 +84,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
 
 ?>
 
-<div class="main-content">
+<div class="main-content" style="max-width: 80vw;margin:auto">
   <h1 class="first-semester-heading" style="font-weight: bold;text-transform:uppercase">Individual Evaluation Report</h1>
 
   <table class="first-semester-table datatable">
@@ -101,7 +101,7 @@ $data = get_one("SELECT p.*,s.*,c.* from curriculum_tbl c inner join program_tbl
     <tbody>
       <?php foreach (
         get_list("SELECT * from studen_file_tbl f inner join evaluation_status_tbl es on es.evaluation_status_id = f.evaluation_status_id left join semester_tbl s on s.semester_id = f.semester_id left join  year_levels_tbl y on y.year_id = f.year_id      inner join student_tbl st on st.student_id = f.student_id
-      ") as $row2
+       group by st.student_id") as $row2
       ) { ?>
         <tr>
           <td><?= $row2['student_firstname'] . " " . $row2['student_middlename'] . " " . $row2['student_lastname'] ?></td>
